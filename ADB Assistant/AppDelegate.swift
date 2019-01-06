@@ -11,16 +11,25 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-
-
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+        let window = storyboard.instantiateController(withIdentifier: "MainWindow") as! NSWindowController
+        let platformToolsPath = Defaults().string(forKey: Defaults.Constant.platformToolsPath)
+        let mainViewController = storyboard.instantiateController(withIdentifier: "MainViewController") as! NSViewController
+        let settingsViewController = storyboard.instantiateController(withIdentifier: "SettingsViewController") as! NSViewController
+        
+        if platformToolsPath != nil {
+            window.contentViewController = mainViewController
+        } else {
+            window.contentViewController = settingsViewController
+        }
+        
+        window.showWindow(self)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
 
 }
 

@@ -7,11 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C22E0ED21BA56B0008C8543 /* RebootCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C22E0EC21BA56B0008C8543 /* RebootCell.xib */; };
+		4C22E0EF21BA5908008C8543 /* RebootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0EE21BA5908008C8543 /* RebootCell.swift */; };
+		4C22E0F221BA5BEB008C8543 /* ScreenshotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C22E0F121BA5BEB008C8543 /* ScreenshotCell.xib */; };
+		4C22E0F421BA78AF008C8543 /* ScreenshotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F321BA78AF008C8543 /* ScreenshotCell.swift */; };
+		4C22E0F621BA81EF008C8543 /* ToolSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F521BA81EF008C8543 /* ToolSectionViewModel.swift */; };
+		4C22E0F821BA9289008C8543 /* ScreenshotSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F721BA9289008C8543 /* ScreenshotSectionViewModel.swift */; };
+		4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F921BA9D6C008C8543 /* Defaults.swift */; };
+		4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */; };
+		4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */; };
 		4C4C7CF921AAED1E0002127F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7CF821AAED1E0002127F /* AppDelegate.swift */; };
-		4C4C7CFB21AAED1E0002127F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7CFA21AAED1E0002127F /* ViewController.swift */; };
-		4C4C7CFD21AAED1F0002127F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C4C7CFC21AAED1F0002127F /* Assets.xcassets */; };
+		4C4C7CFB21AAED1E0002127F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7CFA21AAED1E0002127F /* MainViewController.swift */; };
 		4C4C7D0021AAED1F0002127F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C4C7CFE21AAED1F0002127F /* Main.storyboard */; };
 		4C4C7D0C21AAED1F0002127F /* ADB_AssistantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D0B21AAED1F0002127F /* ADB_AssistantTests.swift */; };
+		4C4C7D1821AB2E2A0002127F /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1721AB2E2A0002127F /* Shell.swift */; };
+		4C4C7D1A21AB312B0002127F /* ADBWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1921AB312B0002127F /* ADBWrapper.swift */; };
+		4C4C7D1D21AB32E00002127F /* ShellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1C21AB32E00002127F /* ShellType.swift */; };
+		4C8AEF2A21AC83EC00AC9202 /* USBWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */; };
+		4C8AEF2C21AF071700AC9202 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF2B21AF071700AC9202 /* Device.swift */; };
+		4C8AEF3021B12CC100AC9202 /* SideBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF2F21B12CC100AC9202 /* SideBarViewModel.swift */; };
+		4C8AEF3421B1519F00AC9202 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3321B1519F00AC9202 /* Dynamic.swift */; };
+		4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */; };
+		4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */; };
+		4C8AEF3F21B3CBDB00AC9202 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */; };
+		4C8AEF4121B3E22900AC9202 /* RebootSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF4021B3E22900AC9202 /* RebootSectionViewModel.swift */; };
+		4CEFBA7521CCCB5800079CD9 /* InstallAPKCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CEFBA7421CCCB5800079CD9 /* InstallAPKCell.xib */; };
+		4CEFBA7721CCCD2A00079CD9 /* InstallAPKCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFBA7621CCCD2A00079CD9 /* InstallAPKCell.swift */; };
+		4CEFBA7921CCCEF200079CD9 /* DragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFBA7821CCCEF200079CD9 /* DragView.swift */; };
+		4CEFBA7D21CCF05400079CD9 /* InstallAPKSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFBA7C21CCF05400079CD9 /* InstallAPKSectionViewModel.swift */; };
+		4CEFBA8021CD0F8200079CD9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFBA7F21CD0F8200079CD9 /* SettingsViewController.swift */; };
+		4CEFBA8221CD24D800079CD9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFBA8121CD24D800079CD9 /* SettingsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,16 +50,41 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C22E0EC21BA56B0008C8543 /* RebootCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RebootCell.xib; sourceTree = "<group>"; };
+		4C22E0EE21BA5908008C8543 /* RebootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RebootCell.swift; sourceTree = "<group>"; };
+		4C22E0F121BA5BEB008C8543 /* ScreenshotCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScreenshotCell.xib; sourceTree = "<group>"; };
+		4C22E0F321BA78AF008C8543 /* ScreenshotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotCell.swift; sourceTree = "<group>"; };
+		4C22E0F521BA81EF008C8543 /* ToolSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolSectionViewModel.swift; sourceTree = "<group>"; };
+		4C22E0F721BA9289008C8543 /* ScreenshotSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotSectionViewModel.swift; sourceTree = "<group>"; };
+		4C22E0F921BA9D6C008C8543 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
+		4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHelpers.swift; sourceTree = "<group>"; };
 		4C4C7CF521AAED1E0002127F /* ADB Assistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ADB Assistant.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C4C7CF821AAED1E0002127F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4C4C7CFA21AAED1E0002127F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		4C4C7CFC21AAED1F0002127F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4C4C7CFA21AAED1E0002127F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4C4C7CFF21AAED1F0002127F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4C4C7D0121AAED1F0002127F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C4C7D0221AAED1F0002127F /* ADB_Assistant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ADB_Assistant.entitlements; sourceTree = "<group>"; };
 		4C4C7D0721AAED1F0002127F /* ADB AssistantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ADB AssistantTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C4C7D0B21AAED1F0002127F /* ADB_AssistantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADB_AssistantTests.swift; sourceTree = "<group>"; };
 		4C4C7D0D21AAED1F0002127F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4C4C7D1721AB2E2A0002127F /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
+		4C4C7D1921AB312B0002127F /* ADBWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapper.swift; sourceTree = "<group>"; };
+		4C4C7D1C21AB32E00002127F /* ShellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellType.swift; sourceTree = "<group>"; };
+		4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBWatcher.swift; sourceTree = "<group>"; };
+		4C8AEF2B21AF071700AC9202 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		4C8AEF2F21B12CC100AC9202 /* SideBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarViewModel.swift; sourceTree = "<group>"; };
+		4C8AEF3321B1519F00AC9202 /* Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
+		4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapperType.swift; sourceTree = "<group>"; };
+		4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapperMock.swift; sourceTree = "<group>"; };
+		4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4C8AEF4021B3E22900AC9202 /* RebootSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RebootSectionViewModel.swift; sourceTree = "<group>"; };
+		4CEFBA7421CCCB5800079CD9 /* InstallAPKCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InstallAPKCell.xib; sourceTree = "<group>"; };
+		4CEFBA7621CCCD2A00079CD9 /* InstallAPKCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallAPKCell.swift; sourceTree = "<group>"; };
+		4CEFBA7821CCCEF200079CD9 /* DragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragView.swift; sourceTree = "<group>"; };
+		4CEFBA7C21CCF05400079CD9 /* InstallAPKSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallAPKSectionViewModel.swift; sourceTree = "<group>"; };
+		4CEFBA7F21CD0F8200079CD9 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		4CEFBA8121CD24D800079CD9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +105,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C22E0E921BA5525008C8543 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4CEFBA7321CCCB3100079CD9 /* InstallAPKCell */,
+				4C22E0F021BA5BC3008C8543 /* ScreenshotCell */,
+				4C22E0EB21BA559D008C8543 /* RebootCell */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4C22E0EB21BA559D008C8543 /* RebootCell */ = {
+			isa = PBXGroup;
+			children = (
+				4C22E0EC21BA56B0008C8543 /* RebootCell.xib */,
+				4C22E0EE21BA5908008C8543 /* RebootCell.swift */,
+			);
+			path = RebootCell;
+			sourceTree = "<group>";
+		};
+		4C22E0F021BA5BC3008C8543 /* ScreenshotCell */ = {
+			isa = PBXGroup;
+			children = (
+				4C22E0F121BA5BEB008C8543 /* ScreenshotCell.xib */,
+				4C22E0F321BA78AF008C8543 /* ScreenshotCell.swift */,
+			);
+			path = ScreenshotCell;
+			sourceTree = "<group>";
+		};
+		4C22E0FF21BB95C1008C8543 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		4C22E10021BB95DE008C8543 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				4C4C7D0221AAED1F0002127F /* ADB_Assistant.entitlements */,
+				4C4C7D0121AAED1F0002127F /* Info.plist */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		4C4C7CEC21AAED1E0002127F = {
 			isa = PBXGroup;
 			children = (
@@ -76,12 +171,15 @@
 		4C4C7CF721AAED1E0002127F /* ADB Assistant */ = {
 			isa = PBXGroup;
 			children = (
+				4C22E0E921BA5525008C8543 /* Components */,
+				4C8AEF2D21B12C5E00AC9202 /* Scenes */,
+				4C8AEF2821AC66E500AC9202 /* Entities */,
+				4C4C7D1621AB2E0C0002127F /* Services */,
+				4C8AEF3521B151B800AC9202 /* Helpers */,
+				4C22E0FF21BB95C1008C8543 /* Resources */,
+				4C22E10021BB95DE008C8543 /* Configuration */,
 				4C4C7CF821AAED1E0002127F /* AppDelegate.swift */,
-				4C4C7CFA21AAED1E0002127F /* ViewController.swift */,
-				4C4C7CFC21AAED1F0002127F /* Assets.xcassets */,
 				4C4C7CFE21AAED1F0002127F /* Main.storyboard */,
-				4C4C7D0121AAED1F0002127F /* Info.plist */,
-				4C4C7D0221AAED1F0002127F /* ADB_Assistant.entitlements */,
 			);
 			path = "ADB Assistant";
 			sourceTree = "<group>";
@@ -93,6 +191,95 @@
 				4C4C7D0D21AAED1F0002127F /* Info.plist */,
 			);
 			path = "ADB AssistantTests";
+			sourceTree = "<group>";
+		};
+		4C4C7D1621AB2E0C0002127F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4C4C7D1E21AB346F0002127F /* ADBWrapper */,
+				4C4C7D1B21AB32C30002127F /* Shell */,
+				4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */,
+				4C22E0F921BA9D6C008C8543 /* Defaults.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4C4C7D1B21AB32C30002127F /* Shell */ = {
+			isa = PBXGroup;
+			children = (
+				4C4C7D1721AB2E2A0002127F /* Shell.swift */,
+				4C4C7D1C21AB32E00002127F /* ShellType.swift */,
+			);
+			path = Shell;
+			sourceTree = "<group>";
+		};
+		4C4C7D1E21AB346F0002127F /* ADBWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				4C4C7D1921AB312B0002127F /* ADBWrapper.swift */,
+				4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */,
+				4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */,
+			);
+			path = ADBWrapper;
+			sourceTree = "<group>";
+		};
+		4C8AEF2821AC66E500AC9202 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				4C8AEF2B21AF071700AC9202 /* Device.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		4C8AEF2D21B12C5E00AC9202 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				4C8AEF2E21B12C7200AC9202 /* Main */,
+				4CEFBA7E21CD0D5400079CD9 /* Settings */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		4C8AEF2E21B12C7200AC9202 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				4C4C7CFA21AAED1E0002127F /* MainViewController.swift */,
+				4C8AEF2F21B12CC100AC9202 /* SideBarViewModel.swift */,
+				4C8AEF4021B3E22900AC9202 /* RebootSectionViewModel.swift */,
+				4C22E0F521BA81EF008C8543 /* ToolSectionViewModel.swift */,
+				4C22E0F721BA9289008C8543 /* ScreenshotSectionViewModel.swift */,
+				4CEFBA7C21CCF05400079CD9 /* InstallAPKSectionViewModel.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		4C8AEF3521B151B800AC9202 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4C8AEF3321B1519F00AC9202 /* Dynamic.swift */,
+				4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */,
+				4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		4CEFBA7321CCCB3100079CD9 /* InstallAPKCell */ = {
+			isa = PBXGroup;
+			children = (
+				4CEFBA7421CCCB5800079CD9 /* InstallAPKCell.xib */,
+				4CEFBA7621CCCD2A00079CD9 /* InstallAPKCell.swift */,
+				4CEFBA7821CCCEF200079CD9 /* DragView.swift */,
+			);
+			path = InstallAPKCell;
+			sourceTree = "<group>";
+		};
+		4CEFBA7E21CD0D5400079CD9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4CEFBA7F21CD0F8200079CD9 /* SettingsViewController.swift */,
+				4CEFBA8121CD24D800079CD9 /* SettingsViewModel.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +332,11 @@
 				TargetAttributes = {
 					4C4C7CF421AAED1E0002127F = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 					4C4C7D0621AAED1F0002127F = {
 						CreatedOnToolsVersion = 10.1;
@@ -176,8 +368,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C4C7CFD21AAED1F0002127F /* Assets.xcassets in Resources */,
+				4CEFBA7521CCCB5800079CD9 /* InstallAPKCell.xib in Resources */,
+				4C8AEF3F21B3CBDB00AC9202 /* Assets.xcassets in Resources */,
+				4C22E0F221BA5BEB008C8543 /* ScreenshotCell.xib in Resources */,
 				4C4C7D0021AAED1F0002127F /* Main.storyboard in Resources */,
+				4C22E0ED21BA56B0008C8543 /* RebootCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,8 +390,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C4C7CFB21AAED1E0002127F /* ViewController.swift in Sources */,
+				4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */,
+				4C4C7D1D21AB32E00002127F /* ShellType.swift in Sources */,
+				4CEFBA7721CCCD2A00079CD9 /* InstallAPKCell.swift in Sources */,
+				4C8AEF4121B3E22900AC9202 /* RebootSectionViewModel.swift in Sources */,
+				4C4C7CFB21AAED1E0002127F /* MainViewController.swift in Sources */,
+				4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */,
+				4C22E0F621BA81EF008C8543 /* ToolSectionViewModel.swift in Sources */,
+				4C4C7D1821AB2E2A0002127F /* Shell.swift in Sources */,
+				4C8AEF3421B1519F00AC9202 /* Dynamic.swift in Sources */,
+				4C8AEF2A21AC83EC00AC9202 /* USBWatcher.swift in Sources */,
+				4CEFBA7D21CCF05400079CD9 /* InstallAPKSectionViewModel.swift in Sources */,
+				4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */,
+				4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */,
+				4C22E0F421BA78AF008C8543 /* ScreenshotCell.swift in Sources */,
 				4C4C7CF921AAED1E0002127F /* AppDelegate.swift in Sources */,
+				4CEFBA8021CD0F8200079CD9 /* SettingsViewController.swift in Sources */,
+				4C22E0F821BA9289008C8543 /* ScreenshotSectionViewModel.swift in Sources */,
+				4C8AEF2C21AF071700AC9202 /* Device.swift in Sources */,
+				4C4C7D1A21AB312B0002127F /* ADBWrapper.swift in Sources */,
+				4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */,
+				4C22E0EF21BA5908008C8543 /* RebootCell.swift in Sources */,
+				4C8AEF3021B12CC100AC9202 /* SideBarViewModel.swift in Sources */,
+				4CEFBA7921CCCEF200079CD9 /* DragView.swift in Sources */,
+				4CEFBA8221CD24D800079CD9 /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,11 +566,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "ADB Assistant/ADB_Assistant.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = S88YFAW48T;
-				INFOPLIST_FILE = "ADB Assistant/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ADB Assistant/Configuration/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -368,11 +584,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "ADB Assistant/ADB_Assistant.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = S88YFAW48T;
-				INFOPLIST_FILE = "ADB Assistant/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ADB Assistant/Configuration/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
