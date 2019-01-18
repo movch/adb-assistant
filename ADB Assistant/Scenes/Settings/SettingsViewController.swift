@@ -39,7 +39,8 @@ final class SettingsViewController: NSViewController {
             openMainViewController()
             viewModel?.savePlatformToolsPath()
         } else {
-            showAlert(header: "Error", text: "ADB binary not found!")
+            showAlert(header: "Error",
+                      text: "ADB binary not found!")
         }
     }
 
@@ -58,6 +59,7 @@ final class SettingsViewController: NSViewController {
     private func setupDependencies() {
         viewModel = ServiceLocator.shared.settingsViewModel
         bindViewModel()
+        viewModel?.loadPlatformToolsPath()
     }
 
     private func bindViewModel() {

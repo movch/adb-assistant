@@ -21,7 +21,7 @@ final class SettingsViewModel {
     }
 
     public func savePlatformToolsPath() {
-        let path = platformToolsPath.value ?? ""
+        guard let path = platformToolsPath.value else { return }
         settings.setString(path, forKey: .platformToolsPath)
     }
 

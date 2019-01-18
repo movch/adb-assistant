@@ -41,6 +41,15 @@ final class MainViewController: NSViewController {
         sidebarViewModel?.selectDevice(atIndex: selectedRow)
     }
 
+    @IBAction func didPressRefreshButton(_: NSButton) {
+        sidebarViewModel?.fetchDeviceList()
+    }
+
+    @IBAction func didPressSettingsButton(_: NSButton) {
+        let router = ServiceLocator.shared.router
+        router.presentSettingsController()
+    }
+
     // MARK: View Lifecycle
 
     override func viewDidLoad() {
