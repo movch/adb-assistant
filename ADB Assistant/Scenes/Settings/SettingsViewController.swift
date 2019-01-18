@@ -77,17 +77,8 @@ final class SettingsViewController: NSViewController {
     }
 
     private func openMainViewController() {
-        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-
-        guard
-            let window = storyboard.instantiateController(withIdentifier: "MainWindow") as? NSWindowController,
-            let mainViewController = storyboard.instantiateController(withIdentifier: "MainViewController") as? NSViewController
-        else {
-            return
-        }
-
-        window.contentViewController = mainViewController
-        window.showWindow(self)
+        let router = ServiceLocator.shared.router
+        router.presentMainController()
     }
 }
 

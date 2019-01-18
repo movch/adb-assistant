@@ -6,7 +6,7 @@
 //  Copyright © 2019 Michael Ovchinnikov. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 final class ServiceLocator {
     static let shared = ServiceLocator()
@@ -21,6 +21,9 @@ final class ServiceLocator {
     let installAPKViewModel: InstallAPKCellViewModel
     let settingsViewModel: SettingsViewModel
 
+    let viewControllerFactory: ViewControllerFactory
+    let router: Router
+
     private init() {
         let platformToolsPath = defaults.string(forKey: .platformToolsPath) ?? ""
         adbWrapper = ADBWrapper(shell: shell, platformToolsPath: platformToolsPath)
@@ -30,5 +33,9 @@ final class ServiceLocator {
         screenshotViewModel = ScreenshotCellViewModel(adbWrapper: adbWrapper, settings: defaults)
         installAPKViewModel = InstallAPKCellViewModel(adbWrapper: adbWrapper)
         settingsViewModel = SettingsViewModel(settings: defaults)
+
+        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+        viewControllerFactory = ViewControllerFactory(storyboard: storyboard)
+        router = Router(viewControllerFactory: viewControllerFactory)
     }
 }

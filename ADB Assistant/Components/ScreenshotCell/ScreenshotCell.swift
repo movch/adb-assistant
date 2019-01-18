@@ -40,7 +40,14 @@ final class ScreenshotCell: NSTableCellView {
     }
 
     public func reloadData() {
-        screenshotSavePathLabel.stringValue = dataSource?.screenshotSavePath() ?? ""
-        openInPreviewCheckbox.state = dataSource?.openInPreviewCheckBoxState() ?? false ? .on : .off
+        guard
+            let screenshotSavePath = dataSource?.screenshotSavePath(),
+            let previewCheckboxState = dataSource?.openInPreviewCheckBoxState()
+        else {
+            return
+        }
+
+        screenshotSavePathLabel.stringValue = screenshotSavePath
+        openInPreviewCheckbox.state = previewCheckboxState ? .on : .off
     }
 }

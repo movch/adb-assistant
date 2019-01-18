@@ -11,22 +11,13 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_: Notification) {
-        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-
-        guard
-            let window = storyboard.instantiateController(withIdentifier: "MainWindow") as? NSWindowController,
-            let mainViewController = storyboard.instantiateController(withIdentifier: "MainViewController") as? NSViewController,
-            let settingsViewController = storyboard.instantiateController(withIdentifier: "SettingsViewController") as? NSViewController
-        else { return }
-
         let defaults = ServiceLocator.shared.defaults
         let platformToolsPath = defaults.string(forKey: .platformToolsPath)
+        let router = ServiceLocator.shared.router
         if platformToolsPath != nil {
-            window.contentViewController = mainViewController
+            router.presentMainController()
         } else {
-            window.contentViewController = settingsViewController
+            router.presentSettingsController()
         }
-
-        window.showWindow(self)
     }
 }

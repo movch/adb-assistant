@@ -16,6 +16,8 @@
 		4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F921BA9D6C008C8543 /* Defaults.swift */; };
 		4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */; };
 		4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */; };
+		4C4575B921F1DD0B0069449D /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4575B821F1DD0B0069449D /* ViewControllerFactory.swift */; };
+		4C4575BC21F1DFA20069449D /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4575BB21F1DFA20069449D /* Router.swift */; };
 		4C4C7CF921AAED1E0002127F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7CF821AAED1E0002127F /* AppDelegate.swift */; };
 		4C4C7CFB21AAED1E0002127F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7CFA21AAED1E0002127F /* MainViewController.swift */; };
 		4C4C7D0021AAED1F0002127F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C4C7CFE21AAED1F0002127F /* Main.storyboard */; };
@@ -60,6 +62,8 @@
 		4C22E0F921BA9D6C008C8543 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
 		4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHelpers.swift; sourceTree = "<group>"; };
+		4C4575B821F1DD0B0069449D /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
+		4C4575BB21F1DFA20069449D /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		4C4C7CF521AAED1E0002127F /* ADB Assistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ADB Assistant.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C4C7CF821AAED1E0002127F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C4C7CFA21AAED1E0002127F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +156,15 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		4C4575B721F1DCF00069449D /* Routing */ = {
+			isa = PBXGroup;
+			children = (
+				4C4575B821F1DD0B0069449D /* ViewControllerFactory.swift */,
+				4C4575BB21F1DFA20069449D /* Router.swift */,
+			);
+			path = Routing;
+			sourceTree = "<group>";
+		};
 		4C4C7CEC21AAED1E0002127F = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +211,7 @@
 		4C4C7D1621AB2E0C0002127F /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				4C4575B721F1DCF00069449D /* Routing */,
 				4C4C7D1E21AB346F0002127F /* ADBWrapper */,
 				4C4C7D1B21AB32C30002127F /* Shell */,
 				4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */,
@@ -295,6 +309,7 @@
 				4C4C7CF121AAED1E0002127F /* Sources */,
 				4C4C7CF221AAED1E0002127F /* Frameworks */,
 				4C4C7CF321AAED1E0002127F /* Resources */,
+				4C4575BA21F1DEA20069449D /* ShellScript */,
 				4CC45E8921F1BD5800458126 /* ShellScript */,
 			);
 			buildRules = (
@@ -390,6 +405,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4C4575BA21F1DEA20069449D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\nswiftformat .\nelse\necho \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
 		4CC45E8921F1BD5800458126 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -418,7 +450,9 @@
 				4C4C7D1D21AB32E00002127F /* ShellType.swift in Sources */,
 				4CEFBA7721CCCD2A00079CD9 /* InstallAPKCell.swift in Sources */,
 				4C8AEF4121B3E22900AC9202 /* RebootCellViewModel.swift in Sources */,
+				4C4575BC21F1DFA20069449D /* Router.swift in Sources */,
 				4C4C7CFB21AAED1E0002127F /* MainViewController.swift in Sources */,
+				4C4575B921F1DD0B0069449D /* ViewControllerFactory.swift in Sources */,
 				4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */,
 				4C22E0F621BA81EF008C8543 /* ToolCellViewModel.swift in Sources */,
 				4C4C7D1821AB2E2A0002127F /* Shell.swift in Sources */,
