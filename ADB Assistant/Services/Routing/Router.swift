@@ -16,26 +16,24 @@ final class Router {
     }
 
     func presentMainController() {
-        guard
-            let window = viewControllerFactory.createMainWindowController(),
-            let mainController = viewControllerFactory.createMainViewController()
-        else {
-            return
-        }
-
-        window.contentViewController = mainController
-        window.showWindow(self)
+        let controller = viewControllerFactory.createMainViewController()
+        present(controller)
     }
 
     func presentSettingsController() {
+        let controller = viewControllerFactory.createSettingsViewController()
+        present(controller)
+    }
+
+    private func present(_ controller: NSViewController?) {
         guard
             let window = viewControllerFactory.createMainWindowController(),
-            let settingsController = viewControllerFactory.createSettingsViewController()
+            let controller = controller
         else {
             return
         }
 
-        window.contentViewController = settingsController
+        window.contentViewController = controller
         window.showWindow(self)
     }
 }
