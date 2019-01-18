@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ToolSectionViewModel {
+class ToolCellViewModel {
     public var currentDevice: Device?
 
     var adbWrapper: ADBWrapperType

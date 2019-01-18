@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  ADB Assistant
 //
 //  Created by Michael Ovchinnikov on 25/11/2018.
@@ -8,15 +8,26 @@
 
 import Cocoa
 
-enum ToolSection: Int, CaseIterable {
+enum StaticCell: Int, CaseIterable {
     case reboot, screenshot, installAPK
+
+    var cellSize: CGFloat {
+        switch self {
+        case .reboot:
+            return 54.0
+        case .screenshot:
+            return 102.0
+        case .installAPK:
+            return 150.0
+        }
+    }
 }
 
 final class MainViewController: NSViewController {
     var sidebarViewModel: SideBarViewModel?
-    var rebootViewModel: RebootSectionViewModel?
-    var screenshotViewModel: ScreenshotSectionViewModel?
-    var installAPKViewModel: InstallAPKSectionViewModel?
+    var rebootViewModel: RebootCellViewModel?
+    var screenshotViewModel: ScreenshotCellViewModel?
+    var installAPKViewModel: InstallAPKCellViewModel?
     var usbWatcher: USBWatcher?
 
     // MARK: IB Bindings
@@ -39,6 +50,8 @@ final class MainViewController: NSViewController {
         setupSideTableView()
         setupToolsTableView()
         setToolsTableViewVisibility()
+
+        sidebarViewModel?.fetchDeviceList()
     }
 
     // MARK: Setup methods
@@ -74,7 +87,8 @@ final class MainViewController: NSViewController {
 
     private func bindScreenshotViewModel() {
         let screenshotBinding: (Any) -> Void = { [weak self] _ in
-            self?.toolsTableView.reloadData(forRowIndexes: [ToolSection.screenshot.rawValue],
+            let row = StaticCell.screenshot.rawValue
+            self?.toolsTableView.reloadData(forRowIndexes: [row],
                                             columnIndexes: [0])
             self?.screenshotViewModel?.updateDefaults()
         }
@@ -124,7 +138,7 @@ extension NSUserInterfaceItemIdentifier {
 extension MainViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView == toolsTableView {
-            return ToolSection.allCases.count
+            return StaticCell.allCases.count
         }
 
         return sidebarViewModel?.devicesCount ?? 0
@@ -135,9 +149,9 @@ extension MainViewController: NSTableViewDataSource {
 
 extension MainViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor _: NSTableColumn?, row: Int) -> NSView? {
-        if tableView == toolsTableView {
-            let toolSection = ToolSection(rawValue: row)!
-            switch toolSection {
+        if tableView == toolsTableView,
+            let cellType = StaticCell(rawValue: row) {
+            switch cellType {
             case .reboot:
                 let cell = tableView.makeView(withIdentifier: .rebootCellID, owner: nil) as? RebootCell
                 cell?.delegate = self
@@ -158,7 +172,9 @@ extension MainViewController: NSTableViewDelegate {
         guard
             let cell = tableView.makeView(withIdentifier: .sideBarCellID, owner: nil) as? NSTableCellView,
             let device = sidebarViewModel?.devices.value[row]
-        else { return nil }
+        else {
+            return nil
+        }
 
         cell.textField?.stringValue = device.model
         cell.imageView?.image = NSImage(named: device.type.imageName)
@@ -167,16 +183,9 @@ extension MainViewController: NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        if tableView == toolsTableView {
-            let toolSection = ToolSection(rawValue: row)!
-            switch toolSection {
-            case .reboot:
-                return 54.0
-            case .screenshot:
-                return 102.0
-            case .installAPK:
-                return 150.0
-            }
+        if tableView == toolsTableView,
+            let cellType = StaticCell(rawValue: row) {
+            return cellType.cellSize
         }
 
         return 17.0
@@ -195,8 +204,8 @@ extension MainViewController: NSTableViewDelegate {
 
 extension MainViewController: USBWatcherDelegate {
     func deviceAdded(_: io_object_t) {
-        // We have to introduce delay
-        // as some time is needed to recognize a USB device
+        // We have to introduce delay as some time is needed
+        // to recognize a USB device
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1000)) {
             self.sidebarViewModel?.fetchDeviceList()
         }

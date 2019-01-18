@@ -34,8 +34,8 @@ final class SettingsViewController: NSViewController {
     @IBAction func didPressOKButton(_: NSButton) {
         NSApplication.shared.mainWindow?.close()
 
-        let isADBAvailable = viewModel?.isADBAvailable() ?? false
-        if isADBAvailable {
+        if let isADBAvailable = viewModel?.isADBAvailable(),
+            isADBAvailable {
             openMainViewController()
             viewModel?.savePlatformToolsPath()
         } else {
@@ -82,7 +82,9 @@ final class SettingsViewController: NSViewController {
         guard
             let window = storyboard.instantiateController(withIdentifier: "MainWindow") as? NSWindowController,
             let mainViewController = storyboard.instantiateController(withIdentifier: "MainViewController") as? NSViewController
-        else { return }
+        else {
+            return
+        }
 
         window.contentViewController = mainViewController
         window.showWindow(self)
@@ -96,7 +98,9 @@ extension SettingsViewController: NSTextFieldDelegate {
         guard
             let textField = obj.object as? NSTextField,
             textField == pathTextField
-        else { return }
+        else {
+            return
+        }
 
         viewModel?.platformToolsPath.value = pathTextField.stringValue
     }

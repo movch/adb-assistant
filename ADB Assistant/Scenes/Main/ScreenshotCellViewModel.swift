@@ -1,5 +1,5 @@
 //
-//  ScreenshotSectionViewModel.swift
+//  ScreenshotCellViewModel.swift
 //  ADB Assistant
 //
 //  Created by Michael Ovchinnikov on 07/12/2018.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-final class ScreenshotSectionViewModel: ToolSectionViewModel {
+final class ScreenshotCellViewModel: ToolCellViewModel {
     public var savePath: Dynamic<String> = Dynamic("~/Desktop")
     public var shouldOpenPreview: Dynamic<Bool> = Dynamic(true)
 
@@ -26,7 +26,9 @@ final class ScreenshotSectionViewModel: ToolSectionViewModel {
         guard
             let identifier = self.currentDevice?.identifier,
             let deviceModel = self.currentDevice?.model
-        else { return }
+        else {
+            return
+        }
 
         let modelName = deviceModel.toFilenameString()
         let date = Date().toFilenameString()

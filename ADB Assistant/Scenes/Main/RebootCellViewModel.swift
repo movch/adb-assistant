@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class RebootSectionViewModel: ToolSectionViewModel {
+final class RebootCellViewModel: ToolCellViewModel {
     public func reboot(to: ADBRebootType) {
         guard let identifier = currentDevice?.identifier else { return }
         adbWrapper.reboot(to: to, identifier: identifier)

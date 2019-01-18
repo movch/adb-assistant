@@ -83,11 +83,14 @@ final class ADBWrapper: ADBWrapperType {
         guard
             let re = try? NSRegularExpression(pattern: "\\[(.+?)\\]: \\[(.+?)\\]",
                                               options: [])
-        else { return [:] }
+        else {
+            return [:]
+        }
 
         let matches = re.matches(in: string,
                                  options: [],
-                                 range: NSRange(location: 0, length: string.utf16.count))
+                                 range: NSRange(location: 0,
+                                                length: string.utf16.count))
 
         var propDict = [String: String]()
 
