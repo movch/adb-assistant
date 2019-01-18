@@ -9,29 +9,27 @@
 import Foundation
 
 final class ADBWrapperMock: ADBWrapperType {
-    
-    init(shell: ShellType, platformToolsPath: String) {}
-    
-    func listDeviceIds() -> [String]{
+    init(shell _: ShellType, platformToolsPath _: String) {}
+
+    func listDeviceIds() -> [String] {
         return ["phone", "tablet", "watch", "tv", "auto"]
     }
-    
+
     func getDevice(forId identifier: String) -> Device {
         return Device(identifier: identifier, properties: [
-            "ro.product.model":identifier,
-            "ro.build.characteristics":identifier
-            ])
+            "ro.product.model": identifier,
+            "ro.build.characteristics": identifier,
+        ])
     }
-    
-    public func reboot(to: ADBRebootType, identifier: String) {}
-    
-    func takeScreenshot(identifier: String, path: String) {}
-    
-    func pull(identifier: String, fromPath: String, toPath: String) {}
-    func remove(identifier: String, path: String) {}
-    
-    func wakeUpDevice(identifier: String) {}
-    
-    func installAPK(identifier: String, fromPath path: String) {}
-    
+
+    public func reboot(to _: ADBRebootType, identifier _: String) {}
+
+    func takeScreenshot(identifier _: String, path _: String) {}
+
+    func pull(identifier _: String, fromPath _: String, toPath _: String) {}
+    func remove(identifier _: String, path _: String) {}
+
+    func wakeUpDevice(identifier _: String) {}
+
+    func installAPK(identifier _: String, fromPath _: String) {}
 }

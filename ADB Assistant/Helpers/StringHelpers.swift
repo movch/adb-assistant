@@ -9,11 +9,8 @@
 import Foundation
 
 extension String {
-    
     func toFilenameString() -> String {
-        return self
-            .lowercased()
+        return lowercased()
             .replacingOccurrences(of: " ", with: "-")
     }
-    
 }

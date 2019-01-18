@@ -9,28 +9,26 @@
 import Foundation
 
 final class ServiceLocator {
-    
     static let shared = ServiceLocator()
-    
+
     let shell = Shell()
     let defaults = Defaults()
     let adbWrapper: ADBWrapperType
-    
+
     let sidebarViewModel: SideBarViewModel
     let rebootViewModel: RebootSectionViewModel
     let screenshotViewModel: ScreenshotSectionViewModel
     let installAPKViewModel: InstallAPKSectionViewModel
     let settingsViewModel: SettingsViewModel
-    
+
     private init() {
         let platformToolsPath = defaults.string(forKey: .platformToolsPath) ?? ""
         adbWrapper = ADBWrapperMock(shell: shell, platformToolsPath: platformToolsPath)
-        
+
         sidebarViewModel = SideBarViewModel(adbWrapper: adbWrapper)
         rebootViewModel = RebootSectionViewModel(adbWrapper: adbWrapper)
         screenshotViewModel = ScreenshotSectionViewModel(adbWrapper: adbWrapper, settings: defaults)
         installAPKViewModel = InstallAPKSectionViewModel(adbWrapper: adbWrapper)
         settingsViewModel = SettingsViewModel(settings: defaults)
     }
-    
 }

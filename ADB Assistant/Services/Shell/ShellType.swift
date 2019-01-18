@@ -9,7 +9,5 @@
 import Foundation
 
 protocol ShellType {
-    
-   func execute(_ command: String) -> String
-    
+    func execute(_ command: String) -> String
 }

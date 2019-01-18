@@ -9,7 +9,5 @@
 import Cocoa
 
 final class InstallAPKCell: NSTableCellView {
-    
-    @IBOutlet weak var dragView: DragView!
-    
+    @IBOutlet var dragView: DragView!
 }

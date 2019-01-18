@@ -9,10 +9,8 @@
 import Foundation
 
 final class RebootSectionViewModel: ToolSectionViewModel {
-    
     public func reboot(to: ADBRebootType) {
         guard let identifier = currentDevice?.identifier else { return }
         adbWrapper.reboot(to: to, identifier: identifier)
     }
-    
 }

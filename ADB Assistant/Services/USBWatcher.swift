@@ -13,7 +13,7 @@ import IOKit.usb
 public protocol USBWatcherDelegate: class {
     /// Called on the main thread when a device is connected.
     func deviceAdded(_ device: io_object_t)
-    
+
     /// Called on the main thread when a device is disconnected.
     func deviceRemoved(_ device: io_object_t)
 }
@@ -25,10 +25,10 @@ public class USBWatcher {
     private let notificationPort = IONotificationPortCreate(kIOMasterPortDefault)
     private var addedIterator: io_iterator_t = 0
     private var removedIterator: io_iterator_t = 0
-    
+
     public init(delegate: USBWatcherDelegate) {
         self.delegate = delegate
-        
+
         func handleNotification(instance: UnsafeMutableRawPointer?, _ iterator: io_iterator_t) {
             let watcher = Unmanaged<USBWatcher>.fromOpaque(instance!).takeUnretainedValue()
             let handler: ((io_iterator_t) -> Void)?
@@ -42,31 +42,34 @@ public class USBWatcher {
                 IOObjectRelease(device)
             }
         }
-        
+
         let query = IOServiceMatching(kIOUSBDeviceClassName)
         let opaqueSelf = Unmanaged.passUnretained(self).toOpaque()
-        
+
         // Watch for connected devices.
         IOServiceAddMatchingNotification(
             notificationPort, kIOMatchedNotification, query,
-            handleNotification, opaqueSelf, &addedIterator)
-        
+            handleNotification, opaqueSelf, &addedIterator
+        )
+
         handleNotification(instance: opaqueSelf, addedIterator)
-        
+
         // Watch for disconnected devices.
         IOServiceAddMatchingNotification(
             notificationPort, kIOTerminatedNotification, query,
-            handleNotification, opaqueSelf, &removedIterator)
-        
+            handleNotification, opaqueSelf, &removedIterator
+        )
+
         handleNotification(instance: opaqueSelf, removedIterator)
-        
+
         // Add the notification to the main run loop to receive future updates.
         CFRunLoopAddSource(
             CFRunLoopGetMain(),
             IONotificationPortGetRunLoopSource(notificationPort).takeUnretainedValue(),
-            .commonModes)
+            .commonModes
+        )
     }
-    
+
     deinit {
         IOObjectRelease(addedIterator)
         IOObjectRelease(removedIterator)

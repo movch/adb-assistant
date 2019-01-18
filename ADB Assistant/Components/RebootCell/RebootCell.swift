@@ -9,27 +9,23 @@
 import AppKit
 
 protocol RebootCellDelegate: class {
-    
     func didPressRebootToSystem()
     func didPressRebootToBootloader()
     func didPressRebootToRecovery()
-    
 }
 
 final class RebootCell: NSTableCellView {
-    
     public weak var delegate: RebootCellDelegate?
-    
-    @IBAction func didPressRebootToROM(_ sender: NSButton) {
+
+    @IBAction func didPressRebootToROM(_: NSButton) {
         delegate?.didPressRebootToSystem()
     }
-    
-    @IBAction func didPressRebootToBootloader(_ sender: NSButton) {
+
+    @IBAction func didPressRebootToBootloader(_: NSButton) {
         delegate?.didPressRebootToBootloader()
     }
-    
-    @IBAction func didPressRebootToRecovery(_ sender: NSButton) {
+
+    @IBAction func didPressRebootToRecovery(_: NSButton) {
         delegate?.didPressRebootToRecovery()
     }
-    
 }

@@ -9,14 +9,12 @@
 import Foundation
 
 final class InstallAPKSectionViewModel: ToolSectionViewModel {
-    
     public func installAPK(atURL URL: NSURL) {
         guard
             let identifier = currentDevice?.identifier,
             let path = URL.path
         else { return }
-        
+
         adbWrapper.installAPK(identifier: identifier, fromPath: path)
     }
-    
 }

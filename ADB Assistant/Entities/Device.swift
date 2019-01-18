@@ -9,9 +9,8 @@
 import Foundation
 
 enum DeviceType: String {
-    
     case phone, tablet, watch, tv, auto
-    
+
     var imageName: String {
         switch self {
         case .phone:
@@ -29,7 +28,6 @@ enum DeviceType: String {
 }
 
 extension DeviceType {
-    
     init(characteristics: String) {
         if characteristics.range(of: "watch") != nil {
             self = .watch
@@ -43,19 +41,16 @@ extension DeviceType {
             self = .phone
         }
     }
-    
 }
 
 struct Device {
-    
     var identifier: String
     var model: String
     var type: DeviceType
-    
+
     init(identifier: String, properties: Dictionary<String, String>) {
         self.identifier = identifier
-        self.model = properties["ro.product.model"] ?? ""
-        self.type = DeviceType(characteristics: properties["ro.build.characteristics"] ?? "")
+        model = properties["ro.product.model"] ?? ""
+        type = DeviceType(characteristics: properties["ro.build.characteristics"] ?? "")
     }
-    
 }

@@ -9,13 +9,11 @@
 import Foundation
 
 class ToolSectionViewModel {
-    
     public var currentDevice: Device?
-    
+
     var adbWrapper: ADBWrapperType
-    
+
     init(adbWrapper: ADBWrapperType) {
         self.adbWrapper = adbWrapper
     }
-    
 }

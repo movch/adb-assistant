@@ -10,13 +10,12 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    func applicationDidFinishLaunching(_: Notification) {
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
         let window = storyboard.instantiateController(withIdentifier: "MainWindow") as! NSWindowController
         let mainViewController = storyboard.instantiateController(withIdentifier: "MainViewController") as! NSViewController
         let settingsViewController = storyboard.instantiateController(withIdentifier: "SettingsViewController") as! NSViewController
-        
+
         let defaults = ServiceLocator.shared.defaults
         let platformToolsPath = defaults.string(forKey: .platformToolsPath)
         if platformToolsPath != nil {
@@ -24,9 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             window.contentViewController = settingsViewController
         }
-        
+
         window.showWindow(self)
     }
-    
 }
-
