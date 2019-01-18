@@ -14,10 +14,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
         let window = storyboard.instantiateController(withIdentifier: "MainWindow") as! NSWindowController
-        let platformToolsPath = Defaults().string(forKey: Defaults.Constant.platformToolsPath)
         let mainViewController = storyboard.instantiateController(withIdentifier: "MainViewController") as! NSViewController
         let settingsViewController = storyboard.instantiateController(withIdentifier: "SettingsViewController") as! NSViewController
         
+        let defaults = ServiceLocator.shared.defaults
+        let platformToolsPath = defaults.string(forKey: .platformToolsPath)
         if platformToolsPath != nil {
             window.contentViewController = mainViewController
         } else {
@@ -26,10 +27,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         window.showWindow(self)
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-
+    
 }
 

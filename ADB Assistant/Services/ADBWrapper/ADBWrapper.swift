@@ -80,7 +80,7 @@ final class ADBWrapper: ADBWrapperType {
         return getPropsFromString(output)
     }
     
-    private func getPropsFromString(_ string:String) -> [String:String] {
+    private func getPropsFromString(_ string: String) -> [String: String] {
         guard
             let re = try? NSRegularExpression(pattern: "\\[(.+?)\\]: \\[(.+?)\\]",
                                               options: [])
@@ -90,7 +90,7 @@ final class ADBWrapper: ADBWrapperType {
                                  options: [],
                                  range: NSRange(location: 0, length: string.utf16.count))
         
-        var propDict = [String:String]()
+        var propDict = [String: String]()
         
         for match in matches {
             let key = (string as NSString).substring(with: match.range(at: 1))

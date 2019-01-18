@@ -31,6 +31,7 @@
 		4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */; };
 		4C8AEF3F21B3CBDB00AC9202 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */; };
 		4C8AEF4121B3E22900AC9202 /* RebootSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF4021B3E22900AC9202 /* RebootSectionViewModel.swift */; };
+		4CC69B7F21F0FAA30003C92E /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC69B7E21F0FAA30003C92E /* ServiceLocator.swift */; };
 		4CEFBA7521CCCB5800079CD9 /* InstallAPKCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CEFBA7421CCCB5800079CD9 /* InstallAPKCell.xib */; };
 		4CEFBA7721CCCD2A00079CD9 /* InstallAPKCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFBA7621CCCD2A00079CD9 /* InstallAPKCell.swift */; };
 		4CEFBA7921CCCEF200079CD9 /* DragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFBA7821CCCEF200079CD9 /* DragView.swift */; };
@@ -79,6 +80,7 @@
 		4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapperMock.swift; sourceTree = "<group>"; };
 		4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4C8AEF4021B3E22900AC9202 /* RebootSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RebootSectionViewModel.swift; sourceTree = "<group>"; };
+		4CC69B7E21F0FAA30003C92E /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		4CEFBA7421CCCB5800079CD9 /* InstallAPKCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InstallAPKCell.xib; sourceTree = "<group>"; };
 		4CEFBA7621CCCD2A00079CD9 /* InstallAPKCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallAPKCell.swift; sourceTree = "<group>"; };
 		4CEFBA7821CCCEF200079CD9 /* DragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragView.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				4C4C7D1B21AB32C30002127F /* Shell */,
 				4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */,
 				4C22E0F921BA9D6C008C8543 /* Defaults.swift */,
+				4CC69B7E21F0FAA30003C92E /* ServiceLocator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				4C22E0F421BA78AF008C8543 /* ScreenshotCell.swift in Sources */,
 				4C4C7CF921AAED1E0002127F /* AppDelegate.swift in Sources */,
 				4CEFBA8021CD0F8200079CD9 /* SettingsViewController.swift in Sources */,
+				4CC69B7F21F0FAA30003C92E /* ServiceLocator.swift in Sources */,
 				4C22E0F821BA9289008C8543 /* ScreenshotSectionViewModel.swift in Sources */,
 				4C8AEF2C21AF071700AC9202 /* Device.swift in Sources */,
 				4C4C7D1A21AB312B0002127F /* ADBWrapper.swift in Sources */,

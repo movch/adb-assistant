@@ -11,18 +11,24 @@ import Foundation
 final class SettingsViewModel {
     
     public var platformToolsPath: Dynamic<String?> = Dynamic(nil)
+    private var settings: Defaults
+    
+    init(settings: Defaults) {
+        self.settings = settings
+    }
     
     public func loadPlatformToolsPath() {
-        platformToolsPath.value = Defaults().string(forKey: .platformToolsPath)
+        platformToolsPath.value = settings.string(forKey: .platformToolsPath)
     }
     
     public func savePlatformToolsPath() {
-        Defaults().setString(platformToolsPath.value ?? "",
-                             forKey: .platformToolsPath)
+        let path = platformToolsPath.value ?? ""
+        settings.setString(path, forKey: .platformToolsPath)
     }
     
     public func isADBAvailable() -> Bool {
-        return FileManager.default.fileExists(atPath: "\(platformToolsPath.value ?? "")/adb")
+        let path = "\(platformToolsPath.value ?? "")/adb"
+        return FileManager.default.fileExists(atPath: path)
     }
     
 }

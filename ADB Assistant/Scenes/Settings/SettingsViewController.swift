@@ -40,12 +40,7 @@ final class SettingsViewController: NSViewController {
             openMainViewController()
             viewModel?.savePlatformToolsPath()
         } else {
-            let alert = NSAlert.init()
-            alert.messageText = "Error"
-            alert.informativeText = "ADB binary not found!"
-            alert.addButton(withTitle: "OK")
-            alert.alertStyle = .warning
-            alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+            showAlert(header: "Error", text: "ADB binary not found!")
         }
     }
     
@@ -59,8 +54,10 @@ final class SettingsViewController: NSViewController {
         setupDependencies()
     }
     
+    // MARK: Private methods
+    
     private func setupDependencies() {
-        viewModel = SettingsViewModel()
+        viewModel = ServiceLocator.shared.settingsViewModel
         bindViewModel()
     }
     
@@ -68,6 +65,16 @@ final class SettingsViewController: NSViewController {
         viewModel?.platformToolsPath.bind { [weak self] (path) in
             self?.pathTextField.stringValue = path ?? ""
         }
+    }
+    
+    private func showAlert(header: String, text: String) {
+        let alert = NSAlert.init()
+        alert.messageText = header
+        alert.informativeText = text
+        alert.addButton(withTitle: "OK")
+        alert.alertStyle = .warning
+        alert.beginSheetModal(for: self.view.window!,
+                              completionHandler: nil)
     }
     
     private func openMainViewController() {
@@ -85,10 +92,12 @@ final class SettingsViewController: NSViewController {
 extension SettingsViewController: NSTextFieldDelegate {
     
     func controlTextDidChange(_ obj: Notification) {
-        if let textField = obj.object as? NSTextField,
-            textField == pathTextField {
-            viewModel?.platformToolsPath.value = pathTextField.stringValue
-        }
+        guard
+            let textField = obj.object as? NSTextField,
+            textField == pathTextField
+        else { return }
+        
+        viewModel?.platformToolsPath.value = pathTextField.stringValue
     }
     
 }

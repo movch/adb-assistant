@@ -45,20 +45,13 @@ final class MainViewController: NSViewController {
     // MARK: Setup methods
     
     private func setupDependencies() {
-        let shell = Shell()
-        let defaults = Defaults()
-        let platformToolsPath = defaults.string(forKey: .platformToolsPath) ?? ""
-        let adbWrapper = ADBWrapperMock(shell: shell, platformToolsPath: platformToolsPath)
+        sidebarViewModel = ServiceLocator.shared.sidebarViewModel
+        rebootViewModel = ServiceLocator.shared.rebootViewModel
+        screenshotViewModel = ServiceLocator.shared.screenshotViewModel
+        installAPKViewModel = ServiceLocator.shared.installAPKViewModel
         
-        sidebarViewModel = SideBarViewModel(adbWrapper: adbWrapper)
         bindSidebarViewModel()
-        
-        rebootViewModel = RebootSectionViewModel(adbWrapper: adbWrapper)
-        
-        screenshotViewModel = ScreenshotSectionViewModel(adbWrapper: adbWrapper, settings: defaults)
         bindScreenshotViewModel()
-        
-        installAPKViewModel = InstallAPKSectionViewModel(adbWrapper: adbWrapper)
         
         usbWatcher = USBWatcher(delegate: self)
     }
