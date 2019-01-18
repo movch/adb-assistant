@@ -12,9 +12,12 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_: Notification) {
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-        let window = storyboard.instantiateController(withIdentifier: "MainWindow") as! NSWindowController
-        let mainViewController = storyboard.instantiateController(withIdentifier: "MainViewController") as! NSViewController
-        let settingsViewController = storyboard.instantiateController(withIdentifier: "SettingsViewController") as! NSViewController
+
+        guard
+            let window = storyboard.instantiateController(withIdentifier: "MainWindow") as? NSWindowController,
+            let mainViewController = storyboard.instantiateController(withIdentifier: "MainViewController") as? NSViewController,
+            let settingsViewController = storyboard.instantiateController(withIdentifier: "SettingsViewController") as? NSViewController
+        else { return }
 
         let defaults = ServiceLocator.shared.defaults
         let platformToolsPath = defaults.string(forKey: .platformToolsPath)

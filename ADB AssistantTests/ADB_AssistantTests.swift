@@ -9,7 +9,7 @@
 @testable import ADB_Assistant
 import XCTest
 
-class ADB_AssistantTests: XCTestCase {
+class ADBAssistantTests: XCTestCase {
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }

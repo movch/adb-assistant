@@ -18,7 +18,7 @@ final class ADBWrapperMock: ADBWrapperType {
     func getDevice(forId identifier: String) -> Device {
         return Device(identifier: identifier, properties: [
             "ro.product.model": identifier,
-            "ro.build.characteristics": identifier,
+            "ro.build.characteristics": identifier
         ])
     }
 

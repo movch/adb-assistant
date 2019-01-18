@@ -48,7 +48,7 @@ struct Device {
     var model: String
     var type: DeviceType
 
-    init(identifier: String, properties: Dictionary<String, String>) {
+    init(identifier: String, properties: [String: String]) {
         self.identifier = identifier
         model = properties["ro.product.model"] ?? ""
         type = DeviceType(characteristics: properties["ro.build.characteristics"] ?? "")
