@@ -162,33 +162,15 @@ extension MainViewController: NSTableViewDelegate {
             let cellType = StaticCell(rawValue: row) {
             switch cellType {
             case .reboot:
-                let cell = tableView.makeView(withIdentifier: .rebootCellID, owner: nil) as? RebootCell
-                cell?.delegate = self
-                return cell
+                return rebootCell(tableView)
             case .screenshot:
-                let cell = tableView.makeView(withIdentifier: .screenshotCellID, owner: nil) as? ScreenshotCell
-                cell?.delegate = self
-                cell?.dataSource = self
-                cell?.reloadData()
-                return cell
+                return screenshotCell(tableView)
             case .installAPK:
-                let cell = tableView.makeView(withIdentifier: .installAPKCellID, owner: nil) as? InstallAPKCell
-                cell?.dragView.delegate = self
-                return cell
+                return installAPKCell(tableView)
             }
         }
 
-        guard
-            let cell = tableView.makeView(withIdentifier: .sideBarCellID, owner: nil) as? NSTableCellView,
-            let device = sidebarViewModel?.devices.value[row]
-        else {
-            return nil
-        }
-
-        cell.textField?.stringValue = device.model
-        cell.imageView?.image = NSImage(named: device.type.imageName)
-
-        return cell
+        return sidebarCell(tableView, row: row)
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
@@ -206,6 +188,42 @@ extension MainViewController: NSTableViewDelegate {
         }
 
         return true
+    }
+
+    // MARK: Cell configuration
+
+    func rebootCell(_ tableView: NSTableView) -> NSView? {
+        let cell = tableView.makeView(withIdentifier: .rebootCellID, owner: nil) as? RebootCell
+        cell?.delegate = self
+        return cell
+    }
+
+    func screenshotCell(_ tableView: NSTableView) -> NSView? {
+        let cell = tableView.makeView(withIdentifier: .screenshotCellID, owner: nil) as? ScreenshotCell
+        cell?.delegate = self
+        cell?.dataSource = self
+        cell?.reloadData()
+        return cell
+    }
+
+    func installAPKCell(_ tableView: NSTableView) -> NSView? {
+        let cell = tableView.makeView(withIdentifier: .installAPKCellID, owner: nil) as? InstallAPKCell
+        cell?.dragView.delegate = self
+        return cell
+    }
+
+    func sidebarCell(_ tableView: NSTableView, row: Int) -> NSView? {
+        guard
+            let cell = tableView.makeView(withIdentifier: .sideBarCellID, owner: nil) as? NSTableCellView,
+            let device = sidebarViewModel?.devices.value[row]
+        else {
+            return nil
+        }
+
+        cell.textField?.stringValue = device.model
+        cell.imageView?.image = NSImage(named: device.type.imageName)
+
+        return cell
     }
 }
 
