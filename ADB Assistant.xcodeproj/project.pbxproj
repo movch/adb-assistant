@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C1E61A02204685A00966D7B /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1E619F2204685A00966D7B /* DeviceType.swift */; };
 		4C22E0ED21BA56B0008C8543 /* RebootCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C22E0EC21BA56B0008C8543 /* RebootCell.xib */; };
 		4C22E0EF21BA5908008C8543 /* RebootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0EE21BA5908008C8543 /* RebootCell.swift */; };
 		4C22E0F221BA5BEB008C8543 /* ScreenshotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C22E0F121BA5BEB008C8543 /* ScreenshotCell.xib */; };
 		4C22E0F421BA78AF008C8543 /* ScreenshotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F321BA78AF008C8543 /* ScreenshotCell.swift */; };
-		4C22E0F621BA81EF008C8543 /* ToolCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F521BA81EF008C8543 /* ToolCellViewModel.swift */; };
+		4C22E0F621BA81EF008C8543 /* ActionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F521BA81EF008C8543 /* ActionCellViewModel.swift */; };
 		4C22E0F821BA9289008C8543 /* ScreenshotCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F721BA9289008C8543 /* ScreenshotCellViewModel.swift */; };
 		4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F921BA9D6C008C8543 /* Defaults.swift */; };
 		4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */; };
@@ -53,11 +54,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C1E619F2204685A00966D7B /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
 		4C22E0EC21BA56B0008C8543 /* RebootCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RebootCell.xib; sourceTree = "<group>"; };
 		4C22E0EE21BA5908008C8543 /* RebootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RebootCell.swift; sourceTree = "<group>"; };
 		4C22E0F121BA5BEB008C8543 /* ScreenshotCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScreenshotCell.xib; sourceTree = "<group>"; };
 		4C22E0F321BA78AF008C8543 /* ScreenshotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotCell.swift; sourceTree = "<group>"; };
-		4C22E0F521BA81EF008C8543 /* ToolCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCellViewModel.swift; sourceTree = "<group>"; };
+		4C22E0F521BA81EF008C8543 /* ActionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCellViewModel.swift; sourceTree = "<group>"; };
 		4C22E0F721BA9289008C8543 /* ScreenshotCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotCellViewModel.swift; sourceTree = "<group>"; };
 		4C22E0F921BA9D6C008C8543 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
@@ -111,14 +113,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4C22E0E921BA5525008C8543 /* Components */ = {
+		4C1E619E220462CF00966D7B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4CEFBA7821CCCEF200079CD9 /* DragView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		4C22E0E921BA5525008C8543 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				4CEFBA7321CCCB3100079CD9 /* InstallAPKCell */,
 				4C22E0F021BA5BC3008C8543 /* ScreenshotCell */,
 				4C22E0EB21BA559D008C8543 /* RebootCell */,
 			);
-			path = Components;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		4C22E0EB21BA559D008C8543 /* RebootCell */ = {
@@ -126,6 +136,7 @@
 			children = (
 				4C22E0EC21BA56B0008C8543 /* RebootCell.xib */,
 				4C22E0EE21BA5908008C8543 /* RebootCell.swift */,
+				4C8AEF4021B3E22900AC9202 /* RebootCellViewModel.swift */,
 			);
 			path = RebootCell;
 			sourceTree = "<group>";
@@ -135,6 +146,7 @@
 			children = (
 				4C22E0F121BA5BEB008C8543 /* ScreenshotCell.xib */,
 				4C22E0F321BA78AF008C8543 /* ScreenshotCell.swift */,
+				4C22E0F721BA9289008C8543 /* ScreenshotCellViewModel.swift */,
 			);
 			path = ScreenshotCell;
 			sourceTree = "<group>";
@@ -186,7 +198,7 @@
 		4C4C7CF721AAED1E0002127F /* ADB Assistant */ = {
 			isa = PBXGroup;
 			children = (
-				4C22E0E921BA5525008C8543 /* Components */,
+				4C1E619E220462CF00966D7B /* Components */,
 				4C8AEF2D21B12C5E00AC9202 /* Scenes */,
 				4C8AEF2821AC66E500AC9202 /* Entities */,
 				4C4C7D1621AB2E0C0002127F /* Services */,
@@ -243,7 +255,9 @@
 		4C8AEF2821AC66E500AC9202 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				4C22E0F521BA81EF008C8543 /* ActionCellViewModel.swift */,
 				4C8AEF2B21AF071700AC9202 /* Device.swift */,
+				4C1E619F2204685A00966D7B /* DeviceType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -260,12 +274,9 @@
 		4C8AEF2E21B12C7200AC9202 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				4C22E0E921BA5525008C8543 /* Cells */,
 				4C4C7CFA21AAED1E0002127F /* MainViewController.swift */,
 				4C8AEF2F21B12CC100AC9202 /* SideBarViewModel.swift */,
-				4C8AEF4021B3E22900AC9202 /* RebootCellViewModel.swift */,
-				4C22E0F521BA81EF008C8543 /* ToolCellViewModel.swift */,
-				4C22E0F721BA9289008C8543 /* ScreenshotCellViewModel.swift */,
-				4CEFBA7C21CCF05400079CD9 /* InstallAPKCellViewModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -285,7 +296,7 @@
 			children = (
 				4CEFBA7421CCCB5800079CD9 /* InstallAPKCell.xib */,
 				4CEFBA7621CCCD2A00079CD9 /* InstallAPKCell.swift */,
-				4CEFBA7821CCCEF200079CD9 /* DragView.swift */,
+				4CEFBA7C21CCF05400079CD9 /* InstallAPKCellViewModel.swift */,
 			);
 			path = InstallAPKCell;
 			sourceTree = "<group>";
@@ -454,7 +465,7 @@
 				4C4C7CFB21AAED1E0002127F /* MainViewController.swift in Sources */,
 				4C4575B921F1DD0B0069449D /* ViewControllerFactory.swift in Sources */,
 				4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */,
-				4C22E0F621BA81EF008C8543 /* ToolCellViewModel.swift in Sources */,
+				4C22E0F621BA81EF008C8543 /* ActionCellViewModel.swift in Sources */,
 				4C4C7D1821AB2E2A0002127F /* Shell.swift in Sources */,
 				4C8AEF3421B1519F00AC9202 /* Dynamic.swift in Sources */,
 				4C8AEF2A21AC83EC00AC9202 /* USBWatcher.swift in Sources */,
@@ -463,6 +474,7 @@
 				4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */,
 				4C22E0F421BA78AF008C8543 /* ScreenshotCell.swift in Sources */,
 				4C4C7CF921AAED1E0002127F /* AppDelegate.swift in Sources */,
+				4C1E61A02204685A00966D7B /* DeviceType.swift in Sources */,
 				4CEFBA8021CD0F8200079CD9 /* SettingsViewController.swift in Sources */,
 				4CC69B7F21F0FAA30003C92E /* ServiceLocator.swift in Sources */,
 				4C22E0F821BA9289008C8543 /* ScreenshotCellViewModel.swift in Sources */,

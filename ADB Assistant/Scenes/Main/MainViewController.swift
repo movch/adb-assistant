@@ -8,7 +8,7 @@
 
 import Cocoa
 
-enum StaticCell: Int, CaseIterable {
+enum ActionType: Int, CaseIterable {
     case reboot, screenshot, installAPK
 
     var cellSize: CGFloat {
@@ -33,7 +33,7 @@ final class MainViewController: NSViewController {
     // MARK: IB Bindings
 
     @IBOutlet var sideTableView: NSTableView!
-    @IBOutlet var toolsTableView: NSTableView!
+    @IBOutlet var actionsTableView: NSTableView!
     @IBOutlet var placeholderLabel: NSTextField!
 
     @IBAction func didSelectRow(_: NSTableView) {
@@ -57,13 +57,13 @@ final class MainViewController: NSViewController {
 
         setupDependencies()
         setupSideTableView()
-        setupToolsTableView()
-        setToolsTableViewVisibility()
+        setupActionsTableView()
+        setActionsTableViewVisibility()
 
         sidebarViewModel?.fetchDeviceList()
     }
 
-    // MARK: Setup methods
+    // MARK: View Setup
 
     private func setupDependencies() {
         sidebarViewModel = ServiceLocator.shared.sidebarViewModel
@@ -72,7 +72,6 @@ final class MainViewController: NSViewController {
         installAPKViewModel = ServiceLocator.shared.installAPKViewModel
 
         bindSidebarViewModel()
-        bindScreenshotViewModel()
 
         usbWatcher = USBWatcher(delegate: self)
     }
@@ -80,7 +79,7 @@ final class MainViewController: NSViewController {
     private func bindSidebarViewModel() {
         sidebarViewModel?.devices.bind { [weak self] _ in
             self?.sideTableView.reloadData()
-            self?.setToolsTableViewVisibility()
+            self?.setActionsTableViewVisibility()
         }
 
         sidebarViewModel?.selectedDeviceIndex.bind { [weak self] index in
@@ -94,42 +93,30 @@ final class MainViewController: NSViewController {
         }
     }
 
-    private func bindScreenshotViewModel() {
-        let screenshotBinding: (Any) -> Void = { [weak self] _ in
-            let row = StaticCell.screenshot.rawValue
-            self?.toolsTableView.reloadData(forRowIndexes: [row],
-                                            columnIndexes: [0])
-            self?.screenshotViewModel?.updateDefaults()
-        }
-
-        screenshotViewModel?.savePath.bind(listener: screenshotBinding)
-        screenshotViewModel?.shouldOpenPreview.bind(listener: screenshotBinding)
-    }
-
     private func setupSideTableView() {
         sideTableView.dataSource = self
         sideTableView.delegate = self
     }
 
-    private func setupToolsTableView() {
-        toolsTableView.dataSource = self
-        toolsTableView.delegate = self
+    private func setupActionsTableView() {
+        actionsTableView.dataSource = self
+        actionsTableView.delegate = self
 
-        toolsTableView.register(NSNib(nibNamed: String(describing: RebootCell.self),
-                                      bundle: nil),
-                                forIdentifier: .rebootCellID)
-        toolsTableView.register(NSNib(nibNamed: String(describing: ScreenshotCell.self),
-                                      bundle: nil),
-                                forIdentifier: .screenshotCellID)
-        toolsTableView.register(NSNib(nibNamed: String(describing: InstallAPKCell.self),
-                                      bundle: nil),
-                                forIdentifier: .installAPKCellID)
+        actionsTableView.register(NSNib(nibNamed: String(describing: RebootCell.self),
+                                           bundle: nil),
+                                     forIdentifier: .rebootCellID)
+        actionsTableView.register(NSNib(nibNamed: String(describing: ScreenshotCell.self),
+                                           bundle: nil),
+                                     forIdentifier: .screenshotCellID)
+        actionsTableView.register(NSNib(nibNamed: String(describing: InstallAPKCell.self),
+                                           bundle: nil),
+                                     forIdentifier: .installAPKCellID)
     }
 
-    private func setToolsTableViewVisibility() {
+    private func setActionsTableViewVisibility() {
         guard let viewModel = sidebarViewModel else { return }
-        toolsTableView.isHidden = viewModel.devices.value.count > 0 ? false : true
-        placeholderLabel.isHidden = !toolsTableView.isHidden
+        actionsTableView.isHidden = viewModel.devices.value.count > 0 ? false : true
+        placeholderLabel.isHidden = !actionsTableView.isHidden
     }
 }
 
@@ -146,8 +133,8 @@ extension NSUserInterfaceItemIdentifier {
 
 extension MainViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        if tableView == toolsTableView {
-            return StaticCell.allCases.count
+        if tableView == actionsTableView {
+            return ActionType.allCases.count
         }
 
         return sidebarViewModel?.devicesCount ?? 0
@@ -158,8 +145,8 @@ extension MainViewController: NSTableViewDataSource {
 
 extension MainViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor _: NSTableColumn?, row: Int) -> NSView? {
-        if tableView == toolsTableView,
-            let cellType = StaticCell(rawValue: row) {
+        if tableView == actionsTableView,
+            let cellType = ActionType(rawValue: row) {
             switch cellType {
             case .reboot:
                 return rebootCell(tableView)
@@ -174,8 +161,8 @@ extension MainViewController: NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        if tableView == toolsTableView,
-            let cellType = StaticCell(rawValue: row) {
+        if tableView == actionsTableView,
+            let cellType = ActionType(rawValue: row) {
             return cellType.cellSize
         }
 
@@ -183,7 +170,7 @@ extension MainViewController: NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, shouldSelectRow _: Int) -> Bool {
-        if tableView == toolsTableView {
+        if tableView == actionsTableView {
             return false
         }
 
@@ -194,21 +181,19 @@ extension MainViewController: NSTableViewDelegate {
 
     func rebootCell(_ tableView: NSTableView) -> NSView? {
         let cell = tableView.makeView(withIdentifier: .rebootCellID, owner: nil) as? RebootCell
-        cell?.delegate = self
+        cell?.viewModel = rebootViewModel
         return cell
     }
 
     func screenshotCell(_ tableView: NSTableView) -> NSView? {
         let cell = tableView.makeView(withIdentifier: .screenshotCellID, owner: nil) as? ScreenshotCell
-        cell?.delegate = self
-        cell?.dataSource = self
-        cell?.reloadData()
+        cell?.viewModel = screenshotViewModel
         return cell
     }
 
     func installAPKCell(_ tableView: NSTableView) -> NSView? {
         let cell = tableView.makeView(withIdentifier: .installAPKCellID, owner: nil) as? InstallAPKCell
-        cell?.dragView.delegate = self
+        cell?.viewModel = installAPKViewModel
         return cell
     }
 
@@ -240,65 +225,5 @@ extension MainViewController: USBWatcherDelegate {
 
     func deviceRemoved(_: io_object_t) {
         sidebarViewModel?.fetchDeviceList()
-    }
-}
-
-// MARK: - RebootCellDelegate
-
-extension MainViewController: RebootCellDelegate {
-    func didPressRebootToSystem() {
-        rebootViewModel?.reboot(to: .system)
-    }
-
-    func didPressRebootToBootloader() {
-        rebootViewModel?.reboot(to: .bootloader)
-    }
-
-    func didPressRebootToRecovery() {
-        rebootViewModel?.reboot(to: .recovery)
-    }
-}
-
-// MARK: - ScreenshotCellDelegate
-
-extension MainViewController: ScreenshotCellDelegate {
-    func didPressTakeScreenshotButton() {
-        screenshotViewModel?.takeScreenshot()
-    }
-
-    func didPressSelectSaveFolderButton() {
-        let openDialog = NSOpenPanel()
-        openDialog.canChooseFiles = false
-        openDialog.canChooseDirectories = true
-
-        if openDialog.runModal() == .OK {
-            if let path = openDialog.url?.path {
-                screenshotViewModel?.savePath.value = path
-            }
-        }
-    }
-
-    func didSwitchOpenInPreviewCheckbox(on: Bool) {
-        screenshotViewModel?.shouldOpenPreview.value = on
-    }
-}
-
-// MARK: - ScreenshotCellDataSource
-
-extension MainViewController: ScreenshotCellDataSource {
-    func screenshotSavePath() -> String {
-        return screenshotViewModel?.savePath.value ?? "N/A"
-    }
-
-    func openInPreviewCheckBoxState() -> Bool {
-        return screenshotViewModel?.shouldOpenPreview.value ?? true
-    }
-}
-
-// MARK: - InstallAPKCell DragViewDelegate
-
-extension MainViewController: DragViewDelegate {
-    func dragView(didDragFileWith URL: NSURL) {
-        installAPKViewModel?.installAPK(atURL: URL)
     }
 }

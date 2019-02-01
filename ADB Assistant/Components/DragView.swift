@@ -14,7 +14,7 @@ protocol DragViewDelegate: class {
 
 final class DragView: NSView {
     public weak var delegate: DragViewDelegate?
-    public var acceptedFileExtensions = ["apk"]
+    public var acceptedFileExtensions = ["*"]
 
     private var fileTypeIsOk = false
 
@@ -69,6 +69,10 @@ final class DragView: NSView {
             let fileExtension = drag.draggedFileURL?.pathExtension?.lowercased()
         else {
             return false
+        }
+
+        if acceptedFileExtensions.contains("*") {
+            return true
         }
 
         return acceptedFileExtensions.contains(fileExtension)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class InstallAPKCellViewModel: ToolCellViewModel {
+final class InstallAPKCellViewModel: ActionCellViewModel, InstallAPKCellViewModelType {
     public func installAPK(atURL URL: NSURL) {
         guard
             let identifier = currentDevice?.identifier,

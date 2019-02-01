@@ -8,9 +8,9 @@
 
 import Cocoa
 
-final class ScreenshotCellViewModel: ToolCellViewModel {
-    public var savePath: Dynamic<String> = Dynamic("~/Desktop")
-    public var shouldOpenPreview: Dynamic<Bool> = Dynamic(true)
+final class ScreenshotCellViewModel: ActionCellViewModel, ScreenShotCellViewModelType {
+    private(set) var savePath: Dynamic<String> = Dynamic("~/Desktop")
+    private(set) var shouldOpenPreview: Dynamic<Bool> = Dynamic(true)
 
     private let defaults: Defaults
 

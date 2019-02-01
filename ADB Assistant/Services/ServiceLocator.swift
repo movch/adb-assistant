@@ -26,7 +26,7 @@ final class ServiceLocator {
 
     private init() {
         let platformToolsPath = defaults.string(forKey: .platformToolsPath) ?? ""
-        adbWrapper = ADBWrapper(shell: shell, platformToolsPath: platformToolsPath)
+        adbWrapper = ADBWrapperMock(shell: shell, platformToolsPath: platformToolsPath)
 
         sidebarViewModel = SideBarViewModel(adbWrapper: adbWrapper)
         rebootViewModel = RebootCellViewModel(adbWrapper: adbWrapper)

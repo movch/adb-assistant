@@ -8,24 +8,22 @@
 
 import AppKit
 
-protocol RebootCellDelegate: class {
-    func didPressRebootToSystem()
-    func didPressRebootToBootloader()
-    func didPressRebootToRecovery()
+protocol RebootCellViewModelType {
+    func reboot(to: ADBRebootType)
 }
 
 final class RebootCell: NSTableCellView {
-    public weak var delegate: RebootCellDelegate?
+    public var viewModel: RebootCellViewModelType?
 
     @IBAction func didPressRebootToROM(_: NSButton) {
-        delegate?.didPressRebootToSystem()
+        viewModel?.reboot(to: .system)
     }
 
     @IBAction func didPressRebootToBootloader(_: NSButton) {
-        delegate?.didPressRebootToBootloader()
+        viewModel?.reboot(to: .bootloader)
     }
 
     @IBAction func didPressRebootToRecovery(_: NSButton) {
-        delegate?.didPressRebootToRecovery()
+        viewModel?.reboot(to: .recovery)
     }
 }

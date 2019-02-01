@@ -913,9 +913,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="actionsTableView" destination="PIG-XY-XgD" id="ZWl-0H-TPl"/>
                         <outlet property="placeholderLabel" destination="1VT-m5-iEr" id="4ZR-Li-QGc"/>
                         <outlet property="sideTableView" destination="tdN-a8-fQx" id="Aiq-yG-Fbd"/>
-                        <outlet property="toolsTableView" destination="PIG-XY-XgD" id="ZWl-0H-TPl"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
