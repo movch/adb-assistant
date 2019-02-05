@@ -8,7 +8,7 @@
 
 import Cocoa
 
-final class ScreenshotCellViewModel: ActionCellViewModel, ScreenShotCellViewModelType {
+final class ScreenshotCellViewModel: ActionCellViewModel {
     private(set) var savePath: Dynamic<String> = Dynamic("~/Desktop")
     private(set) var shouldOpenPreview: Dynamic<Bool> = Dynamic(true)
 
@@ -22,6 +22,18 @@ final class ScreenshotCellViewModel: ActionCellViewModel, ScreenShotCellViewMode
         restoreDefaults()
     }
 
+    private func restoreDefaults() {
+        if let savePath = defaults.string(forKey: .screenshotsSavePath) {
+            self.savePath.value = savePath
+        }
+
+        if let shouldOpenPreview = defaults.bool(forKey: .screenshotsShouldOpenPreview) {
+            self.shouldOpenPreview.value = shouldOpenPreview
+        }
+    }
+}
+
+extension ScreenshotCellViewModel: ScreenShotCellViewModelType {
     public func takeScreenshot() {
         guard
             let identifier = self.currentDevice?.identifier,
@@ -53,15 +65,5 @@ final class ScreenshotCellViewModel: ActionCellViewModel, ScreenShotCellViewMode
     public func updateDefaults() {
         defaults.setBool(shouldOpenPreview.value, forKey: .screenshotsShouldOpenPreview)
         defaults.setString(savePath.value, forKey: .screenshotsSavePath)
-    }
-
-    private func restoreDefaults() {
-        if let savePath = defaults.string(forKey: .screenshotsSavePath) {
-            self.savePath.value = savePath
-        }
-
-        if let shouldOpenPreview = defaults.bool(forKey: .screenshotsShouldOpenPreview) {
-            self.shouldOpenPreview.value = shouldOpenPreview
-        }
     }
 }

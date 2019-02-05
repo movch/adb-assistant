@@ -103,14 +103,14 @@ final class MainViewController: NSViewController {
         actionsTableView.delegate = self
 
         actionsTableView.register(NSNib(nibNamed: String(describing: RebootCell.self),
-                                           bundle: nil),
-                                     forIdentifier: .rebootCellID)
+                                        bundle: nil),
+                                  forIdentifier: .rebootCellID)
         actionsTableView.register(NSNib(nibNamed: String(describing: ScreenshotCell.self),
-                                           bundle: nil),
-                                     forIdentifier: .screenshotCellID)
+                                        bundle: nil),
+                                  forIdentifier: .screenshotCellID)
         actionsTableView.register(NSNib(nibNamed: String(describing: InstallAPKCell.self),
-                                           bundle: nil),
-                                     forIdentifier: .installAPKCellID)
+                                        bundle: nil),
+                                  forIdentifier: .installAPKCellID)
     }
 
     private func setActionsTableViewVisibility() {
