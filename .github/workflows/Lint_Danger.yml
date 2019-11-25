@@ -1,0 +1,15 @@
+name: CI
+
+on: pull_request
+
+jobs:
+  setup_lint_danger:
+
+    runs-on: ubuntu-latest
+    name: "Run Danger"
+    steps:
+    - uses: actions/checkout@v1
+    - name: Danger
+       uses:f-meloni/danger-swift-swiftlint-action@0.1.0
+      env:
+       GITHUB_TOKEN:${{ secrets.GITHUB_TOKEN }}
