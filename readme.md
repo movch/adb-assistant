@@ -6,7 +6,7 @@
 
 Currently it provides the ability to:
 
-* **Choose a device** from the list of connected devices;
+* **Choose a device** from the list of the connected devices;
 * **Reboot the device** to:
   * System
   * Recovery
