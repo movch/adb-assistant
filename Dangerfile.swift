@@ -1,18 +1,19 @@
 import Danger
 
 let danger = Danger()
-let allSourceFiles = danger.git.modifiedFiles + danger.git.createdFiles
 
-let changelogChanged = allSourceFiles.contains("CHANGELOG.md")
-let sourceChanges = allSourceFiles.first(where: { $0.hasPrefix("Sources") })
-
-if !changelogChanged && sourceChanges != nil {
-  warn("No CHANGELOG entry added.")
+if danger.git.createdFiles.count + danger.git.modifiedFiles.count - danger.git.deletedFiles.count > 300 {
+    warn("Big PR, try to keep changes smaller if you can")
 }
 
-// You can use these functions to send feedback:
-message("Highlight something in the table")
-warn("Something pretty bad, but not important enough to fail the build")
-fail("Something that must be changed")
+let swiftFilesWithCopyright = danger.git.createdFiles.filter {
+    $0.fileType == .swift
+        && danger.utils.readFile($0).contains("//  Created by")
+}
 
-markdown("Free-form markdown that goes under the table, so you can do whatever.")
+if !swiftFilesWithCopyright.isEmpty {
+    let files = swiftFilesWithCopyright.joined(separator: ", ")
+    warn("We don't include copyright headers in this project, found them in: \(files)")
+}
+
+SwiftLint.lint(inline: true, directory: "ADB Assistant")
