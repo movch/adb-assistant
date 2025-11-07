@@ -1,33 +1,35 @@
 ## ADB Assistant
 
-![](screenshot.png)
+![](img/screenshot.png)
 
-**ADB Assistant** is a macOS GUI wrapper for ADB (Android Device Bridge) comand line tool. It allows you to communicate and perform basic actions with Android device from your computer.
+**ADB Assistant** is a macOS GUI wrapper for the ADB (Android Debug Bridge) command-line tool. It lets you communicate with connected Android devices and perform common tasks from your Mac.
 
 Currently it provides the ability to:
 
-* **Choose a device** from the list of the connected devices;
-* **Reboot the device** to:
+* **Choose a device** from the list of connected devices
+* **Reboot the device** into
   * System
   * Recovery
   * Bootloader
-* **Take screenshot** from the device and save it to your computer;
-* **Install an APK to device** by a simple drag'n'drop.
+* **Capture screenshots** and save them to your Mac
+* **Install APKs** with an easy drag-and-drop workflow
 
 ## Installation
 
-* Grab latest binary from the Releases page and unpack it to the Applications folder on your Mac;
-* [Download latest Android Platform Tools](https://developer.android.com/studio/releases/platform-tools) from the official site (or install them via Homebrew: `brew cask install android-sdk`);
-* Run application, and specify the path to platform tools (if you're using Homebrew it will be `/usr/local/share/android-sdk/platform-tools`).
+* Download the latest binary from the Releases page and move it to your Mac's Applications folder
+* [Install the latest Android Platform Tools](https://developer.android.com/studio/releases/platform-tools) from Google, or via Homebrew: `brew install --cask android-platform-tools`
+* Launch the app and specify the Platform Tools path (Homebrew installs them at `/usr/local/share/android-sdk/platform-tools`)
+* If macOS warns that the app is from an unverified developer, open System Settings → Privacy & Security and allow the app to run  
+![](img/security-settings-allow.png)
 
 ## Usage
 
-* Activate the developer mode on your device (tap 5-7 times on build number in About section in Settings), navigate to Developer options and enable USB debugging;
-* Once you have connected your device, the application should automatically detect it and show you the available actions.
+* Enable Developer Options on your Android device (tap the build number 5–7 times in Settings → About phone), then turn on USB debugging
+* Connect the device and the app will automatically detect it and display the available actions
 
 ## Build
 
-The application has no external dependencies, so just clone and build it with latest XCode.
+The app has no external dependencies — just clone the repo and build it with the latest version of Xcode.
 
 ## Credits
 
