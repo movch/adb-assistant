@@ -8,7 +8,8 @@
 
 import Foundation
 import IOKit
-import IOKit.usb
+
+private let usbDeviceClassName = "IOUSBDevice"
 
 public protocol USBWatcherDelegate: AnyObject {
     /// Called on the main thread when a device is connected.
@@ -43,7 +44,7 @@ public class USBWatcher {
             }
         }
 
-        let query = IOServiceMatching(kIOUSBDeviceClassName)
+        let query = usbDeviceClassName.withCString { IOServiceMatching($0) }
         let opaqueSelf = Unmanaged.passUnretained(self).toOpaque()
 
         // Watch for connected devices.

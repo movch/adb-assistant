@@ -36,8 +36,8 @@ final class ScreenshotCellViewModel: ActionCellViewModel {
 extension ScreenshotCellViewModel: ScreenShotCellViewModelType {
     public func takeScreenshot() {
         guard
-            let identifier = self.currentDevice?.identifier,
-            let deviceModel = self.currentDevice?.model
+            let identifier = currentDevice?.identifier,
+            let deviceModel = currentDevice?.model
         else {
             return
         }
@@ -57,8 +57,9 @@ extension ScreenshotCellViewModel: ScreenShotCellViewModelType {
                           path: tempDevicePath)
 
         if shouldOpenPreview.value {
-            let localSreenshotPath = "\(selectedFolder)/\(filename)"
-            NSWorkspace.shared.openFile(localSreenshotPath)
+            let localScreenshotPath = "\(selectedFolder)/\(filename)"
+            let screenshotURL = URL(fileURLWithPath: localScreenshotPath)
+            NSWorkspace.shared.open(screenshotURL)
         }
     }
 

@@ -1,5 +1,5 @@
 //
-//  ToolSectionViewModel.swift
+//  ActionCellViewModel.swift
 //  ADB Assistant
 //
 //  Created by Michael Ovchinnikov on 07/12/2018.

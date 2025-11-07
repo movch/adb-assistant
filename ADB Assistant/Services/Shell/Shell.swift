@@ -1,5 +1,5 @@
 //
-//  ShellTask.swift
+//  Shell.swift
 //  ADB Assistant
 //
 //  Created by Michael Ovchinnikov on 25/11/2018.
@@ -20,8 +20,10 @@ final class Shell: ShellType {
 
         task.launch()
 
-        if let result = NSString(data: file.readDataToEndOfFile(),
-                                 encoding: String.Encoding.utf8.rawValue) {
+        if let result = NSString(
+            data: file.readDataToEndOfFile(),
+            encoding: String.Encoding.utf8.rawValue
+        ) {
             return (result as String).trimmingCharacters(in: .whitespacesAndNewlines)
         }
 

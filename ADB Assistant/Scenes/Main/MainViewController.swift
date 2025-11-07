@@ -145,8 +145,7 @@ extension MainViewController: NSTableViewDataSource {
 
 extension MainViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor _: NSTableColumn?, row: Int) -> NSView? {
-        if tableView == actionsTableView,
-            let cellType = ActionType(rawValue: row) {
+        if tableView == actionsTableView, let cellType = ActionType(rawValue: row) {
             switch cellType {
             case .reboot:
                 return rebootCell(tableView)
@@ -161,8 +160,7 @@ extension MainViewController: NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        if tableView == actionsTableView,
-            let cellType = ActionType(rawValue: row) {
+        if tableView == actionsTableView, let cellType = ActionType(rawValue: row) {
             return cellType.cellSize
         }
 

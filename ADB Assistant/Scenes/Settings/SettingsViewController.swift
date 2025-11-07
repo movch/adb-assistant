@@ -34,8 +34,7 @@ final class SettingsViewController: NSViewController {
     @IBAction func didPressOKButton(_: NSButton) {
         NSApplication.shared.mainWindow?.close()
 
-        if let isADBAvailable = viewModel?.isADBAvailable(),
-            isADBAvailable {
+        if let isADBAvailable = viewModel?.isADBAvailable(), isADBAvailable {
             openMainViewController()
             viewModel?.savePlatformToolsPath()
         } else {

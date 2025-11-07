@@ -1,5 +1,5 @@
 //
-//  ShellTaskProtocol.swift
+//  ShellType.swift
 //  ADB Assistant
 //
 //  Created by Michael Ovchinnikov on 25/11/2018.

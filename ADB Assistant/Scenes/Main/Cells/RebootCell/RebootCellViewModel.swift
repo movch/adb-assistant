@@ -1,5 +1,5 @@
 //
-//  ToolsViewModel.swift
+//  RebootCellViewModel.swift
 //  ADB Assistant
 //
 //  Created by Michael Ovchinnikov on 02/12/2018.
