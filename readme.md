@@ -35,8 +35,6 @@ The app has no external dependencies — just clone the repo and build it with t
 
 The project was developed by Michail Ovchinnikov.
 
-Icons by [Icons8](https://icons8.com).
-
 ## License
 
 The project is distributed under MIT License.
