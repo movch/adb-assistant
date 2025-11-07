@@ -1,20 +1,45 @@
-name: CI_Release
+name: Release
 
-on: push
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build-mac:
-    runs-on: macOS-latest
-    
+    runs-on: macos-latest
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Build
-      run: xcodebuild -scheme "ADB Assistant" DSTROOT="./release/" archive
-#     - name: Upload binaries to release
-#       uses: svenstaro/upload-release-action@v1-release
-#       with:
-#         repo_token: ${{ secrets.GITHUB_TOKEN }}
-#         file: release/Applications/ADB_Assistant_${{ github.ref }}
-#         asset_name: ADB_Assistant_${{ github.ref }}
-#         tag: ${{ github.ref }}
-#         overwrite: true
+      - uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "15.4"
+
+      - name: Build app
+        run: |
+          set -eo pipefail
+          xcodebuild \
+            -scheme "ADB Assistant" \
+            -configuration Release \
+            CODE_SIGNING_ALLOWED=NO \
+            archive \
+            -archivePath "$PWD/build/ADB Assistant.xcarchive"
+
+      - name: Package app bundle
+        run: |
+          set -eo pipefail
+          ARCHIVE_PATH="$PWD/build/ADB Assistant.xcarchive"
+          PRODUCT_PATH="$ARCHIVE_PATH/Products/Applications/ADB Assistant.app"
+          DEST_DIR="$PWD/release"
+          mkdir -p "$DEST_DIR"
+          ditto -c -k --keepParent "$PRODUCT_PATH" "$DEST_DIR/ADB_Assistant.app.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/ADB_Assistant.app.zip
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
