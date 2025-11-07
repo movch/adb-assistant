@@ -29,6 +29,11 @@ class Defaults {
     }
 
     func bool(forKey key: Constant) -> Bool? {
+        guard UserDefaults.standard.object(forKey: key.rawValue) != nil else { return nil }
         return UserDefaults.standard.bool(forKey: key.rawValue)
+    }
+
+    func removeValue(forKey key: Constant) {
+        UserDefaults.standard.removeObject(forKey: key.rawValue)
     }
 }

@@ -13,4 +13,8 @@ extension String {
         return lowercased()
             .replacingOccurrences(of: " ", with: "-")
     }
+
+    func abbreviatingWithTildeInPath() -> String {
+        return (self as NSString).abbreviatingWithTildeInPath
+    }
 }

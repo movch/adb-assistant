@@ -19,3 +19,7 @@ struct Device {
         type = DeviceType(characteristics: properties["ro.build.characteristics"] ?? "")
     }
 }
+
+extension Device: Identifiable {
+    var id: String { identifier }
+}
