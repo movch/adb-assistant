@@ -21,7 +21,7 @@ struct MainView: View {
             SidebarView(showPreferences: $showingPreferences)
                 .frame(minWidth: 220)
 
-            DetailPlaceholderView()
+            DashboardView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .navigationTitle("ADB Assistant")
@@ -31,6 +31,9 @@ struct MainView: View {
         }
         .alert(item: $state.alert) { alert in
             Alert(title: Text(alert.title), message: Text(alert.message))
+        }
+        .onAppear {
+            state.restartCPUMonitoring()
         }
     }
 }

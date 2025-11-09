@@ -1,0 +1,114 @@
+import AppKit
+import SwiftUI
+
+struct PreferencesView: View {
+    @EnvironmentObject private var state: AppState
+    @Environment(\.presentationMode) private var presentationMode
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            Text("Preferences")
+                .font(.title)
+
+            VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Android Platform Tools")
+                        .font(.headline)
+
+                    SettingsPathRow(
+                        label: "Current path",
+                        value: state.platformToolsPath?.abbreviatingWithTildeInPath() ?? "Not set"
+                    )
+
+                    HStack {
+                        Button("Choose Folder…") {
+                            if let path = chooseDirectory(initialPath: state.platformToolsPath) {
+                                state.setPlatformToolsPath(path)
+                            }
+                        }
+                        Button("Clear") {
+                            state.clearPlatformToolsPath()
+                        }
+                        .disabled(state.platformToolsPath == nil)
+                    }
+                }
+
+                Divider()
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Screenshots")
+                        .font(.headline)
+
+                    SettingsPathRow(
+                        label: "Save to",
+                        value: state.screenshotSavePath.abbreviatingWithTildeInPath()
+                    )
+
+                    Button("Choose Folder…") {
+                        if let newPath = chooseDirectory(initialPath: state.screenshotSavePath) {
+                            state.setScreenshotSavePath(newPath)
+                        }
+                    }
+
+                    Toggle(
+                        "Open in Preview after capture",
+                        isOn: Binding(
+                            get: { state.shouldOpenPreview },
+                            set: { state.setShouldOpenPreview($0) }
+                        )
+                    )
+                }
+            }
+
+            HStack {
+                Spacer()
+                Button("Close") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .keyboardShortcut(.defaultAction)
+            }
+        }
+        .padding(24)
+        .frame(minWidth: 480)
+    }
+}
+
+struct SettingsPathRow: View {
+    let label: String
+    let value: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.subheadline)
+                .bold()
+            Text(value)
+                .font(.body)
+                .foregroundColor(value == "Not set" ? .secondary : .primary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+        }
+    }
+}
+
+func chooseDirectory(initialPath: String?) -> String? {
+    let panel = NSOpenPanel()
+    panel.canChooseDirectories = true
+    panel.canChooseFiles = false
+    panel.allowsMultipleSelection = false
+    if let initialPath {
+        let expanded = NSString(string: initialPath).expandingTildeInPath
+        panel.directoryURL = URL(fileURLWithPath: expanded)
+    }
+
+    return panel.runModal() == .OK ? panel.url?.path : nil
+}
+
+func chooseFile(allowedExtensions: [String]) -> URL? {
+    let panel = NSOpenPanel()
+    panel.canChooseFiles = true
+    panel.canChooseDirectories = false
+    panel.allowsMultipleSelection = false
+    panel.allowedFileTypes = allowedExtensions
+    return panel.runModal() == .OK ? panel.url : nil
+}

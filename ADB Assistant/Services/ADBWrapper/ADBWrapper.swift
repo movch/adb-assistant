@@ -72,6 +72,47 @@ final class ADBWrapper: ADBWrapperType {
         _ = shell.execute(command)
     }
 
+    public func fetchCPULoad(identifier: String) -> Double? {
+        let command = "\(platformToolsPath)/adb -s \(identifier) shell dumpsys cpuinfo"
+        let output = shell.execute(command)
+
+        guard let totalLine = output
+            .components(separatedBy: .newlines)
+            .first(where: { $0.lowercased().contains("total") })
+        else {
+            return nil
+        }
+
+        if let idleMatch = try? NSRegularExpression(pattern: "([0-9.]+)%\\s+idle",
+                                                    options: .caseInsensitive) {
+            let range = NSRange(totalLine.startIndex..<totalLine.endIndex,
+                                in: totalLine)
+            if let match = idleMatch.firstMatch(in: totalLine,
+                                                options: [],
+                                                range: range) {
+                let idleString = (totalLine as NSString).substring(with: match.range(at: 1))
+                if let idle = Double(idleString) {
+                    return max(0, min(100, 100 - idle))
+                }
+            }
+        }
+
+        // Fallback: sum all percentages before "idle"
+        let tokens = totalLine.split(separator: " ")
+        let percentages = tokens
+            .compactMap { token -> Double? in
+                guard token.contains("%"),
+                      let value = Double(token.replacingOccurrences(of: "%", with: "")) else { return nil }
+                return value
+            }
+
+        if let idle = percentages.last {
+            return max(0, min(100, 100 - idle))
+        }
+
+        return nil
+    }
+
     private func getDeviceProps(forId identifier: String) -> [String: String] {
         let command = "\(platformToolsPath)/adb -s \(identifier) shell getprop"
         let output = shell.execute(command)

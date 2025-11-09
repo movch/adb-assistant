@@ -25,6 +25,10 @@
 		F5C9E5072E2BF8E500D3EA1A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5032E2BF8E500D3EA1A /* MainView.swift */; };
 		F5C9E5082E2BF8E500D3EA1A /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5042E2BF8E500D3EA1A /* SetupView.swift */; };
 		F5C9E5092E2BF8E500D3EA1A /* MainViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E50A2E2BF8E500D3EA1A /* MainViewComponents.swift */; };
+		F5C9E50B2E2BF8E500D3EA1A /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */; };
+		F5C9E50D2E2BF8E500D3EA1A /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */; };
+		F5C9E50F2E2BF8E500D3EA1A /* TileViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5102E2BF8E500D3EA1A /* TileViews.swift */; };
+		F5C9E5112E2BF8E500D3EA1A /* TileSettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5122E2BF8E500D3EA1A /* TileSettingsSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +65,10 @@
 		F5C9E5032E2BF8E500D3EA1A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F5C9E5042E2BF8E500D3EA1A /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		F5C9E50A2E2BF8E500D3EA1A /* MainViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewComponents.swift; sourceTree = "<group>"; };
+		F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		F5C9E5102E2BF8E500D3EA1A /* TileViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileViews.swift; sourceTree = "<group>"; };
+		F5C9E5122E2BF8E500D3EA1A /* TileSettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileSettingsSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +113,10 @@
 				F5C9E5022E2BF8E500D3EA1A /* AppState.swift */,
 				F5C9E5032E2BF8E500D3EA1A /* MainView.swift */,
 				F5C9E50A2E2BF8E500D3EA1A /* MainViewComponents.swift */,
+				F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */,
+				F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */,
+				F5C9E5102E2BF8E500D3EA1A /* TileViews.swift */,
+				F5C9E5122E2BF8E500D3EA1A /* TileSettingsSheet.swift */,
 				F5C9E5042E2BF8E500D3EA1A /* SetupView.swift */,
 			);
 			path = App;
@@ -351,6 +363,10 @@
 				F5C9E5072E2BF8E500D3EA1A /* MainView.swift in Sources */,
 				F5C9E5082E2BF8E500D3EA1A /* SetupView.swift in Sources */,
 				F5C9E5092E2BF8E500D3EA1A /* MainViewComponents.swift in Sources */,
+				F5C9E50B2E2BF8E500D3EA1A /* SidebarView.swift in Sources */,
+				F5C9E50D2E2BF8E500D3EA1A /* PreferencesView.swift in Sources */,
+				F5C9E50F2E2BF8E500D3EA1A /* TileViews.swift in Sources */,
+				F5C9E5112E2BF8E500D3EA1A /* TileSettingsSheet.swift in Sources */,
 				4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */,
 				4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */,
 				4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */,

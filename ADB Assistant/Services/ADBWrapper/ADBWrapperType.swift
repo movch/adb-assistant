@@ -23,4 +23,6 @@ protocol ADBWrapperType {
 
     func wakeUpDevice(identifier: String)
     func installAPK(identifier: String, fromPath path: String)
+
+    func fetchCPULoad(identifier: String) -> Double?
 }

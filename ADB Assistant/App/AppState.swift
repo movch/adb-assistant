@@ -2,6 +2,39 @@ import AppKit
 import Combine
 import Foundation
 
+enum TileSectionID: String, CaseIterable, Identifiable {
+    case metrics
+    case reboot
+    case screenshots
+    case install
+
+    var id: String { rawValue }
+}
+
+enum TileID: String, CaseIterable, Identifiable {
+    case cpuUsage
+    case rebootSystem
+    case rebootRecovery
+    case rebootBootloader
+    case takeScreenshot
+    case installApk
+
+    var id: String { rawValue }
+}
+
+struct TileSectionConfig: Identifiable {
+    let id: TileSectionID
+    let title: String
+    let subtitle: String?
+    let tiles: [TileID]
+}
+
+struct CPUPoint: Identifiable {
+    let id = UUID()
+    let timestamp: Date
+    let value: Double
+}
+
 struct AppAlert: Identifiable, Equatable {
     let id = UUID()
     let title: String
@@ -11,16 +44,48 @@ struct AppAlert: Identifiable, Equatable {
 @MainActor
 final class AppState: NSObject, ObservableObject {
     @Published private(set) var devices: [Device] = []
-    @Published var selectedDeviceID: String?
+    @Published var selectedDeviceID: String? {
+        didSet {
+            if selectedDeviceID != oldValue {
+                restartCPUMonitoring()
+            }
+        }
+    }
     @Published private(set) var platformToolsPath: String?
     @Published private(set) var screenshotSavePath: String
     @Published private(set) var shouldOpenPreview: Bool
     @Published var alert: AppAlert?
     @Published private(set) var isRefreshing = false
+    @Published var cpuUpdateInterval: TimeInterval = 1 {
+        didSet {
+            if cpuUpdateInterval <= 0 {
+                cpuUpdateInterval = 1
+            }
+            restartCPUMonitoring()
+        }
+    }
+
+    @Published private(set) var cpuHistory: [CPUPoint] = []
+
+    @Published private(set) var sectionOrder: [TileSectionID] = [
+        .metrics,
+        .reboot,
+        .screenshots,
+        .install
+    ]
+
+    @Published private(set) var tileOrder: [TileSectionID: [TileID]] = [
+        .metrics: [.cpuUsage],
+        .reboot: [.rebootSystem, .rebootRecovery, .rebootBootloader],
+        .screenshots: [.takeScreenshot],
+        .install: [.installApk]
+    ]
 
     private let shell: ShellType
     private let defaults: Defaults
     private var usbWatcher: USBWatcher?
+    private var cpuMonitorTask: Task<Void, Never>?
+    private let maxCPUSamples = 60
 
     init(shell: ShellType, defaults: Defaults) {
         self.shell = shell
@@ -41,6 +106,43 @@ final class AppState: NSObject, ObservableObject {
     var selectedDevice: Device? {
         guard let id = selectedDeviceID else { return nil }
         return devices.first { $0.identifier == id }
+    }
+
+    var tileSections: [TileSectionConfig] {
+        sectionOrder.compactMap { sectionId in
+            guard let tiles = tileOrder[sectionId], !tiles.isEmpty else { return nil }
+            switch sectionId {
+            case .metrics:
+                let subtitle = selectedDevice.map { $0.model.isEmpty ? $0.identifier : $0.model }
+                return TileSectionConfig(
+                    id: sectionId,
+                    title: "Device Metrics",
+                    subtitle: subtitle,
+                    tiles: tiles
+                )
+            case .reboot:
+                return TileSectionConfig(
+                    id: sectionId,
+                    title: "Reboot",
+                    subtitle: "Restart the connected device",
+                    tiles: tiles
+                )
+            case .screenshots:
+                return TileSectionConfig(
+                    id: sectionId,
+                    title: "Screenshots",
+                    subtitle: "Capture and manage screenshots",
+                    tiles: tiles
+                )
+            case .install:
+                return TileSectionConfig(
+                    id: sectionId,
+                    title: "Install APK",
+                    subtitle: "Deploy packages to the device",
+                    tiles: tiles
+                )
+            }
+        }
     }
 
     func refreshDevices() {
@@ -82,6 +184,7 @@ final class AppState: NSObject, ObservableObject {
         usbWatcher = nil
         devices = []
         selectedDeviceID = nil
+        stopCPUMonitoring()
     }
 
     func setScreenshotSavePath(_ path: String) {
@@ -157,6 +260,38 @@ final class AppState: NSObject, ObservableObject {
             wrapper.installAPK(identifier: device.identifier, fromPath: url.path)
         }
     }
+
+    func restartCPUMonitoring() {
+        cpuMonitorTask?.cancel()
+        cpuMonitorTask = nil
+        cpuHistory = []
+
+        guard let identifier = selectedDevice?.identifier else { return }
+
+        cpuMonitorTask = Task(priority: .utility) { [weak self] in
+            guard let self else { return }
+
+            while !Task.isCancelled {
+                guard let wrapper = self.makeWrapper() else { return }
+
+                let load = await Task.detached(priority: .utility) { () -> Double in
+                    wrapper.fetchCPULoad(identifier: identifier) ?? 0
+                }.value
+
+                await MainActor.run {
+                    self.appendCPUSample(load)
+                }
+
+                try? await Task.sleep(nanoseconds: UInt64(self.cpuUpdateInterval * 1_000_000_000))
+            }
+        }
+    }
+
+    func stopCPUMonitoring() {
+        cpuMonitorTask?.cancel()
+        cpuMonitorTask = nil
+        cpuHistory = []
+    }
 }
 
 // MARK: - USBWatcherDelegate
@@ -182,6 +317,13 @@ private extension AppState {
     func makeWrapper() -> ADBWrapperType? {
         guard let path = platformToolsPath, !path.isEmpty else { return nil }
         return ADBWrapper(shell: shell, platformToolsPath: path)
+    }
+
+    func appendCPUSample(_ value: Double) {
+        cpuHistory.append(CPUPoint(timestamp: Date(), value: value))
+        if cpuHistory.count > maxCPUSamples {
+            cpuHistory.removeFirst(cpuHistory.count - maxCPUSamples)
+        }
     }
 
     func configureUSBWatcher() {
