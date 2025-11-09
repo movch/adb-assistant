@@ -5,32 +5,18 @@ import UniformTypeIdentifiers
 // MARK: - Layout metrics
 
 enum TileLayoutMetrics {
-    static let tileSize = CGSize(width: 170, height: 170)
+    static let tileMinWidth: CGFloat = 212
+    static let tileMinHeight: CGFloat = 188
     static let tileCornerRadius: CGFloat = 22
-    static let tileInnerPadding: CGFloat = 16
-    static let tileSpacing: CGFloat = 12
-    static let sectionSpacing: CGFloat = 18
-    static let horizontalPadding: CGFloat = 20
-    static let verticalPadding: CGFloat = 24
-    static let maxSectionColumns = 4
-
-    // Maximum section width (two tiles plus spacing)
-    static let sectionWidth: CGFloat = tileSize.width * 2 + tileSpacing
-}
-
-private func tileColumnCount(for section: TileSectionConfig) -> Int {
-    switch section.id {
-    case .metrics:
-        return 1
-    default:
-        return min(2, max(1, section.tiles.count))
-    }
-}
-
-private func tileSectionWidth(for section: TileSectionConfig) -> CGFloat {
-    let columns = tileColumnCount(for: section)
-    let totalSpacing = CGFloat(max(0, columns - 1)) * TileLayoutMetrics.tileSpacing
-    return CGFloat(columns) * TileLayoutMetrics.tileSize.width + totalSpacing
+    static let tileContentPadding: CGFloat = 18
+    static let gridSpacing: CGFloat = 16
+    static let sectionSpacing: CGFloat = 28
+    static let sectionMinWidth: CGFloat = 240
+    static let sectionMaxWidth: CGFloat = 340
+    static let sectionHeaderSpacing: CGFloat = 6
+    static let sectionInnerSpacing: CGFloat = 20
+    static let contentInsets = EdgeInsets(top: 28, leading: 28, bottom: 40, trailing: 28)
+    static let backgroundColor = Color(NSColor.windowBackgroundColor)
 }
 
 struct DashboardView: View {
@@ -38,146 +24,109 @@ struct DashboardView: View {
     @State private var presentedSettings: TileID?
 
     var body: some View {
-        if state.selectedDevice == nil {
-            EmptyDashboardPlaceholderView()
-        } else {
-            GeometryReader { proxy in
-                let contentWidth = max(
-                    TileLayoutMetrics.sectionWidth,
-                    proxy.size.width - TileLayoutMetrics.horizontalPadding * 2
-                )
-
-                ScrollView {
-                    SectionFlowRows(
-                        contentWidth: contentWidth,
-                        presentedSettings: $presentedSettings
-                    )
-                    .padding(.horizontal, TileLayoutMetrics.horizontalPadding)
-                    .padding(.vertical, TileLayoutMetrics.verticalPadding)
-                }
-                .background(Color(NSColor.windowBackgroundColor))
-            }
-            .sheet(item: $presentedSettings) { tile in
-                TileSettingsSheet(tile: tile, presentedSettings: $presentedSettings)
-                    .environmentObject(state)
-            }
-        }
-    }
-}
-
-// MARK: - Section Flow Rows
-
-private struct SectionFlowRows: View {
-    @EnvironmentObject private var state: AppState
-    let contentWidth: CGFloat
-    @Binding var presentedSettings: TileID?
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: TileLayoutMetrics.sectionSpacing) {
-            ForEach(rows.indices, id: \.self) { index in
-                let row = rows[index]
-
-                HStack(alignment: .top, spacing: TileLayoutMetrics.sectionSpacing) {
-                    ForEach(row) { section in
-                        TileSectionView(
-                            section: section,
-                            presentedSettings: $presentedSettings
-                        )
-                    }
-                }
-                .frame(width: rowWidth(for: row), alignment: .leading)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private var rows: [[TileSectionConfig]] {
-        var result: [[TileSectionConfig]] = []
-        var currentRow: [TileSectionConfig] = []
-        var currentWidth: CGFloat = 0
-        let spacing = TileLayoutMetrics.sectionSpacing
-        let maxRowWidth = contentWidth
-
-        for section in state.tileSections {
-            if currentRow.count >= TileLayoutMetrics.maxSectionColumns {
-                result.append(currentRow)
-                currentRow = []
-                currentWidth = 0
-            }
-
-            let sectionWidth = tileSectionWidth(for: section)
-            let widthIfAdded = currentRow.isEmpty ? sectionWidth : currentWidth + spacing + sectionWidth
-
-            if currentRow.isEmpty {
-                currentRow.append(section)
-                currentWidth = sectionWidth
-            } else if widthIfAdded <= maxRowWidth {
-                currentRow.append(section)
-                currentWidth += spacing + sectionWidth
+        Group {
+            if state.selectedDevice == nil {
+                EmptyDashboardPlaceholderView()
             } else {
-                result.append(currentRow)
-                currentRow = [section]
-                currentWidth = sectionWidth
+                GeometryReader { proxy in
+                    let columns = sectionColumns(for: proxy.size.width)
+
+                    ScrollView {
+                        LazyVGrid(
+                            columns: columns,
+                            alignment: .leading,
+                            spacing: TileLayoutMetrics.sectionSpacing
+                        ) {
+                            ForEach(state.tileSections) { section in
+                                TileSectionView(
+                                    section: section,
+                                    presentedSettings: $presentedSettings
+                                )
+                                .transition(
+                                    .asymmetric(
+                                        insertion: .opacity.combined(with: .scale(scale: 0.98)).animation(.easeOut(duration: 0.24)),
+                                        removal: .opacity.animation(.easeIn(duration: 0.18))
+                                    )
+                                )
+                            }
+                        }
+                        .padding(TileLayoutMetrics.contentInsets)
+                    }
+                    .background(TileLayoutMetrics.backgroundColor)
+                }
             }
         }
-
-        if !currentRow.isEmpty {
-            result.append(currentRow)
+        .animation(.easeInOut(duration: 0.25), value: state.tileSections.map(\.id))
+        .sheet(item: $presentedSettings) { tile in
+            TileSettingsSheet(tile: tile, presentedSettings: $presentedSettings)
+                .environmentObject(state)
         }
-
-        return result
     }
 
-    private func rowWidth(for row: [TileSectionConfig]) -> CGFloat {
-        guard !row.isEmpty else { return 0 }
-        let totalTileWidth = row.map { tileSectionWidth(for: $0) }.reduce(0, +)
-        let totalSpacing = CGFloat(max(0, row.count - 1)) * TileLayoutMetrics.sectionSpacing
-        return totalTileWidth + totalSpacing
+    private func sectionColumns(for width: CGFloat) -> [GridItem] {
+        let horizontalInsets = TileLayoutMetrics.contentInsets.leading + TileLayoutMetrics.contentInsets.trailing
+        let availableWidth = max(width - horizontalInsets, TileLayoutMetrics.sectionMinWidth)
+        let minWidth = TileLayoutMetrics.sectionMinWidth
+        let maxWidth = TileLayoutMetrics.sectionMaxWidth
+
+        let column = GridItem(
+            .adaptive(minimum: minWidth, maximum: maxWidth),
+            spacing: TileLayoutMetrics.sectionSpacing,
+            alignment: .top
+        )
+
+        // Force single column if very narrow to avoid clipping.
+        if availableWidth <= minWidth + TileLayoutMetrics.sectionSpacing {
+            return [GridItem(.flexible(minimum: minWidth, maximum: maxWidth), spacing: TileLayoutMetrics.sectionSpacing, alignment: .top)]
+        }
+
+        return [column]
     }
 }
 
 // MARK: - Section
 
 struct TileSectionView: View {
-    @EnvironmentObject private var state: AppState
     let section: TileSectionConfig
     @Binding var presentedSettings: TileID?
 
     private var gridColumns: [GridItem] {
-        Array(
-            repeating: GridItem(
-                .fixed(TileLayoutMetrics.tileSize.width),
-                spacing: TileLayoutMetrics.tileSpacing,
+        [
+            GridItem(
+                .adaptive(
+                    minimum: TileLayoutMetrics.tileMinWidth
+                ),
+                spacing: TileLayoutMetrics.gridSpacing,
                 alignment: .top
-            ),
-            count: max(1, tileColumnCount(for: section))
-        )
+            )
+        ]
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: TileLayoutMetrics.sectionSpacing) {
-            // Section header
-            VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: TileLayoutMetrics.sectionInnerSpacing) {
+            VStack(alignment: .leading, spacing: TileLayoutMetrics.sectionHeaderSpacing) {
                 Text(section.title)
-                    .font(.title3)
-                    .bold()
+                    .font(.title3.weight(.semibold))
                 if let subtitle = section.subtitle {
                     Text(subtitle)
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }
             }
 
-            // Tiles grid
-            LazyVGrid(columns: gridColumns, alignment: .leading, spacing: TileLayoutMetrics.tileSpacing) {
+            LazyVGrid(
+                columns: gridColumns,
+                alignment: .leading,
+                spacing: TileLayoutMetrics.gridSpacing
+            ) {
                 ForEach(section.tiles) { tile in
                     TileView(tile: tile, presentedSettings: $presentedSettings)
+                        .transition(.opacity.combined(with: .scale))
                 }
             }
-            .padding(.top, TileLayoutMetrics.tileSpacing)
         }
-        .frame(width: tileSectionWidth(for: section), alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

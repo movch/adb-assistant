@@ -111,7 +111,7 @@ struct CPUMonitorSettingsView: View {
                 .foregroundColor(.secondary)
 
             HStack {
-                Slider(value: $interval, in: 0.5...5, step: 0.5)
+                Slider(value: $interval, in: 0.5 ... 5, step: 0.5)
                 Text(String(format: "%.1fs", interval))
                     .font(.headline)
                     .frame(width: 60, alignment: .trailing)

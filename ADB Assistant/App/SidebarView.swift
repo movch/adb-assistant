@@ -50,6 +50,7 @@ struct SidebarView: View {
                 }
             }
             .listStyle(SidebarListStyle())
+            .padding(.top, 8)
 
             if state.devices.isEmpty {
                 VStack(spacing: 8) {

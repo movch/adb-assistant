@@ -19,8 +19,8 @@ final class ADBWrapperMock: ADBWrapperType {
         return Device(
             identifier: identifier,
             properties: [
-            "ro.product.model": identifier,
-            "ro.build.characteristics": identifier
+                "ro.product.model": identifier,
+                "ro.build.characteristics": identifier
             ]
         )
     }
@@ -37,6 +37,6 @@ final class ADBWrapperMock: ADBWrapperType {
     func installAPK(identifier _: String, fromPath _: String) {}
 
     func fetchCPULoad(identifier _: String) -> Double? {
-        Double.random(in: 5...75)
+        Double.random(in: 5 ... 75)
     }
 }

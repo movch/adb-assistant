@@ -216,77 +216,126 @@ struct TileCard<Content: View>: View {
     }
 
     private var backgroundColor: Color {
-        if isActive {
-            return Color.accentColor.opacity(0.18)
-        }
-        return Color(NSColor.controlBackgroundColor).opacity(0.9)
+        isActive
+            ? Color.accentColor.opacity(0.22)
+            : Color(NSColor.controlBackgroundColor).opacity(0.94)
     }
 
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: TileLayoutMetrics.tileCornerRadius)
-                .fill(backgroundColor)
-                .overlay(
-                    RoundedRectangle(cornerRadius: TileLayoutMetrics.tileCornerRadius)
-                        .stroke(Color.black.opacity(0.05))
-                )
-                .shadow(color: Color.black.opacity(0.06), radius: 6, x: 0, y: 4)
+        Button {
+            if isEnabled {
+                onTap()
+            }
+        } label: {
+            cardContent
+        }
+        .buttonStyle(
+            PressableTileButtonStyle(
+                cornerRadius: TileLayoutMetrics.tileCornerRadius,
+                baseColor: backgroundColor,
+                pressedOverlay: Color.accentColor.opacity(0.18),
+                borderColor: Color.black.opacity(0.05),
+                shadowColor: Color.black.opacity(0.2),
+                isEnabled: isEnabled
+            )
+        )
+        .disabled(!isEnabled)
+    }
 
-            VStack(alignment: .leading, spacing: 12) {
-                if iconName != nil || showsSettingsButton {
-                    HStack(alignment: .top) {
-                        if let iconName {
-                            Image(systemName: iconName)
-                                .font(.system(size: 28, weight: .semibold))
-                                .foregroundColor(accentColor)
-                        }
-                        Spacer()
-                        if showsSettingsButton {
-                            Button(
-                                action: {
-                                    if isEnabled { onSettings() }
-                                },
-                                label: {
-                                    Image(systemName: "slider.horizontal.3")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.secondary)
-                                        .padding(6)
-                                        .background(
-                                            Circle()
-                                                .fill(Color.secondary.opacity(0.12))
-                                        )
-                                }
-                            )
-                            .buttonStyle(.plain)
-                            .disabled(!isEnabled)
-                        }
+    @ViewBuilder
+    private var cardContent: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if iconName != nil || showsSettingsButton {
+                HStack(alignment: .top, spacing: 12) {
+                    if let iconName {
+                        Image(systemName: iconName)
+                            .font(.system(size: 28, weight: .semibold))
+                            .foregroundColor(accentColor)
+                            .symbolRenderingMode(.hierarchical)
                     }
-                }
-                
-                content()
-
-                Spacer(minLength: 0)
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(title)
-                        .font(.headline)
-                        .foregroundColor(isEnabled ? .primary : .secondary)
-                        .lineLimit(2)
-                    if let subtitle {
-                        Text(subtitle)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                            .lineLimit(1)
+                    Spacer(minLength: 0)
+                    if showsSettingsButton {
+                        Button(action: { if isEnabled { onSettings() } }) {
+                            Image(systemName: "slider.horizontal.3")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundStyle(.secondary)
+                                .padding(6)
+                                .background(
+                                    Circle()
+                                        .fill(Color.secondary.opacity(0.12))
+                                )
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(!isEnabled)
+                        .accessibilityLabel(Text("Open tile settings"))
                     }
                 }
             }
-            .padding(TileLayoutMetrics.tileInnerPadding)
+
+            content()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .transition(.opacity)
+
+            Spacer(minLength: 0)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(isEnabled ? .primary : .secondary)
+                    .lineLimit(2)
+                if let subtitle {
+                    Text(subtitle)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+            }
         }
-        .frame(width: TileLayoutMetrics.tileSize.width, height: TileLayoutMetrics.tileSize.height)
-        .opacity(isEnabled ? 1 : 0.55)
-        .contentShape(RoundedRectangle(cornerRadius: TileLayoutMetrics.tileCornerRadius))
-        .onTapGesture {
-            if isEnabled { onTap() }
-        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// MARK: - Styles
+
+private struct PressableTileButtonStyle: ButtonStyle {
+    let cornerRadius: CGFloat
+    let baseColor: Color
+    let pressedOverlay: Color
+    let borderColor: Color
+    let shadowColor: Color
+    let isEnabled: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        let isPressed = configuration.isPressed && isEnabled
+
+        return configuration.label
+            .padding(TileLayoutMetrics.tileContentPadding)
+            .frame(
+                maxWidth: .infinity,
+                minHeight: TileLayoutMetrics.tileMinHeight,
+                alignment: .topLeading
+            )
+            .background(
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(baseColor)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                            .fill(pressedOverlay)
+                            .opacity(isPressed ? 1 : 0)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                            .stroke(borderColor)
+                    )
+            )
+            .scaleEffect(isPressed ? 0.97 : 1)
+            .shadow(
+                color: shadowColor.opacity(isPressed ? 0.12 : 0.18),
+                radius: isPressed ? 6 : 12,
+                x: 0,
+                y: isPressed ? 3 : 8
+            )
+            .opacity(isEnabled ? 1 : 0.55)
+            .animation(.spring(response: 0.28, dampingFraction: 0.7, blendDuration: 0.1), value: isPressed)
     }
 }

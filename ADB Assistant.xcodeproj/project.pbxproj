@@ -106,22 +106,6 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		F5C9E5002E2BF8E500D3EA1A /* App */ = {
-			isa = PBXGroup;
-			children = (
-				F5C9E5012E2BF8E500D3EA1A /* ADBAssistantApp.swift */,
-				F5C9E5022E2BF8E500D3EA1A /* AppState.swift */,
-				F5C9E5032E2BF8E500D3EA1A /* MainView.swift */,
-				F5C9E50A2E2BF8E500D3EA1A /* MainViewComponents.swift */,
-				F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */,
-				F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */,
-				F5C9E5102E2BF8E500D3EA1A /* TileViews.swift */,
-				F5C9E5122E2BF8E500D3EA1A /* TileSettingsSheet.swift */,
-				F5C9E5042E2BF8E500D3EA1A /* SetupView.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
 		4C4C7CEC21AAED1E0002127F = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +192,22 @@
 				4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F5C9E5002E2BF8E500D3EA1A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F5C9E5012E2BF8E500D3EA1A /* ADBAssistantApp.swift */,
+				F5C9E5022E2BF8E500D3EA1A /* AppState.swift */,
+				F5C9E5032E2BF8E500D3EA1A /* MainView.swift */,
+				F5C9E50A2E2BF8E500D3EA1A /* MainViewComponents.swift */,
+				F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */,
+				F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */,
+				F5C9E5102E2BF8E500D3EA1A /* TileViews.swift */,
+				F5C9E5122E2BF8E500D3EA1A /* TileSettingsSheet.swift */,
+				F5C9E5042E2BF8E500D3EA1A /* SetupView.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -399,9 +399,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		4C4C7D0E21AAED1F0002127F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -540,7 +537,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "cc.ovchinnikov.ADB-Assistant";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -561,7 +558,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "cc.ovchinnikov.ADB-Assistant";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
