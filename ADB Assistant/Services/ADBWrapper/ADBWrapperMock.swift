@@ -39,4 +39,8 @@ final class ADBWrapperMock: ADBWrapperType {
     func fetchCPULoad(identifier _: String) -> Double? {
         Double.random(in: 5 ... 75)
     }
+
+    func fetchMemoryUsage(identifier _: String) -> Double? {
+        Double.random(in: 30 ... 85)
+    }
 }

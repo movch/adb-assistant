@@ -25,4 +25,5 @@ protocol ADBWrapperType {
     func installAPK(identifier: String, fromPath path: String)
 
     func fetchCPULoad(identifier: String) -> Double?
+    func fetchMemoryUsage(identifier: String) -> Double?
 }

@@ -13,6 +13,7 @@ enum TileSectionID: String, CaseIterable, Identifiable {
 
 enum TileID: String, CaseIterable, Identifiable {
     case cpuUsage
+    case memoryUsage
     case rebootSystem
     case rebootRecovery
     case rebootBootloader
@@ -35,6 +36,12 @@ struct CPUPoint: Identifiable {
     let value: Double
 }
 
+struct MemoryPoint: Identifiable {
+    let id = UUID()
+    let timestamp: Date
+    let value: Double
+}
+
 struct AppAlert: Identifiable, Equatable {
     let id = UUID()
     let title: String
@@ -48,6 +55,7 @@ final class AppState: NSObject, ObservableObject {
         didSet {
             if selectedDeviceID != oldValue {
                 restartCPUMonitoring()
+                restartMemoryMonitoring()
             }
         }
     }
@@ -62,10 +70,12 @@ final class AppState: NSObject, ObservableObject {
                 cpuUpdateInterval = 1
             }
             restartCPUMonitoring()
+            restartMemoryMonitoring()
         }
     }
 
     @Published private(set) var cpuHistory: [CPUPoint] = []
+    @Published private(set) var memoryHistory: [MemoryPoint] = []
 
     @Published private(set) var sectionOrder: [TileSectionID] = [
         .metrics,
@@ -75,7 +85,7 @@ final class AppState: NSObject, ObservableObject {
     ]
 
     @Published private(set) var tileOrder: [TileSectionID: [TileID]] = [
-        .metrics: [.cpuUsage],
+        .metrics: [.cpuUsage, .memoryUsage],
         .reboot: [.rebootSystem, .rebootRecovery, .rebootBootloader],
         .screenshots: [.takeScreenshot],
         .install: [.installApk]
@@ -85,7 +95,9 @@ final class AppState: NSObject, ObservableObject {
     private let defaults: Defaults
     private var usbWatcher: USBWatcher?
     private var cpuMonitorTask: Task<Void, Never>?
+    private var memoryMonitorTask: Task<Void, Never>?
     private let maxCPUSamples = 60
+    private let maxMemorySamples = 60
 
     init(shell: ShellType, defaults: Defaults) {
         self.shell = shell
@@ -185,6 +197,7 @@ final class AppState: NSObject, ObservableObject {
         devices = []
         selectedDeviceID = nil
         stopCPUMonitoring()
+        stopMemoryMonitoring()
     }
 
     func setScreenshotSavePath(_ path: String) {
@@ -292,6 +305,38 @@ final class AppState: NSObject, ObservableObject {
         cpuMonitorTask = nil
         cpuHistory = []
     }
+
+    func restartMemoryMonitoring() {
+        memoryMonitorTask?.cancel()
+        memoryMonitorTask = nil
+        memoryHistory = []
+
+        guard let identifier = selectedDevice?.identifier else { return }
+
+        memoryMonitorTask = Task(priority: .utility) { [weak self] in
+            guard let self else { return }
+
+            while !Task.isCancelled {
+                guard let wrapper = self.makeWrapper() else { return }
+
+                let usage = await Task.detached(priority: .utility) { () -> Double? in
+                    wrapper.fetchMemoryUsage(identifier: identifier)
+                }.value
+
+                await MainActor.run {
+                    self.appendMemorySample(usage ?? 0)
+                }
+
+                try? await Task.sleep(nanoseconds: UInt64(self.cpuUpdateInterval * 1_000_000_000))
+            }
+        }
+    }
+
+    func stopMemoryMonitoring() {
+        memoryMonitorTask?.cancel()
+        memoryMonitorTask = nil
+        memoryHistory = []
+    }
 }
 
 // MARK: - USBWatcherDelegate
@@ -323,6 +368,13 @@ private extension AppState {
         cpuHistory.append(CPUPoint(timestamp: Date(), value: value))
         if cpuHistory.count > maxCPUSamples {
             cpuHistory.removeFirst(cpuHistory.count - maxCPUSamples)
+        }
+    }
+
+    func appendMemorySample(_ value: Double) {
+        memoryHistory.append(MemoryPoint(timestamp: Date(), value: value))
+        if memoryHistory.count > maxMemorySamples {
+            memoryHistory.removeFirst(memoryHistory.count - maxMemorySamples)
         }
     }
 

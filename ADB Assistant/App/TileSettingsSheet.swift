@@ -27,6 +27,12 @@ struct TileSettingsSheet: View {
                 message: "Additional settings will appear here in a future update.",
                 onClose: close
             )
+        case .memoryUsage:
+            PlaceholderSettingsView(
+                title: "RAM Usage",
+                message: "No configurable options for this tile yet.",
+                onClose: close
+            )
         case .rebootSystem, .rebootRecovery, .rebootBootloader:
             PlaceholderSettingsView(
                 title: "Reboot",

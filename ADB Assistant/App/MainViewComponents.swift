@@ -179,6 +179,8 @@ struct TileView: View {
             DragDropTileView(presentedSettings: $presentedSettings)
         case .cpuUsage:
             CPULoadTileView(presentedSettings: $presentedSettings)
+        case .memoryUsage:
+            MemoryUsageTileView(presentedSettings: $presentedSettings)
         }
     }
 }

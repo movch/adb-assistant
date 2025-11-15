@@ -72,6 +72,34 @@ final class ADBWrapper: ADBWrapperType {
         _ = shell.execute(command)
     }
 
+    public func fetchMemoryUsage(identifier: String) -> Double? {
+        // Parse /proc/meminfo and compute usage as:
+        // used% = 100 * (1 - (MemFree + SwapFree) / MemTotal)
+        // Values are reported in kB.
+        let command = "\(platformToolsPath)/adb -s \(identifier) shell cat /proc/meminfo"
+        let output = shell.execute(command)
+        let lines = output.components(separatedBy: .newlines)
+
+        var memTotalKb: Double?
+        var memFreeKb: Double?
+        var swapFreeKb: Double?
+
+        for line in lines {
+            if line.hasPrefix("MemTotal:") {
+                memTotalKb = ADBWrapper.parseMeminfoValueKb(from: line)
+            } else if line.hasPrefix("MemFree:") {
+                memFreeKb = ADBWrapper.parseMeminfoValueKb(from: line)
+            } else if line.hasPrefix("SwapFree:") {
+                swapFreeKb = ADBWrapper.parseMeminfoValueKb(from: line)
+            }
+        }
+
+        guard let total = memTotalKb, total > 0 else { return nil }
+        let free = (memFreeKb ?? 0) + (swapFreeKb ?? 0)
+        let usedFraction = max(0.0, min(1.0, 1.0 - (free / total)))
+        return usedFraction * 100.0
+    }
+
     public func fetchCPULoad(identifier: String) -> Double? {
         // Use `top` snapshot to get CPU load; this is generally more reliable across Android versions
         // than parsing `dumpsys cpuinfo`, which often reports misleading totals.
@@ -149,6 +177,25 @@ final class ADBWrapper: ADBWrapperType {
         let output = shell.execute(command)
 
         return getPropsFromString(output)
+    }
+
+    private static func parseMeminfoValueKb(from line: String) -> Double? {
+        // Expected format like: "MemTotal:       3660000 kB"
+        // Extract the numeric token before "kB".
+        let tokens = line.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
+        // Find first numeric token
+        if let token = tokens.first(where: { Double($0) != nil }), let value = Double(token) {
+            return value
+        }
+        // Fallback: regex
+        if let re = try? NSRegularExpression(pattern: "([0-9]+)\\s*kB", options: .caseInsensitive) {
+            let range = NSRange(location: 0, length: (line as NSString).length)
+            if let match = re.firstMatch(in: line, options: [], range: range) {
+                let numStr = (line as NSString).substring(with: match.range(at: 1))
+                return Double(numStr)
+            }
+        }
+        return nil
     }
 
     private func getPropsFromString(_ string: String) -> [String: String] {
