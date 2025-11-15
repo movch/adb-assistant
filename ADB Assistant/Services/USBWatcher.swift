@@ -24,7 +24,7 @@ public protocol USBWatcherDelegate: AnyObject {
 /// Abstracts away most of the ugliness of IOKit APIs.
 public class USBWatcher {
     private weak var delegate: USBWatcherDelegate?
-    private let notificationPort = IONotificationPortCreate(kIOMasterPortDefault)
+    private let notificationPort = IONotificationPortCreate(kIOMainPortDefault)
     private var addedIterator: io_iterator_t = 0
     private var removedIterator: io_iterator_t = 0
 
@@ -32,7 +32,8 @@ public class USBWatcher {
         self.delegate = delegate
 
         func handleNotification(instance: UnsafeMutableRawPointer?, _ iterator: io_iterator_t) {
-            let watcher = Unmanaged<USBWatcher>.fromOpaque(instance!).takeUnretainedValue()
+            guard let instance = instance else { return }
+            let watcher = Unmanaged<USBWatcher>.fromOpaque(instance).takeUnretainedValue()
 
             while case let device = IOIteratorNext(iterator), device != IO_OBJECT_NULL {
                 switch iterator {

@@ -68,16 +68,65 @@ struct DragDropTileView: View {
         )
         .onDrop(of: dropTypes, isTargeted: $isTargeted) { providers in
             guard let provider = providers.first else { return false }
-            let identifier = UTType.fileURL.identifier
-            provider.loadDataRepresentation(forTypeIdentifier: identifier) { data, _ in
-                guard let data,
-                      let url = URL(dataRepresentation: data, relativeTo: nil)
-                else { return }
-                Task { @MainActor in
-                    state.installAPK(from: url)
+
+            // Prefer a direct file URL representation and copy it synchronously
+            if provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
+                provider.loadFileRepresentation(forTypeIdentifier: UTType.fileURL.identifier) { tempURL, _ in
+                    guard let tempURL else { return }
+                    copyToStableTempAndInstall(from: tempURL)
                 }
+                return true
             }
-            return true
+
+            // Fallback: explicitly ask for APK file representation
+            if let apk = UTType(filenameExtension: "apk"),
+               provider.hasItemConformingToTypeIdentifier(apk.identifier) {
+                provider.loadFileRepresentation(forTypeIdentifier: apk.identifier) { url, _ in
+                    guard let url else { return }
+                    copyToStableTempAndInstall(from: url)
+                }
+                return true
+            }
+
+            return false
+        }
+    }
+
+    private func copyToStableTempAndInstall(from sourceURL: URL) {
+        var didAccess = false
+        if sourceURL.startAccessingSecurityScopedResource() {
+            didAccess = true
+        }
+        defer {
+            if didAccess {
+                sourceURL.stopAccessingSecurityScopedResource()
+            }
+        }
+
+        let fileManager = FileManager.default
+        let tempDir = fileManager.temporaryDirectory
+        let ext = sourceURL.pathExtension.isEmpty ? "apk" : sourceURL.pathExtension
+        let destURL = tempDir.appendingPathComponent(UUID().uuidString).appendingPathExtension(ext)
+
+        do {
+            if fileManager.fileExists(atPath: destURL.path) {
+                try? fileManager.removeItem(at: destURL)
+            }
+            try fileManager.copyItem(at: sourceURL, to: destURL)
+            Task { @MainActor in
+                state.installAPK(from: destURL)
+            }
+        } catch {
+            // If copy fails, attempt reading data and writing it ourselves
+            do {
+                let data = try Data(contentsOf: sourceURL)
+                try data.write(to: destURL, options: [.atomic])
+                Task { @MainActor in
+                    state.installAPK(from: destURL)
+                }
+            } catch {
+                // Give up silently if we cannot persist the file
+            }
         }
     }
 
@@ -255,7 +304,7 @@ struct TileCard<Content: View>: View {
                     }
                     Spacer(minLength: 0)
                     if showsSettingsButton {
-                        Button(action: { if isEnabled { onSettings() } }) {
+                        Button(action: { if isEnabled { onSettings() } }, label: {
                             Image(systemName: "slider.horizontal.3")
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundStyle(.secondary)
@@ -264,7 +313,7 @@ struct TileCard<Content: View>: View {
                                     Circle()
                                         .fill(Color.secondary.opacity(0.12))
                                 )
-                        }
+                        })
                         .buttonStyle(.plain)
                         .disabled(!isEnabled)
                         .accessibilityLabel(Text("Open tile settings"))

@@ -1,5 +1,6 @@
 import AppKit
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct PreferencesView: View {
     @EnvironmentObject private var state: AppState
@@ -109,6 +110,7 @@ func chooseFile(allowedExtensions: [String]) -> URL? {
     panel.canChooseFiles = true
     panel.canChooseDirectories = false
     panel.allowsMultipleSelection = false
-    panel.allowedFileTypes = allowedExtensions
+    let contentTypes = allowedExtensions.compactMap { UTType(filenameExtension: $0) }
+    panel.allowedContentTypes = contentTypes
     return panel.runModal() == .OK ? panel.url : nil
 }

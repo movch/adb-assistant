@@ -84,14 +84,12 @@ final class ADBWrapper: ADBWrapperType {
         }
 
         if let idleMatch = try? NSRegularExpression(pattern: "([0-9.]+)%\\s+idle",
-                                                    options: .caseInsensitive)
-        {
+                                                    options: .caseInsensitive) {
             let range = NSRange(totalLine.startIndex ..< totalLine.endIndex,
                                 in: totalLine)
             if let match = idleMatch.firstMatch(in: totalLine,
                                                 options: [],
-                                                range: range)
-            {
+                                                range: range) {
                 let idleString = (totalLine as NSString).substring(with: match.range(at: 1))
                 if let idle = Double(idleString) {
                     return max(0, min(100, 100 - idle))
