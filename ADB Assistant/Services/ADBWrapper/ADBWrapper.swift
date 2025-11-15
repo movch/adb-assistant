@@ -73,41 +73,72 @@ final class ADBWrapper: ADBWrapperType {
     }
 
     public func fetchCPULoad(identifier: String) -> Double? {
-        let command = "\(platformToolsPath)/adb -s \(identifier) shell dumpsys cpuinfo"
+        // Use `top` snapshot to get CPU load; this is generally more reliable across Android versions
+        // than parsing `dumpsys cpuinfo`, which often reports misleading totals.
+        let command = "\(platformToolsPath)/adb -s \(identifier) shell top -n 1"
         let output = shell.execute(command)
 
-        guard let totalLine = output
-            .components(separatedBy: .newlines)
-            .first(where: { $0.lowercased().contains("total") })
-        else {
-            return nil
-        }
+        // Try to find a header line that contains overall CPU breakdown with "idle"
+        // Examples of possible lines across Android variants:
+        // - "%cpu: 5 usr + 3 sys + 0 nic + 90 idle + 0 io + 0 irq + 1 sirq"
+        // - "CPU: 5% usr 3% sys 0% nic 90% idle 0% io 0% irq 1% sirq"
+        // - "Cpu(s): 5.0%us, 3.0%sy, 0.0%ni, 90.0%id, 0.0%wa, ..."
+        // - "800%cpu   6%user   0%nice   6%sys 784%idle   0%iow   3%irq   0%sirq   0%host"
+        let lines = output.components(separatedBy: .newlines)
 
-        if let idleMatch = try? NSRegularExpression(pattern: "([0-9.]+)%\\s+idle",
-                                                    options: .caseInsensitive) {
-            let range = NSRange(totalLine.startIndex ..< totalLine.endIndex,
-                                in: totalLine)
-            if let match = idleMatch.firstMatch(in: totalLine,
-                                                options: [],
-                                                range: range) {
-                let idleString = (totalLine as NSString).substring(with: match.range(at: 1))
-                if let idle = Double(idleString) {
-                    return max(0, min(100, 100 - idle))
+        // Prefer lines that both mention CPU and idle
+        if let header = lines.first(where: { line in
+            let lower = line.lowercased()
+            return (lower.contains("cpu") || lower.contains("%cpu")) && lower.contains("idle")
+        }) {
+            if let idleRegex = try? NSRegularExpression(pattern: "([0-9.]+)\\s*%?\\s*idle", options: .caseInsensitive) {
+                let range = NSRange(header.startIndex ..< header.endIndex, in: header)
+                if let match = idleRegex.firstMatch(in: header, options: [], range: range) {
+                    let idleString = (header as NSString).substring(with: match.range(at: 1))
+                    if let idleAllCpus = Double(idleString) {
+                        // Attempt to detect total CPUs from a token like "800%cpu"
+                        var normalized: Double?
+                        if let totalCpuRegex = try? NSRegularExpression(pattern: "([0-9.]+)\\s*%?cpu\\b", options: .caseInsensitive) {
+                            if let totalMatch = totalCpuRegex.firstMatch(in: header, options: [], range: range) {
+                                let totalString = (header as NSString).substring(with: totalMatch.range(at: 1))
+                                if let totalPercentAcrossCpus = Double(totalString), totalPercentAcrossCpus >= 100 {
+                                    let cores = max(1.0, round(totalPercentAcrossCpus / 100.0))
+                                    normalized = (cores * 100.0 - idleAllCpus) / cores
+                                }
+                            }
+                        }
+                        // If we couldn't infer cores, assume single-CPU scale
+                        let load = normalized ?? (100.0 - idleAllCpus)
+                        return max(0, min(100, load))
+                    }
+                }
+            }
+
+            // Fallback for devices that omit "idle" but include usr/sys; sum usr+sys
+            if let usrRegex = try? NSRegularExpression(pattern: "([0-9.]+)\\s*%?\\s*(usr|user)", options: .caseInsensitive),
+               let sysRegex = try? NSRegularExpression(pattern: "([0-9.]+)\\s*%?\\s*(sys|system)", options: .caseInsensitive) {
+                let range = NSRange(header.startIndex ..< header.endIndex, in: header)
+                let usrMatch = usrRegex.firstMatch(in: header, options: [], range: range)
+                let sysMatch = sysRegex.firstMatch(in: header, options: [], range: range)
+                let usrStr = usrMatch.map { (header as NSString).substring(with: $0.range(at: 1)) }
+                let sysStr = sysMatch.map { (header as NSString).substring(with: $0.range(at: 1)) }
+                if let usr = usrStr.flatMap(Double.init), let sys = sysStr.flatMap(Double.init) {
+                    return max(0, min(100, usr + sys))
                 }
             }
         }
 
-        // Fallback: sum all percentages before "idle"
-        let tokens = totalLine.split(separator: " ")
-        let percentages = tokens
-            .compactMap { token -> Double? in
-                guard token.contains("%"),
-                      let value = Double(token.replacingOccurrences(of: "%", with: "")) else { return nil }
-                return value
+        // As a last resort, look for any "idle" percentage anywhere
+        if let anyIdleLine = lines.first(where: { $0.lowercased().contains("idle") }) {
+            if let idleRegex = try? NSRegularExpression(pattern: "([0-9.]+)\\s*%?\\s*idle", options: .caseInsensitive) {
+                let range = NSRange(anyIdleLine.startIndex ..< anyIdleLine.endIndex, in: anyIdleLine)
+                if let match = idleRegex.firstMatch(in: anyIdleLine, options: [], range: range) {
+                    let idleString = (anyIdleLine as NSString).substring(with: match.range(at: 1))
+                    if let idle = Double(idleString) {
+                        return max(0, min(100, 100 - idle))
+                    }
+                }
             }
-
-        if let idle = percentages.last {
-            return max(0, min(100, 100 - idle))
         }
 
         return nil
