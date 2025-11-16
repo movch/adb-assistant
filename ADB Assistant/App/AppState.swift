@@ -59,6 +59,7 @@ final class AppState: NSObject, ObservableObject {
             }
         }
     }
+
     @Published private(set) var platformToolsPath: String?
     @Published private(set) var screenshotSavePath: String
     @Published private(set) var shouldOpenPreview: Bool

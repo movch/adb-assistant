@@ -5,16 +5,22 @@ import UniformTypeIdentifiers
 // MARK: - Layout metrics
 
 enum TileLayoutMetrics {
-    static let tileMinWidth: CGFloat = 212
-    static let tileMinHeight: CGFloat = 188
-    static let tileCornerRadius: CGFloat = 22
-    static let tileContentPadding: CGFloat = 18
-    static let gridSpacing: CGFloat = 16
-    static let sectionSpacing: CGFloat = 28
-    static let sectionMinWidth: CGFloat = 240
-    static let sectionMaxWidth: CGFloat = 340
+    static let uiScale: CGFloat = 0.5
+
+    static let baseTileSize: CGFloat = 200
+    static let baseTileCornerRadius: CGFloat = 22
+    static let baseTileContentPadding: CGFloat = 18
+    static let baseGridSpacing: CGFloat = 16
+    static let baseSectionSpacing: CGFloat = 28
+    static let baseSectionInnerSpacing: CGFloat = 20
+
+    static var tileSize: CGFloat { baseTileSize * uiScale }
+    static var tileCornerRadius: CGFloat { baseTileCornerRadius * uiScale }
+    static var tileContentPadding: CGFloat { baseTileContentPadding * uiScale }
+    static var gridSpacing: CGFloat { baseGridSpacing * uiScale }
+    static var sectionSpacing: CGFloat { baseSectionSpacing * uiScale }
     static let sectionHeaderSpacing: CGFloat = 6
-    static let sectionInnerSpacing: CGFloat = 20
+    static var sectionInnerSpacing: CGFloat { baseSectionInnerSpacing * uiScale }
     static let contentInsets = EdgeInsets(top: 28, leading: 28, bottom: 40, trailing: 28)
     static let backgroundColor = Color(NSColor.windowBackgroundColor)
 }
@@ -28,32 +34,24 @@ struct DashboardView: View {
             if state.selectedDevice == nil {
                 EmptyDashboardPlaceholderView()
             } else {
-                GeometryReader { proxy in
-                    let columns = sectionColumns(for: proxy.size.width)
-
-                    ScrollView {
-                        LazyVGrid(
-                            columns: columns,
-                            alignment: .leading,
-                            spacing: TileLayoutMetrics.sectionSpacing
-                        ) {
-                            ForEach(state.tileSections) { section in
-                                TileSectionView(
-                                    section: section,
-                                    presentedSettings: $presentedSettings
+                ScrollView {
+                    VStack(alignment: .leading, spacing: TileLayoutMetrics.sectionSpacing) {
+                        ForEach(state.tileSections) { section in
+                            TileSectionView(
+                                section: section,
+                                presentedSettings: $presentedSettings
+                            )
+                            .transition(
+                                .asymmetric(
+                                    insertion: .opacity.combined(with: .scale(scale: 0.98)).animation(.easeOut(duration: 0.24)),
+                                    removal: .opacity.animation(.easeIn(duration: 0.18))
                                 )
-                                .transition(
-                                    .asymmetric(
-                                        insertion: .opacity.combined(with: .scale(scale: 0.98)).animation(.easeOut(duration: 0.24)),
-                                        removal: .opacity.animation(.easeIn(duration: 0.18))
-                                    )
-                                )
-                            }
+                            )
                         }
-                        .padding(TileLayoutMetrics.contentInsets)
                     }
-                    .background(TileLayoutMetrics.backgroundColor)
+                    .padding(TileLayoutMetrics.contentInsets)
                 }
+                .background(TileLayoutMetrics.backgroundColor)
             }
         }
         .animation(.easeInOut(duration: 0.25), value: state.tileSections.map(\.id))
@@ -61,26 +59,6 @@ struct DashboardView: View {
             TileSettingsSheet(tile: tile, presentedSettings: $presentedSettings)
                 .environmentObject(state)
         }
-    }
-
-    private func sectionColumns(for width: CGFloat) -> [GridItem] {
-        let horizontalInsets = TileLayoutMetrics.contentInsets.leading + TileLayoutMetrics.contentInsets.trailing
-        let availableWidth = max(width - horizontalInsets, TileLayoutMetrics.sectionMinWidth)
-        let minWidth = TileLayoutMetrics.sectionMinWidth
-        let maxWidth = TileLayoutMetrics.sectionMaxWidth
-
-        let column = GridItem(
-            .adaptive(minimum: minWidth, maximum: maxWidth),
-            spacing: TileLayoutMetrics.sectionSpacing,
-            alignment: .top
-        )
-
-        // Force single column if very narrow to avoid clipping.
-        if availableWidth <= minWidth + TileLayoutMetrics.sectionSpacing {
-            return [GridItem(.flexible(minimum: minWidth, maximum: maxWidth), spacing: TileLayoutMetrics.sectionSpacing, alignment: .top)]
-        }
-
-        return [column]
     }
 }
 
@@ -93,9 +71,7 @@ struct TileSectionView: View {
     private var gridColumns: [GridItem] {
         [
             GridItem(
-                .adaptive(
-                    minimum: TileLayoutMetrics.tileMinWidth
-                ),
+                .adaptive(minimum: TileLayoutMetrics.tileSize, maximum: TileLayoutMetrics.tileSize),
                 spacing: TileLayoutMetrics.gridSpacing,
                 alignment: .top
             )

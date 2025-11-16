@@ -144,7 +144,8 @@ final class ADBWrapper: ADBWrapperType {
 
             // Fallback for devices that omit "idle" but include usr/sys; sum usr+sys
             if let usrRegex = try? NSRegularExpression(pattern: "([0-9.]+)\\s*%?\\s*(usr|user)", options: .caseInsensitive),
-               let sysRegex = try? NSRegularExpression(pattern: "([0-9.]+)\\s*%?\\s*(sys|system)", options: .caseInsensitive) {
+               let sysRegex = try? NSRegularExpression(pattern: "([0-9.]+)\\s*%?\\s*(sys|system)", options: .caseInsensitive)
+            {
                 let range = NSRange(header.startIndex ..< header.endIndex, in: header)
                 let usrMatch = usrRegex.firstMatch(in: header, options: [], range: range)
                 let sysMatch = sysRegex.firstMatch(in: header, options: [], range: range)

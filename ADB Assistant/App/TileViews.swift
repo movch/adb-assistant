@@ -50,20 +50,20 @@ struct DragDropTileView: View {
             onTap: presentFilePicker,
             onSettings: { presentedSettings = .installApk },
             content: {
-                HStack {
-                    Spacer()
-                    VStack(spacing: 6) {
+                    HStack {
                         Spacer()
-                        Image(systemName: "tray.and.arrow.down")
-                            .font(.system(size: 28, weight: .semibold))
-                            .foregroundColor(isTargeted ? .blue : .secondary)
-                        Text("Drop APK here")
-                            .font(.footnote)
-                            .foregroundColor(isTargeted ? .blue : .secondary)
+                        VStack(spacing: 3) {
+                            Spacer()
+                            Image(systemName: "tray.and.arrow.down")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(isTargeted ? .blue : .secondary)
+                            Text("Drop APK")
+                                .font(.system(size: 8))
+                                .foregroundColor(isTargeted ? .blue : .secondary)
+                            Spacer()
+                        }
                         Spacer()
                     }
-                    Spacer()
-                }
             }
         )
         .onDrop(of: dropTypes, isTargeted: $isTargeted) { providers in
@@ -80,7 +80,8 @@ struct DragDropTileView: View {
 
             // Fallback: explicitly ask for APK file representation
             if let apk = UTType(filenameExtension: "apk"),
-               provider.hasItemConformingToTypeIdentifier(apk.identifier) {
+               provider.hasItemConformingToTypeIdentifier(apk.identifier)
+            {
                 provider.loadFileRepresentation(forTypeIdentifier: apk.identifier) { url, _ in
                     guard let url else { return }
                     copyToStableTempAndInstall(from: url)
@@ -157,7 +158,7 @@ struct CPULoadTileView: View {
             onSettings: {},
             content: {
                 CPUGraphView(samples: state.cpuHistory)
-                    .frame(height: 80)
+                    .frame(height: 30)
             }
         )
     }
@@ -189,7 +190,7 @@ struct MemoryUsageTileView: View {
             onSettings: {},
             content: {
                 MemoryGraphView(samples: state.memoryHistory)
-                    .frame(height: 80)
+                    .frame(height: 30)
             }
         )
     }
@@ -385,54 +386,61 @@ struct TileCard<Content: View>: View {
 
     @ViewBuilder
     private var cardContent: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            if iconName != nil || showsSettingsButton {
-                HStack(alignment: .top, spacing: 12) {
-                    if let iconName {
-                        Image(systemName: iconName)
-                            .font(.system(size: 28, weight: .semibold))
-                            .foregroundColor(accentColor)
-                            .symbolRenderingMode(.hierarchical)
-                    }
-                    Spacer(minLength: 0)
-                    if showsSettingsButton {
-                        Button(action: { if isEnabled { onSettings() } }, label: {
-                            Image(systemName: "slider.horizontal.3")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundStyle(.secondary)
-                                .padding(6)
-                                .background(
-                                    Circle()
-                                        .fill(Color.secondary.opacity(0.12))
-                                )
-                        })
-                        .buttonStyle(.plain)
-                        .disabled(!isEnabled)
-                        .accessibilityLabel(Text("Open tile settings"))
+        GeometryReader { geometry in
+            VStack(alignment: .leading, spacing: 6) {
+                // Top section: icon and settings button
+                if iconName != nil || showsSettingsButton {
+                    HStack(alignment: .top, spacing: 8) {
+                        if let iconName {
+                            Image(systemName: iconName)
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(accentColor)
+                                .symbolRenderingMode(.hierarchical)
+                        }
+                        Spacer(minLength: 0)
+                        if showsSettingsButton {
+                            Button(action: { if isEnabled { onSettings() } }, label: {
+                                Image(systemName: "slider.horizontal.3")
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundStyle(.secondary)
+                                    .padding(4)
+                                    .background(
+                                        Circle()
+                                            .fill(Color.secondary.opacity(0.12))
+                                    )
+                            })
+                            .buttonStyle(.plain)
+                            .disabled(!isEnabled)
+                            .accessibilityLabel(Text("Open tile settings"))
+                        }
                     }
                 }
-            }
 
-            content()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .transition(.opacity)
+                // Content area - fixed height so it doesn't push title
+                content()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(height: 35)
+                    .clipped()
+                    .transition(.opacity)
 
-            Spacer(minLength: 0)
+                Spacer(minLength: 0)
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.headline.weight(.semibold))
-                    .foregroundStyle(isEnabled ? .primary : .secondary)
-                    .lineLimit(2)
-                if let subtitle {
-                    Text(subtitle)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                // Title block - always at bottom
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(isEnabled ? .primary : .secondary)
                         .lineLimit(1)
+                    if let subtitle {
+                        Text(subtitle)
+                            .font(.system(size: 9))
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -451,11 +459,7 @@ private struct PressableTileButtonStyle: ButtonStyle {
 
         return configuration.label
             .padding(TileLayoutMetrics.tileContentPadding)
-            .frame(
-                maxWidth: .infinity,
-                minHeight: TileLayoutMetrics.tileMinHeight,
-                alignment: .topLeading
-            )
+            .frame(width: TileLayoutMetrics.tileSize, height: TileLayoutMetrics.tileSize, alignment: .topLeading)
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                     .fill(baseColor)
