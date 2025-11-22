@@ -21,7 +21,7 @@ class Defaults {
     }
 
     func string(forKey key: Constant) -> String? {
-        return UserDefaults.standard.string(forKey: key.rawValue)
+        UserDefaults.standard.string(forKey: key.rawValue)
     }
 
     func setBool(_ value: Bool, forKey key: Constant) {

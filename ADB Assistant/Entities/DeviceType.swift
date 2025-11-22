@@ -14,15 +14,15 @@ enum DeviceType: String {
     var imageName: String {
         switch self {
         case .phone:
-            return "icon-phone"
+            "icon-phone"
         case .tablet:
-            return "icon-tablet"
+            "icon-tablet"
         case .watch:
-            return "icon-watch"
+            "icon-watch"
         case .tv:
-            return "icon-tv"
+            "icon-tv"
         case .auto:
-            return "icon-auto"
+            "icon-auto"
         }
     }
 }

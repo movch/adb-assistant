@@ -32,7 +32,7 @@ public class USBWatcher {
         self.delegate = delegate
 
         func handleNotification(instance: UnsafeMutableRawPointer?, _ iterator: io_iterator_t) {
-            guard let instance = instance else { return }
+            guard let instance else { return }
             let watcher = Unmanaged<USBWatcher>.fromOpaque(instance).takeUnretainedValue()
 
             while case let device = IOIteratorNext(iterator), device != IO_OBJECT_NULL {

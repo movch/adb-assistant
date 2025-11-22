@@ -258,7 +258,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2610;
 				ORGANIZATIONNAME = "Michael Ovchinnikov";
 				TargetAttributes = {
 					4C4C7CF421AAED1E0002127F = {
@@ -331,7 +331,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PROJECT_DIR=\"${PROJECT_DIR:-$PWD}\"\nif which swiftformat >/dev/null; then\n  swiftformat --disable trailingCommas \"$PROJECT_DIR/ADB Assistant\" \"$PROJECT_DIR/ADB AssistantTests\" \"$PROJECT_DIR/Dangerfile.swift\"\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n\nif [ -n \"$SCRIPT_OUTPUT_FILE_0\" ]; then\n  touch \"$SCRIPT_OUTPUT_FILE_0\"\nfi\n";
+			shellScript = "PROJECT_DIR=\"${PROJECT_DIR:-$PWD}\"\nif which swiftformat >/dev/null; then\n  swiftformat --swiftversion 5.9 --disable trailingCommas \"$PROJECT_DIR/ADB Assistant\" \"$PROJECT_DIR/ADB AssistantTests\" \"$PROJECT_DIR/Dangerfile.swift\"\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n\nif [ -n \"$SCRIPT_OUTPUT_FILE_0\" ]; then\n  touch \"$SCRIPT_OUTPUT_FILE_0\"\nfi\n";
 		};
 		4CC45E8921F1BD5800458126 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -404,6 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -469,6 +470,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

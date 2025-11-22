@@ -50,20 +50,20 @@ struct DragDropTileView: View {
             onTap: presentFilePicker,
             onSettings: { presentedSettings = .installApk },
             content: {
-                    HStack {
+                HStack {
+                    Spacer()
+                    VStack(spacing: 3) {
                         Spacer()
-                        VStack(spacing: 3) {
-                            Spacer()
-                            Image(systemName: "tray.and.arrow.down")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(isTargeted ? .blue : .secondary)
-                            Text("Drop APK")
-                                .font(.system(size: 8))
-                                .foregroundColor(isTargeted ? .blue : .secondary)
-                            Spacer()
-                        }
+                        Image(systemName: "tray.and.arrow.down")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(isTargeted ? .blue : .secondary)
+                        Text("Drop APK")
+                            .font(.system(size: 8))
+                            .foregroundColor(isTargeted ? .blue : .secondary)
                         Spacer()
                     }
+                    Spacer()
+                }
             }
         )
         .onDrop(of: dropTypes, isTargeted: $isTargeted) { providers in
@@ -386,7 +386,7 @@ struct TileCard<Content: View>: View {
 
     @ViewBuilder
     private var cardContent: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             VStack(alignment: .leading, spacing: 6) {
                 // Top section: icon and settings button
                 if iconName != nil || showsSettingsButton {

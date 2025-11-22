@@ -33,9 +33,8 @@ struct PreferencesView: View {
                         .disabled(state.platformToolsPath == nil)
                     }
                 }
-
             }
-            
+
             Spacer()
 
             HStack {

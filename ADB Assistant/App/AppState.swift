@@ -286,7 +286,7 @@ final class AppState: NSObject, ObservableObject {
             guard let self else { return }
 
             while !Task.isCancelled {
-                guard let wrapper = self.makeWrapper() else { return }
+                guard let wrapper = makeWrapper() else { return }
 
                 let load = await Task.detached(priority: .utility) { () -> Double in
                     wrapper.fetchCPULoad(identifier: identifier) ?? 0
@@ -296,7 +296,7 @@ final class AppState: NSObject, ObservableObject {
                     self.appendCPUSample(load)
                 }
 
-                try? await Task.sleep(nanoseconds: UInt64(self.cpuUpdateInterval * 1_000_000_000))
+                try? await Task.sleep(nanoseconds: UInt64(cpuUpdateInterval * 1_000_000_000))
             }
         }
     }
@@ -318,7 +318,7 @@ final class AppState: NSObject, ObservableObject {
             guard let self else { return }
 
             while !Task.isCancelled {
-                guard let wrapper = self.makeWrapper() else { return }
+                guard let wrapper = makeWrapper() else { return }
 
                 let usage = await Task.detached(priority: .utility) { () -> Double? in
                     wrapper.fetchMemoryUsage(identifier: identifier)
@@ -328,7 +328,7 @@ final class AppState: NSObject, ObservableObject {
                     self.appendMemorySample(usage ?? 0)
                 }
 
-                try? await Task.sleep(nanoseconds: UInt64(self.cpuUpdateInterval * 1_000_000_000))
+                try? await Task.sleep(nanoseconds: UInt64(cpuUpdateInterval * 1_000_000_000))
             }
         }
     }

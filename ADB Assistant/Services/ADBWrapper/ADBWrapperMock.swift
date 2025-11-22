@@ -12,11 +12,11 @@ final class ADBWrapperMock: ADBWrapperType {
     init(shell _: ShellType, platformToolsPath _: String) {}
 
     func listDeviceIds() -> [String] {
-        return ["phone", "tablet", "watch", "tv", "auto"]
+        ["phone", "tablet", "watch", "tv", "auto"]
     }
 
     func getDevice(forId identifier: String) -> Device {
-        return Device(
+        Device(
             identifier: identifier,
             properties: [
                 "ro.product.model": identifier,

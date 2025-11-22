@@ -10,11 +10,11 @@ import Foundation
 
 extension String {
     func toFilenameString() -> String {
-        return lowercased()
+        lowercased()
             .replacingOccurrences(of: " ", with: "-")
     }
 
     func abbreviatingWithTildeInPath() -> String {
-        return (self as NSString).abbreviatingWithTildeInPath
+        (self as NSString).abbreviatingWithTildeInPath
     }
 }
