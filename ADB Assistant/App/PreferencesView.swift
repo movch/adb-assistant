@@ -34,32 +34,9 @@ struct PreferencesView: View {
                     }
                 }
 
-                Divider()
-
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Screenshots")
-                        .font(.headline)
-
-                    SettingsPathRow(
-                        label: "Save to",
-                        value: state.screenshotSavePath.abbreviatingWithTildeInPath()
-                    )
-
-                    Button("Choose Folder…") {
-                        if let newPath = chooseDirectory(initialPath: state.screenshotSavePath) {
-                            state.setScreenshotSavePath(newPath)
-                        }
-                    }
-
-                    Toggle(
-                        "Open in Preview after capture",
-                        isOn: Binding(
-                            get: { state.shouldOpenPreview },
-                            set: { state.setShouldOpenPreview($0) }
-                        )
-                    )
-                }
             }
+            
+            Spacer()
 
             HStack {
                 Spacer()
