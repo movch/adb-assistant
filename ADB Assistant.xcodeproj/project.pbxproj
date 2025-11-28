@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C1E61A02204685A00966D7B /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1E619F2204685A00966D7B /* DeviceType.swift */; };
 		4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0F921BA9D6C008C8543 /* Defaults.swift */; };
 		4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */; };
 		4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */; };
@@ -42,7 +41,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4C1E619F2204685A00966D7B /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
 		4C22E0F921BA9D6C008C8543 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
 		4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringHelpers.swift; sourceTree = "<group>"; };
@@ -180,7 +178,6 @@
 			isa = PBXGroup;
 			children = (
 				4C8AEF2B21AF071700AC9202 /* Device.swift */,
-				4C1E619F2204685A00966D7B /* DeviceType.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -377,7 +374,6 @@
 				4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */,
 				4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */,
 				4C8AEF2C21AF071700AC9202 /* Device.swift in Sources */,
-				4C1E61A02204685A00966D7B /* DeviceType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

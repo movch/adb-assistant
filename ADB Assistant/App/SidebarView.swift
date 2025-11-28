@@ -97,18 +97,10 @@ struct DeviceRow: View {
     }
 
     private var deviceIcon: some View {
-        Group {
-            if let image = NSImage(named: device.type.imageName) {
-                Image(nsImage: image)
-                    .resizable()
-                    .scaledToFit()
-            } else {
-                Image(systemName: "iphone")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.accentColor)
-            }
-        }
-        .frame(width: 20, height: 20)
+        Image(systemName: "iphone")
+            .resizable()
+            .scaledToFit()
+            .foregroundColor(.accentColor)
+            .frame(width: 20, height: 20)
     }
 }
