@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ADBWrapperType {
-    init(shell: ShellType, platformToolsPath: String)
+    init(shell: Shell, platformToolsPath: String)
 
     func listDeviceIds() -> [String]
     func getDevice(forId identifier: String) -> Device

@@ -9,12 +9,12 @@
 import Foundation
 
 struct Device {
-    var identifier: String
-    var model: String
+    let identifier: String
+    let model: String
 
     init(identifier: String, properties: [String: String]) {
         self.identifier = identifier
-        model = properties["ro.product.model"] ?? ""
+        self.model = properties["ro.product.model"] ?? "unknown"
     }
 }
 

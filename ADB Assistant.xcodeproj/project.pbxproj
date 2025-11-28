@@ -11,9 +11,9 @@
 		4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */; };
 		4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */; };
 		4C4C7D0C21AAED1F0002127F /* ADB_AssistantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D0B21AAED1F0002127F /* ADB_AssistantTests.swift */; };
-		4C4C7D1821AB2E2A0002127F /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1721AB2E2A0002127F /* Shell.swift */; };
+		4C4C7D1821AB2E2A0002127F /* Bash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1721AB2E2A0002127F /* Bash.swift */; };
 		4C4C7D1A21AB312B0002127F /* ADBWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1921AB312B0002127F /* ADBWrapper.swift */; };
-		4C4C7D1D21AB32E00002127F /* ShellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1C21AB32E00002127F /* ShellType.swift */; };
+		4C4C7D1D21AB32E00002127F /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1C21AB32E00002127F /* Shell.swift */; };
 		4C8AEF2A21AC83EC00AC9202 /* USBWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */; };
 		4C8AEF2C21AF071700AC9202 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF2B21AF071700AC9202 /* Device.swift */; };
 		4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */; };
@@ -50,9 +50,9 @@
 		4C4C7D0721AAED1F0002127F /* ADB AssistantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ADB AssistantTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C4C7D0B21AAED1F0002127F /* ADB_AssistantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADB_AssistantTests.swift; sourceTree = "<group>"; };
 		4C4C7D0D21AAED1F0002127F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4C4C7D1721AB2E2A0002127F /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
+		4C4C7D1721AB2E2A0002127F /* Bash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bash.swift; sourceTree = "<group>"; };
 		4C4C7D1921AB312B0002127F /* ADBWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapper.swift; sourceTree = "<group>"; };
-		4C4C7D1C21AB32E00002127F /* ShellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellType.swift; sourceTree = "<group>"; };
+		4C4C7D1C21AB32E00002127F /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
 		4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBWatcher.swift; sourceTree = "<group>"; };
 		4C8AEF2B21AF071700AC9202 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapperType.swift; sourceTree = "<group>"; };
@@ -125,9 +125,10 @@
 		4C4C7CF721AAED1E0002127F /* ADB Assistant */ = {
 			isa = PBXGroup;
 			children = (
+				4C675E922EDA3D3D001CEA25 /* Presentation */,
+				4C675E912EDA3D2C001CEA25 /* Infrastructure */,
+				4C675E8E2EDA2EFD001CEA25 /* Domain */,
 				F5C9E5002E2BF8E500D3EA1A /* App */,
-				4C8AEF2821AC66E500AC9202 /* Entities */,
-				4C4C7D1621AB2E0C0002127F /* Services */,
 				4C8AEF3521B151B800AC9202 /* Helpers */,
 				4C22E0FF21BB95C1008C8543 /* Resources */,
 				4C22E10021BB95DE008C8543 /* Configuration */,
@@ -144,26 +145,6 @@
 			path = "ADB AssistantTests";
 			sourceTree = "<group>";
 		};
-		4C4C7D1621AB2E0C0002127F /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				4C4C7D1E21AB346F0002127F /* ADBWrapper */,
-				4C4C7D1B21AB32C30002127F /* Shell */,
-				4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */,
-				4C22E0F921BA9D6C008C8543 /* Defaults.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		4C4C7D1B21AB32C30002127F /* Shell */ = {
-			isa = PBXGroup;
-			children = (
-				4C4C7D1721AB2E2A0002127F /* Shell.swift */,
-				4C4C7D1C21AB32E00002127F /* ShellType.swift */,
-			);
-			path = Shell;
-			sourceTree = "<group>";
-		};
 		4C4C7D1E21AB346F0002127F /* ADBWrapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +153,48 @@
 				4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */,
 			);
 			path = ADBWrapper;
+			sourceTree = "<group>";
+		};
+		4C675E8E2EDA2EFD001CEA25 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				4C675E902EDA2F25001CEA25 /* Interfaces */,
+				4C675E8F2EDA2F18001CEA25 /* UseCases */,
+				4C8AEF2821AC66E500AC9202 /* Entities */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		4C675E8F2EDA2F18001CEA25 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		4C675E902EDA2F25001CEA25 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				4C4C7D1C21AB32E00002127F /* Shell.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		4C675E912EDA3D2C001CEA25 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				4C4C7D1721AB2E2A0002127F /* Bash.swift */,
+				4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */,
+				4C4C7D1E21AB346F0002127F /* ADBWrapper */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		4C675E922EDA3D3D001CEA25 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		4C8AEF2821AC66E500AC9202 /* Entities */ = {
@@ -185,6 +208,7 @@
 		4C8AEF3521B151B800AC9202 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				4C22E0F921BA9D6C008C8543 /* Defaults.swift */,
 				4C22E0FB21BAE7FD008C8543 /* DateHelpers.swift */,
 				4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */,
 			);
@@ -367,8 +391,8 @@
 				4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */,
 				4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */,
 				4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */,
-				4C4C7D1821AB2E2A0002127F /* Shell.swift in Sources */,
-				4C4C7D1D21AB32E00002127F /* ShellType.swift in Sources */,
+				4C4C7D1821AB2E2A0002127F /* Bash.swift in Sources */,
+				4C4C7D1D21AB32E00002127F /* Shell.swift in Sources */,
 				4C8AEF2A21AC83EC00AC9202 /* USBWatcher.swift in Sources */,
 				4C4C7D1A21AB312B0002127F /* ADBWrapper.swift in Sources */,
 				4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */,

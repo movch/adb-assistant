@@ -1,5 +1,5 @@
 //
-//  ShellType.swift
+//  Shell.swift
 //  ADB Assistant
 //
 //  Created by Michael Ovchinnikov on 25/11/2018.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ShellType {
+protocol Shell {
     func execute(_ command: String) -> String
 }

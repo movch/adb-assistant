@@ -1,5 +1,5 @@
 //
-//  Shell.swift
+//  Bash.swift
 //  ADB Assistant
 //
 //  Created by Michael Ovchinnikov on 25/11/2018.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Shell: ShellType {
+final class Bash: Shell {
     public func execute(_ command: String) -> String {
         let task = Process()
         task.launchPath = "/bin/bash"

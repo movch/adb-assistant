@@ -92,7 +92,7 @@ final class AppState: NSObject, ObservableObject {
         .install: [.installApk]
     ]
 
-    private let shell: ShellType
+    private let shell: Shell
     private let defaults: Defaults
     private var usbWatcher: USBWatcher?
     private var cpuMonitorTask: Task<Void, Never>?
@@ -100,7 +100,7 @@ final class AppState: NSObject, ObservableObject {
     private let maxCPUSamples = 60
     private let maxMemorySamples = 60
 
-    init(shell: ShellType, defaults: Defaults) {
+    init(shell: Shell, defaults: Defaults) {
         self.shell = shell
         self.defaults = defaults
 

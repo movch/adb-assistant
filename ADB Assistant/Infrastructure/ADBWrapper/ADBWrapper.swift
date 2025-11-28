@@ -15,9 +15,9 @@ enum ADBRebootType: String {
 
 final class ADBWrapper: ADBWrapperType {
     private let platformToolsPath: String
-    private let shell: ShellType
+    private let shell: Shell
 
-    init(shell: ShellType, platformToolsPath: String) {
+    init(shell: Shell, platformToolsPath: String) {
         self.platformToolsPath = platformToolsPath
         self.shell = shell
     }

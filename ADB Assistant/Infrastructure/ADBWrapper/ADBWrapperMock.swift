@@ -9,7 +9,7 @@
 import Foundation
 
 final class ADBWrapperMock: ADBWrapperType {
-    init(shell _: ShellType, platformToolsPath _: String) {}
+    init(shell _: Shell, platformToolsPath _: String) {}
 
     func listDeviceIds() -> [String] {
         ["phone", "tablet", "watch", "tv", "auto"]

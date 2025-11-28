@@ -6,7 +6,7 @@ struct ADBAssistantApp: App {
 
     init() {
         let defaults = Defaults()
-        let shell = Shell()
+        let shell = Bash()
         _state = StateObject(wrappedValue: AppState(shell: shell, defaults: defaults))
     }
 
