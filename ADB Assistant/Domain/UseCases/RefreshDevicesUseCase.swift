@@ -1,0 +1,12 @@
+import Foundation
+
+struct RefreshDevicesUseCase {
+    let gatewayFactory: DeviceGatewayFactory
+
+    func execute(platformToolsPath: String?) -> [Device] {
+        guard let platformToolsPath, !platformToolsPath.isEmpty else { return [] }
+        let gateway = gatewayFactory.makeGateway(platformToolsPath: platformToolsPath)
+        let ids = gateway.listDeviceIds()
+        return ids.map { gateway.getDevice(forId: $0) }
+    }
+}

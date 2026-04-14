@@ -8,25 +8,46 @@
 
 import Foundation
 
+enum BashError: Error {
+    case processFailed(String)
+    case outputEncodingFailed
+    case taskExecutionFailed(String)
+}
+
 final class Bash: Shell {
-    public func execute(_ command: String) -> String {
+    public func execute(_ command: String) throws -> String {
         let task = Process()
         task.launchPath = "/bin/bash"
         task.arguments = ["-c", command]
 
         let outputPipe = Pipe()
+        let errorPipe = Pipe()
         task.standardOutput = outputPipe
+        task.standardError = errorPipe
         let file = outputPipe.fileHandleForReading
 
-        task.launch()
-
-        if let result = NSString(
-            data: file.readDataToEndOfFile(),
-            encoding: String.Encoding.utf8.rawValue
-        ) {
-            return (result as String).trimmingCharacters(in: .whitespacesAndNewlines)
+        do {
+            try task.run()
+        } catch {
+            throw BashError.taskExecutionFailed("Failed to launch process: \(error.localizedDescription)")
         }
 
-        return ""
+        task.waitUntilExit()
+
+        if task.terminationStatus != 0 {
+            let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+            if let errorString = String(data: errorData, encoding: .utf8) {
+                throw BashError.processFailed(errorString)
+            } else {
+                throw BashError.processFailed("Process exited with status \(task.terminationStatus)")
+            }
+        }
+
+        let outputData = file.readDataToEndOfFile()
+        guard let result = String(data: outputData, encoding: .utf8) else {
+            throw BashError.outputEncodingFailed
+        }
+
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

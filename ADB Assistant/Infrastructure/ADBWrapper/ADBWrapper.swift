@@ -8,12 +8,7 @@
 
 import Foundation
 
-enum ADBRebootType: String {
-    case bootloader, recovery
-    case system = ""
-}
-
-final class ADBWrapper: ADBWrapperType {
+final class ADBWrapper: DeviceGateway {
     private let platformToolsPath: String
     private let shell: Shell
 
@@ -31,7 +26,11 @@ final class ADBWrapper: ADBWrapperType {
                 .contains("device")
         }
 
-        return shell.execute(command)
+        guard let output = try? shell.execute(command) else {
+            return []
+        }
+
+        return output
             .components(separatedBy: .newlines)
             .filter(deviceIdFilter)
             .map { $0.components(separatedBy: .whitespaces)[0] }
@@ -42,34 +41,34 @@ final class ADBWrapper: ADBWrapperType {
         return Device(identifier: identifier, properties: deviceProps)
     }
 
-    public func reboot(to: ADBRebootType, identifier: String) {
+    public func reboot(to: RebootType, identifier: String) {
         let command = "\(platformToolsPath)/adb -s \(identifier) reboot \(to.rawValue)"
-        _ = shell.execute(command)
+        _ = try? shell.execute(command)
     }
 
     public func takeScreenshot(identifier: String, path: String) {
         let command = "\(platformToolsPath)/adb -s \(identifier) shell screencap -p \(path)"
-        _ = shell.execute(command)
+        _ = try? shell.execute(command)
     }
 
     public func pull(identifier: String, fromPath: String, toPath: String) {
         let command = "\(platformToolsPath)/adb -s \(identifier) pull \(fromPath) \(toPath)"
-        _ = shell.execute(command)
+        _ = try? shell.execute(command)
     }
 
     public func remove(identifier: String, path: String) {
         let command = "\(platformToolsPath)/adb -s \(identifier) shell rm -f \(path)"
-        _ = shell.execute(command)
+        _ = try? shell.execute(command)
     }
 
     public func wakeUpDevice(identifier: String) {
         let command = "\(platformToolsPath)/adb -s \(identifier) shell input keyevent 82"
-        _ = shell.execute(command)
+        _ = try? shell.execute(command)
     }
 
     public func installAPK(identifier: String, fromPath path: String) {
         let command = "\(platformToolsPath)/adb -s \(identifier) install \(path)"
-        _ = shell.execute(command)
+        _ = try? shell.execute(command)
     }
 
     public func fetchMemoryUsage(identifier: String) -> Double? {
@@ -77,7 +76,9 @@ final class ADBWrapper: ADBWrapperType {
         // used% = 100 * (1 - (MemFree + SwapFree) / MemTotal)
         // Values are reported in kB.
         let command = "\(platformToolsPath)/adb -s \(identifier) shell cat /proc/meminfo"
-        let output = shell.execute(command)
+        guard let output = try? shell.execute(command) else {
+            return nil
+        }
         let lines = output.components(separatedBy: .newlines)
 
         var memTotalKb: Double?
@@ -104,7 +105,9 @@ final class ADBWrapper: ADBWrapperType {
         // Use `top` snapshot to get CPU load; this is generally more reliable across Android versions
         // than parsing `dumpsys cpuinfo`, which often reports misleading totals.
         let command = "\(platformToolsPath)/adb -s \(identifier) shell top -n 1"
-        let output = shell.execute(command)
+        guard let output = try? shell.execute(command) else {
+            return nil
+        }
         let lines = output.components(separatedBy: .newlines)
 
         if let header = preferredCpuHeader(in: lines) {
@@ -202,7 +205,9 @@ final class ADBWrapper: ADBWrapperType {
 
     private func getDeviceProps(forId identifier: String) -> [String: String] {
         let command = "\(platformToolsPath)/adb -s \(identifier) shell getprop"
-        let output = shell.execute(command)
+        guard let output = try? shell.execute(command) else {
+            return [:]
+        }
 
         return getPropsFromString(output)
     }

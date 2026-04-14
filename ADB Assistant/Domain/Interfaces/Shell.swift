@@ -9,5 +9,5 @@
 import Foundation
 
 protocol Shell {
-    func execute(_ command: String) -> String
+    func execute(_ command: String) throws -> String
 }

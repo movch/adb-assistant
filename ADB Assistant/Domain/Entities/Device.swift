@@ -14,10 +14,16 @@ struct Device {
 
     init(identifier: String, properties: [String: String]) {
         self.identifier = identifier
-        self.model = properties["ro.product.model"] ?? "unknown"
+        model = properties["ro.product.model"] ?? "unknown"
     }
 }
 
 extension Device: Identifiable {
     var id: String { identifier }
+}
+
+enum RebootType: String {
+    case bootloader
+    case recovery
+    case system = ""
 }

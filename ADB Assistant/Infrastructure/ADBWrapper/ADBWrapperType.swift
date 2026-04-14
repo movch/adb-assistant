@@ -8,22 +8,14 @@
 
 import Foundation
 
-protocol ADBWrapperType {
-    init(shell: Shell, platformToolsPath: String)
+final class ADBDeviceGatewayFactory: DeviceGatewayFactory {
+    private let shell: Shell
 
-    func listDeviceIds() -> [String]
-    func getDevice(forId identifier: String) -> Device
+    init(shell: Shell) {
+        self.shell = shell
+    }
 
-    func reboot(to: ADBRebootType, identifier: String)
-
-    func takeScreenshot(identifier: String, path: String)
-
-    func pull(identifier: String, fromPath: String, toPath: String)
-    func remove(identifier: String, path: String)
-
-    func wakeUpDevice(identifier: String)
-    func installAPK(identifier: String, fromPath path: String)
-
-    func fetchCPULoad(identifier: String) -> Double?
-    func fetchMemoryUsage(identifier: String) -> Double?
+    func makeGateway(platformToolsPath: String) -> DeviceGateway {
+        ADBWrapper(shell: shell, platformToolsPath: platformToolsPath)
+    }
 }

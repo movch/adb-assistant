@@ -11,26 +11,15 @@ import IOKit
 
 private let usbDeviceClassName = "IOUSBDevice"
 
-@MainActor
-public protocol USBWatcherDelegate: AnyObject {
-    /// Called on the main thread when a device is connected.
-    func deviceAdded(_ device: io_object_t)
-
-    /// Called on the main thread when a device is disconnected.
-    func deviceRemoved(_ device: io_object_t)
-}
-
 /// An object which observes USB devices added and removed from the system.
 /// Abstracts away most of the ugliness of IOKit APIs.
-public class USBWatcher {
-    private weak var delegate: USBWatcherDelegate?
+public final class USBWatcher: DeviceEventsSource {
+    var onDevicesChanged: (() -> Void)?
     private let notificationPort = IONotificationPortCreate(kIOMainPortDefault)
     private var addedIterator: io_iterator_t = 0
     private var removedIterator: io_iterator_t = 0
 
-    public init(delegate: USBWatcherDelegate) {
-        self.delegate = delegate
-
+    public init() {
         func handleNotification(instance: UnsafeMutableRawPointer?, _ iterator: io_iterator_t) {
             guard let instance else { return }
             let watcher = Unmanaged<USBWatcher>.fromOpaque(instance).takeUnretainedValue()
@@ -38,13 +27,9 @@ public class USBWatcher {
             while case let device = IOIteratorNext(iterator), device != IO_OBJECT_NULL {
                 switch iterator {
                 case watcher.addedIterator:
-                    if let delegate = watcher.delegate {
-                        Task { @MainActor in delegate.deviceAdded(device) }
-                    }
+                    Task { @MainActor in watcher.onDevicesChanged?() }
                 case watcher.removedIterator:
-                    if let delegate = watcher.delegate {
-                        Task { @MainActor in delegate.deviceRemoved(device) }
-                    }
+                    Task { @MainActor in watcher.onDevicesChanged?() }
                 default:
                     assertionFailure("received unexpected IOIterator")
                 }
@@ -86,16 +71,8 @@ public class USBWatcher {
     }
 }
 
-extension io_object_t {
-    /// - Returns: The device's name.
-    func name() -> String? {
-        let buf = UnsafeMutablePointer<io_name_t>.allocate(capacity: 1)
-        defer { buf.deallocate() }
-        return buf.withMemoryRebound(to: CChar.self, capacity: MemoryLayout<io_name_t>.size) {
-            if IORegistryEntryGetName(self, $0) == KERN_SUCCESS {
-                return String(cString: $0)
-            }
-            return nil
-        }
+final class USBWatcherFactory: DeviceEventsSourceFactory {
+    func makeSource() -> DeviceEventsSource {
+        USBWatcher()
     }
 }

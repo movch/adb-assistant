@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class ADBWrapperMock: ADBWrapperType {
+final class ADBWrapperMock: DeviceGateway {
     init(shell _: Shell, platformToolsPath _: String) {}
 
     func listDeviceIds() -> [String] {
@@ -25,7 +25,7 @@ final class ADBWrapperMock: ADBWrapperType {
         )
     }
 
-    public func reboot(to _: ADBRebootType, identifier _: String) {}
+    public func reboot(to _: RebootType, identifier _: String) {}
 
     func takeScreenshot(identifier _: String, path _: String) {}
 

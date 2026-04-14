@@ -19,15 +19,37 @@
 		4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */; };
 		4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */; };
 		4C8AEF3F21B3CBDB00AC9202 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */; };
+		F6A100022E2C000100AAA001 /* DeviceGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100012E2C000100AAA001 /* DeviceGateway.swift */; };
+		F6A100042E2C000100AAA001 /* PreferencesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100032E2C000100AAA001 /* PreferencesStore.swift */; };
+		F6A100062E2C000100AAA001 /* DeviceEventsSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100052E2C000100AAA001 /* DeviceEventsSource.swift */; };
+		F6A100162E2C000100AAA001 /* DeviceMetricsGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100072E2C000100AAA001 /* DeviceMetricsGateway.swift */; };
+		F6A100112E2C000100AAA001 /* RefreshDevicesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1000C2E2C000100AAA001 /* RefreshDevicesUseCase.swift */; };
+		F6A100122E2C000100AAA001 /* RebootDeviceUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1000D2E2C000100AAA001 /* RebootDeviceUseCase.swift */; };
+		F6A100132E2C000100AAA001 /* TakeScreenshotUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1000E2E2C000100AAA001 /* TakeScreenshotUseCase.swift */; };
+		F6A100142E2C000100AAA001 /* InstallAPKUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1000F2E2C000100AAA001 /* InstallAPKUseCase.swift */; };
+		F6A100152E2C000100AAA001 /* FetchDeviceMetricsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100102E2C000100AAA001 /* FetchDeviceMetricsUseCase.swift */; };
+		F6A100212E2C100100AAA001 /* TileModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1001F2E2C100100AAA001 /* TileModels.swift */; };
+		F6A100222E2C100100AAA001 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100202E2C100100AAA001 /* AppAlert.swift */; };
+		F6A100252E2C100100AAA001 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100242E2C100100AAA001 /* DashboardViewModel.swift */; };
+		F6A100272E2C200100AAA001 /* DeviceListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100262E2C200100AAA001 /* DeviceListViewModel.swift */; };
+		F6A100292E2C200100AAA001 /* MetricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100282E2C200100AAA001 /* MetricsViewModel.swift */; };
+		F6A1002B2E2C300100AAA001 /* DeviceMetricsPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1002A2E2C300100AAA001 /* DeviceMetricsPoints.swift */; };
 		F5C9E5052E2BF8E500D3EA1A /* ADBAssistantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5012E2BF8E500D3EA1A /* ADBAssistantApp.swift */; };
 		F5C9E5062E2BF8E500D3EA1A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5022E2BF8E500D3EA1A /* AppState.swift */; };
 		F5C9E5072E2BF8E500D3EA1A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5032E2BF8E500D3EA1A /* MainView.swift */; };
 		F5C9E5082E2BF8E500D3EA1A /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5042E2BF8E500D3EA1A /* SetupView.swift */; };
-		F5C9E5092E2BF8E500D3EA1A /* MainViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E50A2E2BF8E500D3EA1A /* MainViewComponents.swift */; };
 		F5C9E50B2E2BF8E500D3EA1A /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */; };
 		F5C9E50D2E2BF8E500D3EA1A /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */; };
-		F5C9E50F2E2BF8E500D3EA1A /* TileViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5102E2BF8E500D3EA1A /* TileViews.swift */; };
 		F5C9E5112E2BF8E500D3EA1A /* TileSettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9E5122E2BF8E500D3EA1A /* TileSettingsSheet.swift */; };
+		F6A100312E2C400100AAA001 /* TileCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1002C2E2C400100AAA001 /* TileCard.swift */; };
+		F6A100322E2C400100AAA001 /* ButtonTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1002D2E2C400100AAA001 /* ButtonTileView.swift */; };
+		F6A100332E2C400100AAA001 /* DragDropTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1002E2E2C400100AAA001 /* DragDropTileView.swift */; };
+		F6A100342E2C400100AAA001 /* MetricsGraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1002F2E2C400100AAA001 /* MetricsGraphs.swift */; };
+		F6A100352E2C400100AAA001 /* MetricsTiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100302E2C400100AAA001 /* MetricsTiles.swift */; };
+		F6A100412E2C500100AAA001 /* TileLayoutMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1003D2E2C500100AAA001 /* TileLayoutMetrics.swift */; };
+		F6A100422E2C500100AAA001 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1003E2E2C500100AAA001 /* DashboardView.swift */; };
+		F6A100432E2C500100AAA001 /* TileSectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1003F2E2C500100AAA001 /* TileSectionViews.swift */; };
+		F6A100442E2C500100AAA001 /* EmptyDashboardPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100402E2C500100AAA001 /* EmptyDashboardPlaceholderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,15 +80,37 @@
 		4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapperType.swift; sourceTree = "<group>"; };
 		4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapperMock.swift; sourceTree = "<group>"; };
 		4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F6A100012E2C000100AAA001 /* DeviceGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceGateway.swift; sourceTree = "<group>"; };
+		F6A100032E2C000100AAA001 /* PreferencesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesStore.swift; sourceTree = "<group>"; };
+		F6A100052E2C000100AAA001 /* DeviceEventsSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceEventsSource.swift; sourceTree = "<group>"; };
+		F6A100072E2C000100AAA001 /* DeviceMetricsGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMetricsGateway.swift; sourceTree = "<group>"; };
+		F6A1000C2E2C000100AAA001 /* RefreshDevicesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshDevicesUseCase.swift; sourceTree = "<group>"; };
+		F6A1000D2E2C000100AAA001 /* RebootDeviceUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RebootDeviceUseCase.swift; sourceTree = "<group>"; };
+		F6A1000E2E2C000100AAA001 /* TakeScreenshotUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeScreenshotUseCase.swift; sourceTree = "<group>"; };
+		F6A1000F2E2C000100AAA001 /* InstallAPKUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallAPKUseCase.swift; sourceTree = "<group>"; };
+		F6A100102E2C000100AAA001 /* FetchDeviceMetricsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchDeviceMetricsUseCase.swift; sourceTree = "<group>"; };
+		F6A1001F2E2C100100AAA001 /* TileModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileModels.swift; sourceTree = "<group>"; };
+		F6A100202E2C100100AAA001 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
+		F6A100242E2C100100AAA001 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		F6A100262E2C200100AAA001 /* DeviceListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceListViewModel.swift; sourceTree = "<group>"; };
+		F6A100282E2C200100AAA001 /* MetricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsViewModel.swift; sourceTree = "<group>"; };
+		F6A1002A2E2C300100AAA001 /* DeviceMetricsPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMetricsPoints.swift; sourceTree = "<group>"; };
 		F5C9E5012E2BF8E500D3EA1A /* ADBAssistantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBAssistantApp.swift; sourceTree = "<group>"; };
 		F5C9E5022E2BF8E500D3EA1A /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		F5C9E5032E2BF8E500D3EA1A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F5C9E5042E2BF8E500D3EA1A /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
-		F5C9E50A2E2BF8E500D3EA1A /* MainViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewComponents.swift; sourceTree = "<group>"; };
 		F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
-		F5C9E5102E2BF8E500D3EA1A /* TileViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileViews.swift; sourceTree = "<group>"; };
 		F5C9E5122E2BF8E500D3EA1A /* TileSettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileSettingsSheet.swift; sourceTree = "<group>"; };
+		F6A1002C2E2C400100AAA001 /* TileCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileCard.swift; sourceTree = "<group>"; };
+		F6A1002D2E2C400100AAA001 /* ButtonTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTileView.swift; sourceTree = "<group>"; };
+		F6A1002E2E2C400100AAA001 /* DragDropTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDropTileView.swift; sourceTree = "<group>"; };
+		F6A1002F2E2C400100AAA001 /* MetricsGraphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsGraphs.swift; sourceTree = "<group>"; };
+		F6A100302E2C400100AAA001 /* MetricsTiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsTiles.swift; sourceTree = "<group>"; };
+		F6A1003D2E2C500100AAA001 /* TileLayoutMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileLayoutMetrics.swift; sourceTree = "<group>"; };
+		F6A1003E2E2C500100AAA001 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		F6A1003F2E2C500100AAA001 /* TileSectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileSectionViews.swift; sourceTree = "<group>"; };
+		F6A100402E2C500100AAA001 /* EmptyDashboardPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDashboardPlaceholderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +172,7 @@
 				4C675E922EDA3D3D001CEA25 /* Presentation */,
 				4C675E912EDA3D2C001CEA25 /* Infrastructure */,
 				4C675E8E2EDA2EFD001CEA25 /* Domain */,
-				F5C9E5002E2BF8E500D3EA1A /* App */,
+				F5C9E5002E2BF8E500D3EA1A /* Application */,
 				4C8AEF3521B151B800AC9202 /* Helpers */,
 				4C22E0FF21BB95C1008C8543 /* Resources */,
 				4C22E10021BB95DE008C8543 /* Configuration */,
@@ -168,6 +212,11 @@
 		4C675E8F2EDA2F18001CEA25 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				F6A1000C2E2C000100AAA001 /* RefreshDevicesUseCase.swift */,
+				F6A1000D2E2C000100AAA001 /* RebootDeviceUseCase.swift */,
+				F6A1000E2E2C000100AAA001 /* TakeScreenshotUseCase.swift */,
+				F6A1000F2E2C000100AAA001 /* InstallAPKUseCase.swift */,
+				F6A100102E2C000100AAA001 /* FetchDeviceMetricsUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -175,6 +224,10 @@
 		4C675E902EDA2F25001CEA25 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				F6A100012E2C000100AAA001 /* DeviceGateway.swift */,
+				F6A100032E2C000100AAA001 /* PreferencesStore.swift */,
+				F6A100052E2C000100AAA001 /* DeviceEventsSource.swift */,
+				F6A100072E2C000100AAA001 /* DeviceMetricsGateway.swift */,
 				4C4C7D1C21AB32E00002127F /* Shell.swift */,
 			);
 			path = Interfaces;
@@ -193,8 +246,63 @@
 		4C675E922EDA3D3D001CEA25 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				F6A1001E2E2C100100AAA001 /* Models */,
+				F6A100362E2C400100AAA001 /* Views */,
+				F6A100232E2C100100AAA001 /* ViewModels */,
 			);
 			path = Presentation;
+			sourceTree = "<group>";
+		};
+		F6A100362E2C400100AAA001 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F6A100382E2C500100AAA001 /* Dashboard */,
+				F6A100372E2C400100AAA001 /* Tiles */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F6A100382E2C500100AAA001 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				F6A1003D2E2C500100AAA001 /* TileLayoutMetrics.swift */,
+				F6A1003E2E2C500100AAA001 /* DashboardView.swift */,
+				F6A1003F2E2C500100AAA001 /* TileSectionViews.swift */,
+				F6A100402E2C500100AAA001 /* EmptyDashboardPlaceholderView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		F6A100372E2C400100AAA001 /* Tiles */ = {
+			isa = PBXGroup;
+			children = (
+				F6A1002C2E2C400100AAA001 /* TileCard.swift */,
+				F6A1002D2E2C400100AAA001 /* ButtonTileView.swift */,
+				F6A1002E2E2C400100AAA001 /* DragDropTileView.swift */,
+				F6A100302E2C400100AAA001 /* MetricsTiles.swift */,
+				F6A1002F2E2C400100AAA001 /* MetricsGraphs.swift */,
+			);
+			path = Tiles;
+			sourceTree = "<group>";
+		};
+		F6A100232E2C100100AAA001 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F6A100242E2C100100AAA001 /* DashboardViewModel.swift */,
+				F6A100262E2C200100AAA001 /* DeviceListViewModel.swift */,
+				F6A100282E2C200100AAA001 /* MetricsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F6A1001E2E2C100100AAA001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F6A1001F2E2C100100AAA001 /* TileModels.swift */,
+				F6A100202E2C100100AAA001 /* AppAlert.swift */,
+				F6A1002A2E2C300100AAA001 /* DeviceMetricsPoints.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		4C8AEF2821AC66E500AC9202 /* Entities */ = {
@@ -215,20 +323,18 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		F5C9E5002E2BF8E500D3EA1A /* App */ = {
+		F5C9E5002E2BF8E500D3EA1A /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				F5C9E5012E2BF8E500D3EA1A /* ADBAssistantApp.swift */,
 				F5C9E5022E2BF8E500D3EA1A /* AppState.swift */,
 				F5C9E5032E2BF8E500D3EA1A /* MainView.swift */,
-				F5C9E50A2E2BF8E500D3EA1A /* MainViewComponents.swift */,
 				F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */,
 				F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */,
-				F5C9E5102E2BF8E500D3EA1A /* TileViews.swift */,
 				F5C9E5122E2BF8E500D3EA1A /* TileSettingsSheet.swift */,
 				F5C9E5042E2BF8E500D3EA1A /* SetupView.swift */,
 			);
-			path = App;
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -383,16 +489,38 @@
 				F5C9E5062E2BF8E500D3EA1A /* AppState.swift in Sources */,
 				F5C9E5072E2BF8E500D3EA1A /* MainView.swift in Sources */,
 				F5C9E5082E2BF8E500D3EA1A /* SetupView.swift in Sources */,
-				F5C9E5092E2BF8E500D3EA1A /* MainViewComponents.swift in Sources */,
 				F5C9E50B2E2BF8E500D3EA1A /* SidebarView.swift in Sources */,
 				F5C9E50D2E2BF8E500D3EA1A /* PreferencesView.swift in Sources */,
-				F5C9E50F2E2BF8E500D3EA1A /* TileViews.swift in Sources */,
 				F5C9E5112E2BF8E500D3EA1A /* TileSettingsSheet.swift in Sources */,
+				F6A100412E2C500100AAA001 /* TileLayoutMetrics.swift in Sources */,
+				F6A100422E2C500100AAA001 /* DashboardView.swift in Sources */,
+				F6A100432E2C500100AAA001 /* TileSectionViews.swift in Sources */,
+				F6A100442E2C500100AAA001 /* EmptyDashboardPlaceholderView.swift in Sources */,
+				F6A100312E2C400100AAA001 /* TileCard.swift in Sources */,
+				F6A100322E2C400100AAA001 /* ButtonTileView.swift in Sources */,
+				F6A100332E2C400100AAA001 /* DragDropTileView.swift in Sources */,
+				F6A100352E2C400100AAA001 /* MetricsTiles.swift in Sources */,
+				F6A100342E2C400100AAA001 /* MetricsGraphs.swift in Sources */,
 				4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */,
 				4C22E0FC21BAE7FD008C8543 /* DateHelpers.swift in Sources */,
 				4C22E0FA21BA9D6C008C8543 /* Defaults.swift in Sources */,
 				4C4C7D1821AB2E2A0002127F /* Bash.swift in Sources */,
 				4C4C7D1D21AB32E00002127F /* Shell.swift in Sources */,
+				F6A100022E2C000100AAA001 /* DeviceGateway.swift in Sources */,
+				F6A100042E2C000100AAA001 /* PreferencesStore.swift in Sources */,
+				F6A100062E2C000100AAA001 /* DeviceEventsSource.swift in Sources */,
+				F6A100162E2C000100AAA001 /* DeviceMetricsGateway.swift in Sources */,
+				F6A100112E2C000100AAA001 /* RefreshDevicesUseCase.swift in Sources */,
+				F6A100122E2C000100AAA001 /* RebootDeviceUseCase.swift in Sources */,
+				F6A100132E2C000100AAA001 /* TakeScreenshotUseCase.swift in Sources */,
+				F6A100142E2C000100AAA001 /* InstallAPKUseCase.swift in Sources */,
+				F6A100152E2C000100AAA001 /* FetchDeviceMetricsUseCase.swift in Sources */,
+				F6A100212E2C100100AAA001 /* TileModels.swift in Sources */,
+				F6A100222E2C100100AAA001 /* AppAlert.swift in Sources */,
+				F6A1002B2E2C300100AAA001 /* DeviceMetricsPoints.swift in Sources */,
+				F6A100252E2C100100AAA001 /* DashboardViewModel.swift in Sources */,
+				F6A100272E2C200100AAA001 /* DeviceListViewModel.swift in Sources */,
+				F6A100292E2C200100AAA001 /* MetricsViewModel.swift in Sources */,
 				4C8AEF2A21AC83EC00AC9202 /* USBWatcher.swift in Sources */,
 				4C4C7D1A21AB312B0002127F /* ADBWrapper.swift in Sources */,
 				4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */,
