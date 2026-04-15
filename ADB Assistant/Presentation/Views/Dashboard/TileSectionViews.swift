@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct TileSectionView: View {
-    let section: TileSectionConfig
-    @Binding var presentedSettings: TileID?
+    let section: CapabilitySectionConfig
+    @Binding var presentedSettings: String?
 
     private var gridColumns: [GridItem] {
         [
@@ -32,7 +32,7 @@ struct TileSectionView: View {
                 alignment: .leading,
                 spacing: TileLayoutMetrics.gridSpacing
             ) {
-                ForEach(section.tiles) { tile in
+                ForEach(section.tiles, id: \.self) { tile in
                     TileView(tile: tile, presentedSettings: $presentedSettings)
                         .transition(.opacity.combined(with: .scale))
                 }
@@ -45,53 +45,15 @@ struct TileSectionView: View {
 struct TileView: View {
     @EnvironmentObject private var state: AppState
     @EnvironmentObject private var deviceListViewModel: DeviceListViewModel
-    let tile: TileID
-    @Binding var presentedSettings: TileID?
+    @EnvironmentObject private var capabilityRegistry: CapabilityRegistry
+    let tile: String
+    @Binding var presentedSettings: String?
 
     var body: some View {
-        switch tile {
-        case .rebootSystem:
-            ButtonTileView(
-                icon: "arrow.triangle.2.circlepath",
-                title: "Restart",
-                subtitle: "Boot into system",
-                isEnabled: deviceListViewModel.selectedDevice != nil,
-                action: { state.rebootSelectedDevice(to: .system) },
-                onSettings: { presentedSettings = tile }
-            )
-        case .rebootRecovery:
-            ButtonTileView(
-                icon: "cross.case",
-                title: "Recovery",
-                subtitle: "Boot recovery mode",
-                isEnabled: deviceListViewModel.selectedDevice != nil,
-                action: { state.rebootSelectedDevice(to: .recovery) },
-                onSettings: { presentedSettings = tile }
-            )
-        case .rebootBootloader:
-            ButtonTileView(
-                icon: "bolt.car",
-                title: "Bootloader",
-                subtitle: "Enter bootloader",
-                isEnabled: deviceListViewModel.selectedDevice != nil,
-                action: { state.rebootSelectedDevice(to: .bootloader) },
-                onSettings: { presentedSettings = tile }
-            )
-        case .takeScreenshot:
-            ButtonTileView(
-                icon: "camera.viewfinder",
-                title: "Screenshot",
-                subtitle: state.screenshotSavePath.abbreviatingWithTildeInPath(),
-                isEnabled: deviceListViewModel.selectedDevice != nil,
-                action: { state.takeScreenshot() },
-                onSettings: { presentedSettings = tile }
-            )
-        case .installApk:
-            DragDropTileView(presentedSettings: $presentedSettings)
-        case .cpuUsage:
-            CPULoadTileView(presentedSettings: $presentedSettings)
-        case .memoryUsage:
-            MemoryUsageTileView(presentedSettings: $presentedSettings)
-        }
+        capabilityRegistry.makeTileView(
+            tileID: tile,
+            context: CapabilityRenderContext(state: state, deviceList: deviceListViewModel),
+            presentedSettings: $presentedSettings
+        )
     }
 }

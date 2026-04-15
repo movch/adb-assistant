@@ -19,6 +19,7 @@ final class AppState: ObservableObject {
 
     private let appPreferencesService: AppPreferencesService
     private let deviceEventsCoordinator: DeviceEventsCoordinator
+    let capabilityRegistry: CapabilityRegistry
     let dashboardViewModel: DashboardViewModel
     let deviceListViewModel: DeviceListViewModel
     let metricsViewModel: MetricsViewModel
@@ -27,12 +28,13 @@ final class AppState: ObservableObject {
     private let deviceMetricsCoordinator: DeviceMetricsCoordinator
 
     init(
-        gatewayFactory: DeviceGatewayFactory,
+        gatewayFactory: GatewayFactory,
         preferences: PreferencesStore,
         eventsSourceFactory: DeviceEventsSourceFactory
     ) {
         appPreferencesService = AppPreferencesService(store: preferences)
         deviceEventsCoordinator = DeviceEventsCoordinator(eventsSourceFactory: eventsSourceFactory)
+        capabilityRegistry = CapabilityRegistry.makeDefault()
         dashboardViewModel = DashboardViewModel()
         deviceListViewModel = DeviceListViewModel()
         metricsViewModel = MetricsViewModel()

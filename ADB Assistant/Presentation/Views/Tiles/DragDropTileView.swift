@@ -4,7 +4,7 @@ import UniformTypeIdentifiers
 struct DragDropTileView: View {
     @EnvironmentObject private var state: AppState
     @EnvironmentObject private var deviceList: DeviceListViewModel
-    @Binding var presentedSettings: TileID?
+    @Binding var presentedSettings: String?
     @State private var isTargeted = false
 
     private var dropTypes: [UTType] {
@@ -24,7 +24,7 @@ struct DragDropTileView: View {
             isActive: isTargeted,
             showsSettingsButton: false,
             onTap: presentFilePicker,
-            onSettings: { presentedSettings = .installApk },
+            onSettings: { presentedSettings = CapabilityTileID.installApk },
             content: {
                 HStack {
                     Spacer()

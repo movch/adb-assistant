@@ -1,39 +1,22 @@
-//
-//  ADBWrapperMock.swift
-//  ADB Assistant
-//
-//  Created by Michael Ovchinnikov on 30/11/2018.
-//  Copyright © 2018 Michael Ovchinnikov. All rights reserved.
-//
-
 import Foundation
 
-final class ADBWrapperMock: DeviceGateway {
-    init(shell _: Shell, platformToolsPath _: String) {}
-
+final class MockDeviceGateway: DeviceDiscoveryGateway, DeviceRebootGateway, DeviceScreenshotGateway, DevicePackageGateway, DeviceMetricsGateway {
     func listDeviceIds() -> [String] {
         ["phone", "tablet", "watch", "tv", "auto"]
     }
 
     func getDevice(forId identifier: String) -> Device {
-        Device(
-            identifier: identifier,
-            properties: [
-                "ro.product.model": identifier,
-                "ro.build.characteristics": identifier
-            ]
-        )
+        Device(identifier: identifier, properties: [
+            "ro.product.model": identifier,
+            "ro.build.characteristics": identifier
+        ])
     }
 
-    public func reboot(to _: RebootType, identifier _: String) {}
-
+    func reboot(to _: RebootType, identifier _: String) {}
     func takeScreenshot(identifier _: String, path _: String) {}
-
     func pull(identifier _: String, fromPath _: String, toPath _: String) {}
     func remove(identifier _: String, path _: String) {}
-
     func wakeUpDevice(identifier _: String) {}
-
     func installAPK(identifier _: String, fromPath _: String) {}
 
     func fetchCPULoad(identifier _: String) -> Double? {

@@ -4,7 +4,7 @@ struct CPULoadTileView: View {
     @EnvironmentObject private var state: AppState
     @EnvironmentObject private var deviceList: DeviceListViewModel
     @EnvironmentObject private var metrics: MetricsViewModel
-    @Binding var presentedSettings: TileID?
+    @Binding var presentedSettings: String?
 
     private var latestValue: Double? {
         metrics.cpuHistory.last?.value
@@ -19,7 +19,7 @@ struct CPULoadTileView: View {
             isEnabled: deviceList.selectedDevice != nil,
             isActive: false,
             showsSettingsButton: false,
-            onTap: { presentedSettings = .cpuUsage },
+            onTap: { presentedSettings = CapabilityTileID.cpuUsage },
             onSettings: {},
             content: {
                 CPUGraphView(samples: metrics.cpuHistory)
@@ -38,7 +38,7 @@ struct MemoryUsageTileView: View {
     @EnvironmentObject private var state: AppState
     @EnvironmentObject private var deviceList: DeviceListViewModel
     @EnvironmentObject private var metrics: MetricsViewModel
-    @Binding var presentedSettings: TileID?
+    @Binding var presentedSettings: String?
 
     private var latestValue: Double? {
         metrics.memoryHistory.last?.value
@@ -53,7 +53,7 @@ struct MemoryUsageTileView: View {
             isEnabled: deviceList.selectedDevice != nil,
             isActive: false,
             showsSettingsButton: false,
-            onTap: { presentedSettings = .memoryUsage },
+            onTap: { presentedSettings = CapabilityTileID.memoryUsage },
             onSettings: {},
             content: {
                 MemoryGraphView(samples: metrics.memoryHistory)

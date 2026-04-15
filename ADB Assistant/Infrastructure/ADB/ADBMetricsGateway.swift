@@ -1,82 +1,15 @@
-//
-//  ADBWrapper.swift
-//  ADB Assistant
-//
-//  Created by Michael Ovchinnikov on 25/11/2018.
-//  Copyright © 2018 Michael Ovchinnikov. All rights reserved.
-//
-
 import Foundation
 
-final class ADBWrapper: DeviceGateway {
-    private let platformToolsPath: String
-    private let shell: Shell
+final class ADBMetricsGateway: DeviceMetricsGateway {
+    private let executor: ADBCommandExecutor
 
     init(shell: Shell, platformToolsPath: String) {
-        self.platformToolsPath = platformToolsPath
-        self.shell = shell
+        executor = ADBCommandExecutor(shell: shell, platformToolsPath: platformToolsPath)
     }
 
-    public func listDeviceIds() -> [String] {
-        let command = "\(platformToolsPath)/adb devices"
-        let deviceIdFilter: (String) -> Bool = { line in
-            if line.isEmpty { return false }
-            return line
-                .components(separatedBy: .whitespaces)[1]
-                .contains("device")
-        }
-
-        guard let output = try? shell.execute(command) else {
-            return []
-        }
-
-        return output
-            .components(separatedBy: .newlines)
-            .filter(deviceIdFilter)
-            .map { $0.components(separatedBy: .whitespaces)[0] }
-    }
-
-    public func getDevice(forId identifier: String) -> Device {
-        let deviceProps = getDeviceProps(forId: identifier)
-        return Device(identifier: identifier, properties: deviceProps)
-    }
-
-    public func reboot(to: RebootType, identifier: String) {
-        let command = "\(platformToolsPath)/adb -s \(identifier) reboot \(to.rawValue)"
-        _ = try? shell.execute(command)
-    }
-
-    public func takeScreenshot(identifier: String, path: String) {
-        let command = "\(platformToolsPath)/adb -s \(identifier) shell screencap -p \(path)"
-        _ = try? shell.execute(command)
-    }
-
-    public func pull(identifier: String, fromPath: String, toPath: String) {
-        let command = "\(platformToolsPath)/adb -s \(identifier) pull \(fromPath) \(toPath)"
-        _ = try? shell.execute(command)
-    }
-
-    public func remove(identifier: String, path: String) {
-        let command = "\(platformToolsPath)/adb -s \(identifier) shell rm -f \(path)"
-        _ = try? shell.execute(command)
-    }
-
-    public func wakeUpDevice(identifier: String) {
-        let command = "\(platformToolsPath)/adb -s \(identifier) shell input keyevent 82"
-        _ = try? shell.execute(command)
-    }
-
-    public func installAPK(identifier: String, fromPath path: String) {
-        let command = "\(platformToolsPath)/adb -s \(identifier) install \(path)"
-        _ = try? shell.execute(command)
-    }
-
-    public func fetchMemoryUsage(identifier: String) -> Double? {
-        // Parse /proc/meminfo and compute usage as:
-        // used% = 100 * (1 - (MemFree + SwapFree) / MemTotal)
-        // Values are reported in kB.
-        let command = "\(platformToolsPath)/adb -s \(identifier) shell cat /proc/meminfo"
-        guard let output = try? shell.execute(command) else {
+    func fetchMemoryUsage(identifier: String) -> Double? {
+        let command = "\(executor.platformToolsPath)/adb -s \(identifier) shell cat /proc/meminfo"
+        guard let output = try? executor.execute(command) else {
             return nil
         }
         let lines = output.components(separatedBy: .newlines)
@@ -87,11 +20,11 @@ final class ADBWrapper: DeviceGateway {
 
         for line in lines {
             if line.hasPrefix("MemTotal:") {
-                memTotalKb = ADBWrapper.parseMeminfoValueKb(from: line)
+                memTotalKb = Self.parseMeminfoValueKb(from: line)
             } else if line.hasPrefix("MemFree:") {
-                memFreeKb = ADBWrapper.parseMeminfoValueKb(from: line)
+                memFreeKb = Self.parseMeminfoValueKb(from: line)
             } else if line.hasPrefix("SwapFree:") {
-                swapFreeKb = ADBWrapper.parseMeminfoValueKb(from: line)
+                swapFreeKb = Self.parseMeminfoValueKb(from: line)
             }
         }
 
@@ -101,11 +34,9 @@ final class ADBWrapper: DeviceGateway {
         return usedFraction * 100.0
     }
 
-    public func fetchCPULoad(identifier: String) -> Double? {
-        // Use `top` snapshot to get CPU load; this is generally more reliable across Android versions
-        // than parsing `dumpsys cpuinfo`, which often reports misleading totals.
-        let command = "\(platformToolsPath)/adb -s \(identifier) shell top -n 1"
-        guard let output = try? shell.execute(command) else {
+    func fetchCPULoad(identifier: String) -> Double? {
+        let command = "\(executor.platformToolsPath)/adb -s \(identifier) shell top -n 1"
+        guard let output = try? executor.execute(command) else {
             return nil
         }
         let lines = output.components(separatedBy: .newlines)
@@ -203,24 +134,11 @@ final class ADBWrapper: DeviceGateway {
         max(0, min(100, value))
     }
 
-    private func getDeviceProps(forId identifier: String) -> [String: String] {
-        let command = "\(platformToolsPath)/adb -s \(identifier) shell getprop"
-        guard let output = try? shell.execute(command) else {
-            return [:]
-        }
-
-        return getPropsFromString(output)
-    }
-
     private static func parseMeminfoValueKb(from line: String) -> Double? {
-        // Expected format like: "MemTotal:       3660000 kB"
-        // Extract the numeric token before "kB".
         let tokens = line.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
-        // Find first numeric token
         if let token = tokens.first(where: { Double($0) != nil }), let value = Double(token) {
             return value
         }
-        // Fallback: regex
         if let re = try? NSRegularExpression(pattern: "([0-9]+)\\s*kB", options: .caseInsensitive) {
             let range = NSRange(location: 0, length: (line as NSString).length)
             if let match = re.firstMatch(in: line, options: [], range: range) {
@@ -229,29 +147,5 @@ final class ADBWrapper: DeviceGateway {
             }
         }
         return nil
-    }
-
-    private func getPropsFromString(_ string: String) -> [String: String] {
-        guard
-            let re = try? NSRegularExpression(pattern: "\\[(.+?)\\]: \\[(.+?)\\]",
-                                              options: [])
-        else {
-            return [:]
-        }
-
-        let matches = re.matches(in: string,
-                                 options: [],
-                                 range: NSRange(location: 0,
-                                                length: string.utf16.count))
-
-        var propDict = [String: String]()
-
-        for match in matches {
-            let key = (string as NSString).substring(with: match.range(at: 1))
-            let value = (string as NSString).substring(with: match.range(at: 2))
-            propDict[key] = value
-        }
-
-        return propDict
     }
 }

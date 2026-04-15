@@ -7,7 +7,7 @@ struct ADBAssistantApp: App {
     init() {
         let preferences = Defaults()
         let shell = Bash()
-        let gatewayFactory = ADBDeviceGatewayFactory(shell: shell)
+        let gatewayFactory = ADBGatewayFactory(shell: shell)
         let eventsSourceFactory = USBWatcherFactory()
         _state = StateObject(
             wrappedValue: AppState(
@@ -25,6 +25,7 @@ struct ADBAssistantApp: App {
                 .environmentObject(state.deviceListViewModel)
                 .environmentObject(state.metricsViewModel)
                 .environmentObject(state.dashboardViewModel)
+                .environmentObject(state.capabilityRegistry)
         }
     }
 }

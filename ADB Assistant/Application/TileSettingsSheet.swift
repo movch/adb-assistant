@@ -2,54 +2,16 @@ import SwiftUI
 
 struct TileSettingsSheet: View {
     @EnvironmentObject private var state: AppState
-    let tile: TileID
-    @Binding var presentedSettings: TileID?
+    @EnvironmentObject private var capabilityRegistry: CapabilityRegistry
+    let tileID: String
+    @Binding var presentedSettings: String?
 
     var body: some View {
-        switch tile {
-        case .takeScreenshot:
-            ScreenshotSettingsView(
-                savePath: state.screenshotSavePath,
-                shouldOpenPreview: state.shouldOpenPreview,
-                onChooseFolder: chooseScreenshotFolder,
-                onTogglePreview: { state.setShouldOpenPreview($0) },
-                onClose: close
-            )
-        case .cpuUsage:
-            CPUMonitorSettingsView(
-                interval: state.cpuUpdateInterval,
-                onIntervalChange: { state.cpuUpdateInterval = $0 },
-                onClose: close
-            )
-        case .installApk:
-            PlaceholderSettingsView(
-                title: "Install APK",
-                message: "Additional settings will appear here in a future update.",
-                onClose: close
-            )
-        case .memoryUsage:
-            PlaceholderSettingsView(
-                title: "RAM Usage",
-                message: "No configurable options for this tile yet.",
-                onClose: close
-            )
-        case .rebootSystem, .rebootRecovery, .rebootBootloader:
-            PlaceholderSettingsView(
-                title: "Reboot",
-                message: "No configurable options for this tile yet.",
-                onClose: close
-            )
-        }
-    }
-
-    private func chooseScreenshotFolder() {
-        if let newPath = chooseDirectory(initialPath: state.screenshotSavePath) {
-            state.setScreenshotSavePath(newPath)
-        }
-    }
-
-    private func close() {
-        presentedSettings = nil
+        capabilityRegistry.makeSettingsView(
+            tileID: tileID,
+            state: state,
+            presentedSettings: $presentedSettings
+        )
     }
 }
 

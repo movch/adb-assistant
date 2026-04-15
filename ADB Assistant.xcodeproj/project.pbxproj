@@ -12,12 +12,11 @@
 		4C22E0FE21BAE94E008C8543 /* StringHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22E0FD21BAE94E008C8543 /* StringHelpers.swift */; };
 		4C4C7D0C21AAED1F0002127F /* ADB_AssistantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D0B21AAED1F0002127F /* ADB_AssistantTests.swift */; };
 		4C4C7D1821AB2E2A0002127F /* Bash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1721AB2E2A0002127F /* Bash.swift */; };
-		4C4C7D1A21AB312B0002127F /* ADBWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1921AB312B0002127F /* ADBWrapper.swift */; };
 		4C4C7D1D21AB32E00002127F /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4C7D1C21AB32E00002127F /* Shell.swift */; };
 		4C8AEF2A21AC83EC00AC9202 /* USBWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */; };
 		4C8AEF2C21AF071700AC9202 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF2B21AF071700AC9202 /* Device.swift */; };
-		4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */; };
-		4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */; };
+		4C8AEF3721B16C2A00AC9202 /* ADBGatewayFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3621B16C2A00AC9202 /* ADBGatewayFactory.swift */; };
+		4C8AEF3921B16CAF00AC9202 /* MockGatewayFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3821B16CAF00AC9202 /* MockGatewayFactory.swift */; };
 		4C8AEF3F21B3CBDB00AC9202 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */; };
 		F6A100022E2C000100AAA001 /* DeviceGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100012E2C000100AAA001 /* DeviceGateway.swift */; };
 		F6A100042E2C000100AAA001 /* PreferencesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100032E2C000100AAA001 /* PreferencesStore.swift */; };
@@ -54,6 +53,19 @@
 		F6A100472E2C600100AAA001 /* DeviceMetricsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100482E2C600100AAA001 /* DeviceMetricsCoordinator.swift */; };
 		F6A100492E2C600100AAA001 /* DeviceEventsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1004A2E2C600100AAA001 /* DeviceEventsCoordinator.swift */; };
 		F6A1004B2E2C600100AAA001 /* AppPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1004C2E2C600100AAA001 /* AppPreferencesService.swift */; };
+		F6A1004F2E2C700100AAA001 /* CapabilityTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100502E2C700100AAA001 /* CapabilityTypes.swift */; };
+		F6A100512E2C700100AAA001 /* CapabilityRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100522E2C700100AAA001 /* CapabilityRegistry.swift */; };
+		F6A100532E2C700100AAA001 /* MetricsCapabilityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100542E2C700100AAA001 /* MetricsCapabilityProvider.swift */; };
+		F6A100552E2C700100AAA001 /* RebootCapabilityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100562E2C700100AAA001 /* RebootCapabilityProvider.swift */; };
+		F6A100572E2C700100AAA001 /* ScreenshotCapabilityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100582E2C700100AAA001 /* ScreenshotCapabilityProvider.swift */; };
+		F6A100592E2C700100AAA001 /* InstallCapabilityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1005A2E2C700100AAA001 /* InstallCapabilityProvider.swift */; };
+		F6A1005B2E2C800100AAA001 /* ADBCommandExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1005C2E2C800100AAA001 /* ADBCommandExecutor.swift */; };
+		F6A1005D2E2C800100AAA001 /* ADBDiscoveryGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1005E2E2C800100AAA001 /* ADBDiscoveryGateway.swift */; };
+		F6A1005F2E2C800100AAA001 /* ADBRebootGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100602E2C800100AAA001 /* ADBRebootGateway.swift */; };
+		F6A100612E2C800100AAA001 /* ADBScreenshotGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100622E2C800100AAA001 /* ADBScreenshotGateway.swift */; };
+		F6A100632E2C800100AAA001 /* ADBPackageGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100642E2C800100AAA001 /* ADBPackageGateway.swift */; };
+		F6A100652E2C800100AAA001 /* ADBMetricsGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100662E2C800100AAA001 /* ADBMetricsGateway.swift */; };
+		F6A100672E2C800100AAA001 /* MockDeviceGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100682E2C800100AAA001 /* MockDeviceGateway.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,12 +89,11 @@
 		4C4C7D0B21AAED1F0002127F /* ADB_AssistantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADB_AssistantTests.swift; sourceTree = "<group>"; };
 		4C4C7D0D21AAED1F0002127F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C4C7D1721AB2E2A0002127F /* Bash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bash.swift; sourceTree = "<group>"; };
-		4C4C7D1921AB312B0002127F /* ADBWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapper.swift; sourceTree = "<group>"; };
 		4C4C7D1C21AB32E00002127F /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
 		4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = USBWatcher.swift; sourceTree = "<group>"; };
 		4C8AEF2B21AF071700AC9202 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
-		4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapperType.swift; sourceTree = "<group>"; };
-		4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBWrapperMock.swift; sourceTree = "<group>"; };
+		4C8AEF3621B16C2A00AC9202 /* ADBGatewayFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBGatewayFactory.swift; sourceTree = "<group>"; };
+		4C8AEF3821B16CAF00AC9202 /* MockGatewayFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGatewayFactory.swift; sourceTree = "<group>"; };
 		4C8AEF3E21B3CBDB00AC9202 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6A100012E2C000100AAA001 /* DeviceGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceGateway.swift; sourceTree = "<group>"; };
 		F6A100032E2C000100AAA001 /* PreferencesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesStore.swift; sourceTree = "<group>"; };
@@ -119,6 +130,19 @@
 		F6A100482E2C600100AAA001 /* DeviceMetricsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMetricsCoordinator.swift; sourceTree = "<group>"; };
 		F6A1004A2E2C600100AAA001 /* DeviceEventsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceEventsCoordinator.swift; sourceTree = "<group>"; };
 		F6A1004C2E2C600100AAA001 /* AppPreferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferencesService.swift; sourceTree = "<group>"; };
+		F6A100502E2C700100AAA001 /* CapabilityTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapabilityTypes.swift; sourceTree = "<group>"; };
+		F6A100522E2C700100AAA001 /* CapabilityRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapabilityRegistry.swift; sourceTree = "<group>"; };
+		F6A100542E2C700100AAA001 /* MetricsCapabilityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsCapabilityProvider.swift; sourceTree = "<group>"; };
+		F6A100562E2C700100AAA001 /* RebootCapabilityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RebootCapabilityProvider.swift; sourceTree = "<group>"; };
+		F6A100582E2C700100AAA001 /* ScreenshotCapabilityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotCapabilityProvider.swift; sourceTree = "<group>"; };
+		F6A1005A2E2C700100AAA001 /* InstallCapabilityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallCapabilityProvider.swift; sourceTree = "<group>"; };
+		F6A1005C2E2C800100AAA001 /* ADBCommandExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBCommandExecutor.swift; sourceTree = "<group>"; };
+		F6A1005E2E2C800100AAA001 /* ADBDiscoveryGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBDiscoveryGateway.swift; sourceTree = "<group>"; };
+		F6A100602E2C800100AAA001 /* ADBRebootGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBRebootGateway.swift; sourceTree = "<group>"; };
+		F6A100622E2C800100AAA001 /* ADBScreenshotGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBScreenshotGateway.swift; sourceTree = "<group>"; };
+		F6A100642E2C800100AAA001 /* ADBPackageGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBPackageGateway.swift; sourceTree = "<group>"; };
+		F6A100662E2C800100AAA001 /* ADBMetricsGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBMetricsGateway.swift; sourceTree = "<group>"; };
+		F6A100682E2C800100AAA001 /* MockDeviceGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDeviceGateway.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,14 +221,20 @@
 			path = "ADB AssistantTests";
 			sourceTree = "<group>";
 		};
-		4C4C7D1E21AB346F0002127F /* ADBWrapper */ = {
+		4C4C7D1E21AB346F0002127F /* ADB */ = {
 			isa = PBXGroup;
 			children = (
-				4C4C7D1921AB312B0002127F /* ADBWrapper.swift */,
-				4C8AEF3621B16C2A00AC9202 /* ADBWrapperType.swift */,
-				4C8AEF3821B16CAF00AC9202 /* ADBWrapperMock.swift */,
+				F6A1005C2E2C800100AAA001 /* ADBCommandExecutor.swift */,
+				F6A1005E2E2C800100AAA001 /* ADBDiscoveryGateway.swift */,
+				F6A100602E2C800100AAA001 /* ADBRebootGateway.swift */,
+				F6A100622E2C800100AAA001 /* ADBScreenshotGateway.swift */,
+				F6A100642E2C800100AAA001 /* ADBPackageGateway.swift */,
+				F6A100662E2C800100AAA001 /* ADBMetricsGateway.swift */,
+				4C8AEF3621B16C2A00AC9202 /* ADBGatewayFactory.swift */,
+				4C8AEF3821B16CAF00AC9202 /* MockGatewayFactory.swift */,
+				F6A100682E2C800100AAA001 /* MockDeviceGateway.swift */,
 			);
-			path = ADBWrapper;
+			path = ADB;
 			sourceTree = "<group>";
 		};
 		4C675E8E2EDA2EFD001CEA25 /* Domain */ = {
@@ -246,7 +276,7 @@
 			children = (
 				4C4C7D1721AB2E2A0002127F /* Bash.swift */,
 				4C8AEF2921AC83EC00AC9202 /* USBWatcher.swift */,
-				4C4C7D1E21AB346F0002127F /* ADBWrapper */,
+				4C4C7D1E21AB346F0002127F /* ADB */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -309,6 +339,12 @@
 				F6A1001F2E2C100100AAA001 /* TileModels.swift */,
 				F6A100202E2C100100AAA001 /* AppAlert.swift */,
 				F6A1002A2E2C300100AAA001 /* DeviceMetricsPoints.swift */,
+				F6A100502E2C700100AAA001 /* CapabilityTypes.swift */,
+				F6A100522E2C700100AAA001 /* CapabilityRegistry.swift */,
+				F6A100542E2C700100AAA001 /* MetricsCapabilityProvider.swift */,
+				F6A100562E2C700100AAA001 /* RebootCapabilityProvider.swift */,
+				F6A100582E2C700100AAA001 /* ScreenshotCapabilityProvider.swift */,
+				F6A1005A2E2C700100AAA001 /* InstallCapabilityProvider.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -534,13 +570,25 @@
 				F6A100212E2C100100AAA001 /* TileModels.swift in Sources */,
 				F6A100222E2C100100AAA001 /* AppAlert.swift in Sources */,
 				F6A1002B2E2C300100AAA001 /* DeviceMetricsPoints.swift in Sources */,
+				F6A1004F2E2C700100AAA001 /* CapabilityTypes.swift in Sources */,
+				F6A100512E2C700100AAA001 /* CapabilityRegistry.swift in Sources */,
+				F6A100532E2C700100AAA001 /* MetricsCapabilityProvider.swift in Sources */,
+				F6A100552E2C700100AAA001 /* RebootCapabilityProvider.swift in Sources */,
+				F6A100572E2C700100AAA001 /* ScreenshotCapabilityProvider.swift in Sources */,
+				F6A100592E2C700100AAA001 /* InstallCapabilityProvider.swift in Sources */,
 				F6A100252E2C100100AAA001 /* DashboardViewModel.swift in Sources */,
 				F6A100272E2C200100AAA001 /* DeviceListViewModel.swift in Sources */,
 				F6A100292E2C200100AAA001 /* MetricsViewModel.swift in Sources */,
 				4C8AEF2A21AC83EC00AC9202 /* USBWatcher.swift in Sources */,
-				4C4C7D1A21AB312B0002127F /* ADBWrapper.swift in Sources */,
-				4C8AEF3721B16C2A00AC9202 /* ADBWrapperType.swift in Sources */,
-				4C8AEF3921B16CAF00AC9202 /* ADBWrapperMock.swift in Sources */,
+				F6A1005B2E2C800100AAA001 /* ADBCommandExecutor.swift in Sources */,
+				F6A1005D2E2C800100AAA001 /* ADBDiscoveryGateway.swift in Sources */,
+				F6A1005F2E2C800100AAA001 /* ADBRebootGateway.swift in Sources */,
+				F6A100612E2C800100AAA001 /* ADBScreenshotGateway.swift in Sources */,
+				F6A100632E2C800100AAA001 /* ADBPackageGateway.swift in Sources */,
+				F6A100652E2C800100AAA001 /* ADBMetricsGateway.swift in Sources */,
+				4C8AEF3721B16C2A00AC9202 /* ADBGatewayFactory.swift in Sources */,
+				4C8AEF3921B16CAF00AC9202 /* MockGatewayFactory.swift in Sources */,
+				F6A100672E2C800100AAA001 /* MockDeviceGateway.swift in Sources */,
 				4C8AEF2C21AF071700AC9202 /* Device.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

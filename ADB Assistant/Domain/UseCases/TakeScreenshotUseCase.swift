@@ -12,7 +12,7 @@ struct ScreenshotResult {
 }
 
 struct TakeScreenshotUseCase {
-    let gatewayFactory: DeviceGatewayFactory
+    let gatewayFactory: GatewayFactory
 
     func execute(platformToolsPath: String?, request: ScreenshotRequest) -> ScreenshotResult? {
         guard let platformToolsPath, !platformToolsPath.isEmpty else { return nil }
@@ -22,7 +22,7 @@ struct TakeScreenshotUseCase {
         let tempDevicePath = "/sdcard/\(filename)"
         let expandedSavePath = NSString(string: request.savePath).expandingTildeInPath
 
-        let gateway = gatewayFactory.makeGateway(platformToolsPath: platformToolsPath)
+        let gateway = gatewayFactory.makeScreenshotGateway(platformToolsPath: platformToolsPath)
         gateway.takeScreenshot(identifier: request.device.identifier, path: tempDevicePath)
         gateway.pull(identifier: request.device.identifier, fromPath: tempDevicePath, toPath: expandedSavePath)
         gateway.remove(identifier: request.device.identifier, path: tempDevicePath)

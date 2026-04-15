@@ -2,9 +2,25 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject private var state: AppState
-    @EnvironmentObject private var dashboardViewModel: DashboardViewModel
+    @EnvironmentObject private var capabilityRegistry: CapabilityRegistry
     @EnvironmentObject private var deviceListViewModel: DeviceListViewModel
-    @State private var presentedSettings: TileID?
+    @State private var presentedSettings: String?
+
+    private var sections: [CapabilitySectionConfig] {
+        capabilityRegistry.sections.map { section in
+            if section.id == "metrics" {
+                let subtitle = deviceListViewModel.selectedDevice.map { $0.model.isEmpty ? $0.identifier : $0.model }
+                return CapabilitySectionConfig(
+                    id: section.id,
+                    title: section.title,
+                    subtitle: subtitle,
+                    tiles: section.tiles,
+                    order: section.order
+                )
+            }
+            return section
+        }
+    }
 
     var body: some View {
         Group {
@@ -13,7 +29,7 @@ struct DashboardView: View {
             } else {
                 ScrollView {
                     VStack(alignment: .leading, spacing: TileLayoutMetrics.sectionSpacing) {
-                        ForEach(dashboardViewModel.makeSections(selectedDevice: deviceListViewModel.selectedDevice)) { section in
+                        ForEach(sections) { section in
                             TileSectionView(
                                 section: section,
                                 presentedSettings: $presentedSettings
@@ -33,11 +49,23 @@ struct DashboardView: View {
         }
         .animation(
             .easeInOut(duration: 0.25),
-            value: dashboardViewModel.makeSections(selectedDevice: deviceListViewModel.selectedDevice).map(\.id)
+            value: sections.map(\.id)
         )
-        .sheet(item: $presentedSettings) { tile in
-            TileSettingsSheet(tile: tile, presentedSettings: $presentedSettings)
-                .environmentObject(state)
+        .sheet(
+            isPresented: Binding(
+                get: { presentedSettings != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        presentedSettings = nil
+                    }
+                }
+            )
+        ) {
+            if let tile = presentedSettings {
+                TileSettingsSheet(tileID: tile, presentedSettings: $presentedSettings)
+                    .environmentObject(state)
+                    .environmentObject(capabilityRegistry)
+            }
         }
     }
 }
