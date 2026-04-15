@@ -17,7 +17,7 @@ final class AppState: ObservableObject {
         }
     }
 
-    private let preferences: PreferencesStore
+    private let appPreferencesService: AppPreferencesService
     private let deviceEventsCoordinator: DeviceEventsCoordinator
     let dashboardViewModel: DashboardViewModel
     let deviceListViewModel: DeviceListViewModel
@@ -31,7 +31,7 @@ final class AppState: ObservableObject {
         preferences: PreferencesStore,
         eventsSourceFactory: DeviceEventsSourceFactory
     ) {
-        self.preferences = preferences
+        appPreferencesService = AppPreferencesService(store: preferences)
         deviceEventsCoordinator = DeviceEventsCoordinator(eventsSourceFactory: eventsSourceFactory)
         dashboardViewModel = DashboardViewModel()
         deviceListViewModel = DeviceListViewModel()
@@ -51,9 +51,10 @@ final class AppState: ObservableObject {
             metricsViewModel: metricsViewModel
         )
 
-        platformToolsPath = preferences.string(forKey: .platformToolsPath)
-        screenshotSavePath = preferences.string(forKey: .screenshotsSavePath) ?? "~/Desktop"
-        shouldOpenPreview = preferences.bool(forKey: .screenshotsShouldOpenPreview) ?? true
+        let appPreferences = appPreferencesService.load()
+        platformToolsPath = appPreferences.platformToolsPath
+        screenshotSavePath = appPreferences.screenshotSavePath
+        shouldOpenPreview = appPreferences.shouldOpenPreview
 
         if platformToolsPath != nil {
             startDeviceWatcher()
@@ -98,20 +99,20 @@ final class AppState: ObservableObject {
     }
 
     func setPlatformToolsPath(_ path: String) {
-        guard validateADB(at: path) else {
+        guard appPreferencesService.validateADB(at: path) else {
             alert = AppAlert(title: "ADB Not Found", message: "The selected folder does not contain an adb executable. Please choose the Platform Tools directory.")
             return
         }
 
         platformToolsPath = path
-        preferences.setString(path, forKey: .platformToolsPath)
+        appPreferencesService.setPlatformToolsPath(path)
         startDeviceWatcher()
         refreshDevices()
     }
 
     func clearPlatformToolsPath() {
         platformToolsPath = nil
-        preferences.removeValue(forKey: .platformToolsPath)
+        appPreferencesService.clearPlatformToolsPath()
         deviceEventsCoordinator.stopWatching()
         deviceListViewModel.clear()
         stopCPUMonitoring()
@@ -120,12 +121,12 @@ final class AppState: ObservableObject {
 
     func setScreenshotSavePath(_ path: String) {
         screenshotSavePath = path
-        preferences.setString(path, forKey: .screenshotsSavePath)
+        appPreferencesService.setScreenshotSavePath(path)
     }
 
     func setShouldOpenPreview(_ flag: Bool) {
         shouldOpenPreview = flag
-        preferences.setBool(flag, forKey: .screenshotsShouldOpenPreview)
+        appPreferencesService.setShouldOpenPreview(flag)
     }
 
     func rebootSelectedDevice(to type: RebootType) {
@@ -218,10 +219,5 @@ private extension AppState {
         deviceEventsCoordinator.startWatching { [weak self] in
             self?.refreshDevices()
         }
-    }
-
-    func validateADB(at path: String) -> Bool {
-        let adbPath = URL(fileURLWithPath: path).appendingPathComponent("adb").path
-        return FileManager.default.fileExists(atPath: adbPath)
     }
 }

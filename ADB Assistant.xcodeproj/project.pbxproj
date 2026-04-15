@@ -53,6 +53,7 @@
 		F6A100452E2C600100AAA001 /* DeviceActionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100462E2C600100AAA001 /* DeviceActionsService.swift */; };
 		F6A100472E2C600100AAA001 /* DeviceMetricsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100482E2C600100AAA001 /* DeviceMetricsCoordinator.swift */; };
 		F6A100492E2C600100AAA001 /* DeviceEventsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1004A2E2C600100AAA001 /* DeviceEventsCoordinator.swift */; };
+		F6A1004B2E2C600100AAA001 /* AppPreferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1004C2E2C600100AAA001 /* AppPreferencesService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,7 @@
 		F6A100462E2C600100AAA001 /* DeviceActionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActionsService.swift; sourceTree = "<group>"; };
 		F6A100482E2C600100AAA001 /* DeviceMetricsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMetricsCoordinator.swift; sourceTree = "<group>"; };
 		F6A1004A2E2C600100AAA001 /* DeviceEventsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceEventsCoordinator.swift; sourceTree = "<group>"; };
+		F6A1004C2E2C600100AAA001 /* AppPreferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferencesService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,6 +339,7 @@
 				F6A100462E2C600100AAA001 /* DeviceActionsService.swift */,
 				F6A100482E2C600100AAA001 /* DeviceMetricsCoordinator.swift */,
 				F6A1004A2E2C600100AAA001 /* DeviceEventsCoordinator.swift */,
+				F6A1004C2E2C600100AAA001 /* AppPreferencesService.swift */,
 				F5C9E5032E2BF8E500D3EA1A /* MainView.swift */,
 				F5C9E50C2E2BF8E500D3EA1A /* SidebarView.swift */,
 				F5C9E50E2E2BF8E500D3EA1A /* PreferencesView.swift */,
@@ -499,6 +502,7 @@
 				F6A100452E2C600100AAA001 /* DeviceActionsService.swift in Sources */,
 				F6A100472E2C600100AAA001 /* DeviceMetricsCoordinator.swift in Sources */,
 				F6A100492E2C600100AAA001 /* DeviceEventsCoordinator.swift in Sources */,
+				F6A1004B2E2C600100AAA001 /* AppPreferencesService.swift in Sources */,
 				F5C9E5072E2BF8E500D3EA1A /* MainView.swift in Sources */,
 				F5C9E5082E2BF8E500D3EA1A /* SetupView.swift in Sources */,
 				F5C9E50B2E2BF8E500D3EA1A /* SidebarView.swift in Sources */,
