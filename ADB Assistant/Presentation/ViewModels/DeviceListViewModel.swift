@@ -21,8 +21,7 @@ final class DeviceListViewModel: ObservableObject {
         devices = newDevices
 
         if let previousSelection,
-           newDevices.contains(where: { $0.identifier == previousSelection })
-        {
+           newDevices.contains(where: { $0.identifier == previousSelection }) {
             selectedDeviceID = previousSelection
         } else {
             selectedDeviceID = newDevices.first?.identifier

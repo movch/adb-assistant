@@ -54,8 +54,7 @@ struct DragDropTileView: View {
             }
 
             if let apk = UTType(filenameExtension: "apk"),
-               provider.hasItemConformingToTypeIdentifier(apk.identifier)
-            {
+               provider.hasItemConformingToTypeIdentifier(apk.identifier) {
                 provider.loadFileRepresentation(forTypeIdentifier: apk.identifier) { url, _ in
                     guard let url else { return }
                     copyToStableTempAndInstall(from: url)

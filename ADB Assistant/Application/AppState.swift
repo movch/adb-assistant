@@ -158,8 +158,7 @@ final class AppState: ObservableObject {
         Task.detached(priority: .userInitiated) {
             let request = ScreenshotRequest(device: device, savePath: screenshotSavePath, openPreview: shouldOpenPreview)
             if let result = useCase.execute(platformToolsPath: platformToolsPath, request: request),
-               result.shouldOpenPreview
-            {
+               result.shouldOpenPreview {
                 DispatchQueue.main.async {
                     NSWorkspace.shared.open(result.localFileURL)
                 }
