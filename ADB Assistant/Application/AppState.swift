@@ -23,9 +23,7 @@ final class AppState: ObservableObject {
     let deviceListViewModel: DeviceListViewModel
     let metricsViewModel: MetricsViewModel
     private let refreshDevicesUseCase: RefreshDevicesUseCase
-    private let rebootDeviceUseCase: RebootDeviceUseCase
-    private let takeScreenshotUseCase: TakeScreenshotUseCase
-    private let installAPKUseCase: InstallAPKUseCase
+    private let deviceActionsService: DeviceActionsService
     private let fetchDeviceMetricsUseCase: FetchDeviceMetricsUseCase
     private var deviceEventsSource: DeviceEventsSource?
     private var cpuMonitorTask: Task<Void, Never>?
@@ -42,9 +40,14 @@ final class AppState: ObservableObject {
         deviceListViewModel = DeviceListViewModel()
         metricsViewModel = MetricsViewModel()
         refreshDevicesUseCase = RefreshDevicesUseCase(gatewayFactory: gatewayFactory)
-        rebootDeviceUseCase = RebootDeviceUseCase(gatewayFactory: gatewayFactory)
-        takeScreenshotUseCase = TakeScreenshotUseCase(gatewayFactory: gatewayFactory)
-        installAPKUseCase = InstallAPKUseCase(gatewayFactory: gatewayFactory)
+        let rebootDeviceUseCase = RebootDeviceUseCase(gatewayFactory: gatewayFactory)
+        let takeScreenshotUseCase = TakeScreenshotUseCase(gatewayFactory: gatewayFactory)
+        let installAPKUseCase = InstallAPKUseCase(gatewayFactory: gatewayFactory)
+        deviceActionsService = DeviceActionsService(
+            rebootDeviceUseCase: rebootDeviceUseCase,
+            takeScreenshotUseCase: takeScreenshotUseCase,
+            installAPKUseCase: installAPKUseCase
+        )
         fetchDeviceMetricsUseCase = FetchDeviceMetricsUseCase(gatewayFactory: gatewayFactory)
 
         platformToolsPath = preferences.string(forKey: .platformToolsPath)
@@ -133,11 +136,10 @@ final class AppState: ObservableObject {
             alert = AppAlert(title: "Missing Platform Tools", message: "Set the Platform Tools path before issuing ADB commands.")
             return
         }
-        let useCase = rebootDeviceUseCase
         let platformToolsPath = platformToolsPath
 
-        Task.detached(priority: .userInitiated) {
-            _ = useCase.execute(platformToolsPath: platformToolsPath, deviceID: device.identifier, type: type)
+        Task {
+            await deviceActionsService.reboot(platformToolsPath: platformToolsPath, deviceID: device.identifier, type: type)
         }
     }
 
@@ -150,19 +152,17 @@ final class AppState: ObservableObject {
             alert = AppAlert(title: "Missing Platform Tools", message: "Set the Platform Tools path before issuing ADB commands.")
             return
         }
-        let useCase = takeScreenshotUseCase
         let platformToolsPath = platformToolsPath
         let screenshotSavePath = screenshotSavePath
         let shouldOpenPreview = shouldOpenPreview
 
-        Task.detached(priority: .userInitiated) {
-            let request = ScreenshotRequest(device: device, savePath: screenshotSavePath, openPreview: shouldOpenPreview)
-            if let result = useCase.execute(platformToolsPath: platformToolsPath, request: request),
-               result.shouldOpenPreview {
-                await MainActor.run {
-                    _ = NSWorkspace.shared.open(result.localFileURL)
-                }
-            }
+        Task {
+            await deviceActionsService.takeScreenshot(
+                platformToolsPath: platformToolsPath,
+                device: device,
+                screenshotSavePath: screenshotSavePath,
+                shouldOpenPreview: shouldOpenPreview
+            )
         }
     }
 
@@ -179,11 +179,10 @@ final class AppState: ObservableObject {
             alert = AppAlert(title: "Unsupported File", message: "Please choose an APK file.")
             return
         }
-        let useCase = installAPKUseCase
         let platformToolsPath = platformToolsPath
 
-        Task.detached(priority: .userInitiated) {
-            _ = useCase.execute(platformToolsPath: platformToolsPath, deviceID: device.identifier, apkURL: url)
+        Task {
+            await deviceActionsService.installAPK(platformToolsPath: platformToolsPath, deviceID: device.identifier, apkURL: url)
         }
     }
 
