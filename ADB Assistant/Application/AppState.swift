@@ -18,16 +18,13 @@ final class AppState: ObservableObject {
     }
 
     private let preferences: PreferencesStore
-    private let eventsSourceFactory: DeviceEventsSourceFactory
+    private let deviceEventsCoordinator: DeviceEventsCoordinator
     let dashboardViewModel: DashboardViewModel
     let deviceListViewModel: DeviceListViewModel
     let metricsViewModel: MetricsViewModel
     private let refreshDevicesUseCase: RefreshDevicesUseCase
     private let deviceActionsService: DeviceActionsService
-    private let fetchDeviceMetricsUseCase: FetchDeviceMetricsUseCase
-    private var deviceEventsSource: DeviceEventsSource?
-    private var cpuMonitorTask: Task<Void, Never>?
-    private var memoryMonitorTask: Task<Void, Never>?
+    private let deviceMetricsCoordinator: DeviceMetricsCoordinator
 
     init(
         gatewayFactory: DeviceGatewayFactory,
@@ -35,7 +32,7 @@ final class AppState: ObservableObject {
         eventsSourceFactory: DeviceEventsSourceFactory
     ) {
         self.preferences = preferences
-        self.eventsSourceFactory = eventsSourceFactory
+        deviceEventsCoordinator = DeviceEventsCoordinator(eventsSourceFactory: eventsSourceFactory)
         dashboardViewModel = DashboardViewModel()
         deviceListViewModel = DeviceListViewModel()
         metricsViewModel = MetricsViewModel()
@@ -48,14 +45,18 @@ final class AppState: ObservableObject {
             takeScreenshotUseCase: takeScreenshotUseCase,
             installAPKUseCase: installAPKUseCase
         )
-        fetchDeviceMetricsUseCase = FetchDeviceMetricsUseCase(gatewayFactory: gatewayFactory)
+        let fetchDeviceMetricsUseCase = FetchDeviceMetricsUseCase(gatewayFactory: gatewayFactory)
+        deviceMetricsCoordinator = DeviceMetricsCoordinator(
+            fetchDeviceMetricsUseCase: fetchDeviceMetricsUseCase,
+            metricsViewModel: metricsViewModel
+        )
 
         platformToolsPath = preferences.string(forKey: .platformToolsPath)
         screenshotSavePath = preferences.string(forKey: .screenshotsSavePath) ?? "~/Desktop"
         shouldOpenPreview = preferences.bool(forKey: .screenshotsShouldOpenPreview) ?? true
 
         if platformToolsPath != nil {
-            configureUSBWatcher()
+            startDeviceWatcher()
             refreshDevices()
         }
     }
@@ -104,14 +105,14 @@ final class AppState: ObservableObject {
 
         platformToolsPath = path
         preferences.setString(path, forKey: .platformToolsPath)
-        configureUSBWatcher()
+        startDeviceWatcher()
         refreshDevices()
     }
 
     func clearPlatformToolsPath() {
         platformToolsPath = nil
         preferences.removeValue(forKey: .platformToolsPath)
-        deviceEventsSource = nil
+        deviceEventsCoordinator.stopWatching()
         deviceListViewModel.clear()
         stopCPUMonitoring()
         stopMemoryMonitoring()
@@ -187,71 +188,23 @@ final class AppState: ObservableObject {
     }
 
     func restartCPUMonitoring() {
-        cpuMonitorTask?.cancel()
-        cpuMonitorTask = nil
-        metricsViewModel.clearCPU()
-
-        guard let identifier = selectedDevice?.identifier else { return }
-
-        cpuMonitorTask = Task(priority: .utility) { [weak self] in
-            guard let self else { return }
-
-            while !Task.isCancelled {
-                guard hasConfiguredPlatformTools else { return }
-                let useCase = fetchDeviceMetricsUseCase
-                let platformToolsPath = platformToolsPath
-
-                let load = await Task.detached(priority: .utility) { () -> Double in
-                    useCase.fetchCPU(platformToolsPath: platformToolsPath, deviceID: identifier) ?? 0
-                }.value
-
-                await MainActor.run {
-                    self.metricsViewModel.appendCPUSample(load)
-                }
-
-                try? await Task.sleep(nanoseconds: UInt64(cpuUpdateInterval * 1_000_000_000))
-            }
-        }
+        let identifier = selectedDevice?.identifier
+        let path = hasConfiguredPlatformTools ? platformToolsPath : nil
+        deviceMetricsCoordinator.restartCPUMonitoring(deviceID: identifier, platformToolsPath: path, interval: cpuUpdateInterval)
     }
 
     func stopCPUMonitoring() {
-        cpuMonitorTask?.cancel()
-        cpuMonitorTask = nil
-        metricsViewModel.clearCPU()
+        deviceMetricsCoordinator.stopCPUMonitoring()
     }
 
     func restartMemoryMonitoring() {
-        memoryMonitorTask?.cancel()
-        memoryMonitorTask = nil
-        metricsViewModel.clearMemory()
-
-        guard let identifier = selectedDevice?.identifier else { return }
-
-        memoryMonitorTask = Task(priority: .utility) { [weak self] in
-            guard let self else { return }
-
-            while !Task.isCancelled {
-                guard hasConfiguredPlatformTools else { return }
-                let useCase = fetchDeviceMetricsUseCase
-                let platformToolsPath = platformToolsPath
-
-                let usage = await Task.detached(priority: .utility) { () -> Double? in
-                    useCase.fetchMemory(platformToolsPath: platformToolsPath, deviceID: identifier)
-                }.value
-
-                await MainActor.run {
-                    self.metricsViewModel.appendMemorySample(usage ?? 0)
-                }
-
-                try? await Task.sleep(nanoseconds: UInt64(cpuUpdateInterval * 1_000_000_000))
-            }
-        }
+        let identifier = selectedDevice?.identifier
+        let path = hasConfiguredPlatformTools ? platformToolsPath : nil
+        deviceMetricsCoordinator.restartMemoryMonitoring(deviceID: identifier, platformToolsPath: path, interval: cpuUpdateInterval)
     }
 
     func stopMemoryMonitoring() {
-        memoryMonitorTask?.cancel()
-        memoryMonitorTask = nil
-        metricsViewModel.clearMemory()
+        deviceMetricsCoordinator.stopMemoryMonitoring()
     }
 }
 
@@ -261,15 +214,10 @@ private extension AppState {
         return !path.isEmpty
     }
 
-    func configureUSBWatcher() {
-        let source = eventsSourceFactory.makeSource()
-        source.onDevicesChanged = { [weak self] in
-            Task { @MainActor [weak self] in
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-                self?.refreshDevices()
-            }
+    func startDeviceWatcher() {
+        deviceEventsCoordinator.startWatching { [weak self] in
+            self?.refreshDevices()
         }
-        deviceEventsSource = source
     }
 
     func validateADB(at path: String) -> Bool {
