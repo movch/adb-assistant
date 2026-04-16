@@ -13,6 +13,7 @@ Currently it provides the ability to:
   * Bootloader
 * **Capture screenshots** and save them to your Mac
 * **Install APKs** with an easy drag-and-drop workflow
+* **Open adb shell** directly in Terminal/iTerm for the selected device
 
 ## Installation
 

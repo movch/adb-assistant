@@ -4,6 +4,7 @@ import SwiftUI
 enum CapabilityTileID {
     static let cpuUsage = "metrics.cpuUsage"
     static let memoryUsage = "metrics.memoryUsage"
+    static let openTerminalShell = "metrics.openTerminalShell"
     static let rebootSystem = "reboot.system"
     static let rebootRecovery = "reboot.recovery"
     static let rebootBootloader = "reboot.bootloader"

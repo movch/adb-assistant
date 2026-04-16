@@ -8,17 +8,28 @@ struct MetricsCapabilityProvider: CapabilityUIProvider {
             id: "metrics",
             title: "Device Metrics",
             subtitle: nil,
-            tiles: [CapabilityTileID.cpuUsage, CapabilityTileID.memoryUsage],
+            tiles: [CapabilityTileID.cpuUsage, CapabilityTileID.memoryUsage, CapabilityTileID.openTerminalShell],
             order: 10
         )
     }
 
-    func makeTileView(tileID: String, context _: CapabilityRenderContext, presentedSettings: Binding<String?>) -> AnyView {
+    func makeTileView(tileID: String, context: CapabilityRenderContext, presentedSettings: Binding<String?>) -> AnyView {
         switch tileID {
         case CapabilityTileID.cpuUsage:
             AnyView(CPULoadTileView(presentedSettings: presentedSettings))
         case CapabilityTileID.memoryUsage:
             AnyView(MemoryUsageTileView(presentedSettings: presentedSettings))
+        case CapabilityTileID.openTerminalShell:
+            AnyView(
+                ButtonTileView(
+                    icon: "terminal",
+                    title: "Open in Terminal",
+                    subtitle: "Start adb shell session",
+                    isEnabled: context.deviceList.selectedDevice != nil,
+                    action: { context.state.openShellForSelectedDevice() },
+                    onSettings: { presentedSettings.wrappedValue = tileID }
+                )
+            )
         default:
             AnyView(EmptyView())
         }
@@ -38,6 +49,14 @@ struct MetricsCapabilityProvider: CapabilityUIProvider {
             AnyView(
                 PlaceholderSettingsView(
                     title: "RAM Usage",
+                    message: "No configurable options for this tile yet.",
+                    onClose: { presentedSettings.wrappedValue = nil }
+                )
+            )
+        case CapabilityTileID.openTerminalShell:
+            AnyView(
+                PlaceholderSettingsView(
+                    title: "Open in Terminal",
                     message: "No configurable options for this tile yet.",
                     onClose: { presentedSettings.wrappedValue = nil }
                 )

@@ -66,6 +66,7 @@
 		F6A100632E2C800100AAA001 /* ADBPackageGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100642E2C800100AAA001 /* ADBPackageGateway.swift */; };
 		F6A100652E2C800100AAA001 /* ADBMetricsGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100662E2C800100AAA001 /* ADBMetricsGateway.swift */; };
 		F6A100672E2C800100AAA001 /* MockDeviceGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A100682E2C800100AAA001 /* MockDeviceGateway.swift */; };
+		F6A100692E2C900100AAA001 /* TerminalLauncherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A1006A2E2C900100AAA001 /* TerminalLauncherService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 		F6A100642E2C800100AAA001 /* ADBPackageGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBPackageGateway.swift; sourceTree = "<group>"; };
 		F6A100662E2C800100AAA001 /* ADBMetricsGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADBMetricsGateway.swift; sourceTree = "<group>"; };
 		F6A100682E2C800100AAA001 /* MockDeviceGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDeviceGateway.swift; sourceTree = "<group>"; };
+		F6A1006A2E2C900100AAA001 /* TerminalLauncherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalLauncherService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +235,7 @@
 				4C8AEF3621B16C2A00AC9202 /* ADBGatewayFactory.swift */,
 				4C8AEF3821B16CAF00AC9202 /* MockGatewayFactory.swift */,
 				F6A100682E2C800100AAA001 /* MockDeviceGateway.swift */,
+				F6A1006A2E2C900100AAA001 /* TerminalLauncherService.swift */,
 			);
 			path = ADB;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				F5C9E5052E2BF8E500D3EA1A /* ADBAssistantApp.swift in Sources */,
 				F5C9E5062E2BF8E500D3EA1A /* AppState.swift in Sources */,
 				F6A100452E2C600100AAA001 /* DeviceActionsService.swift in Sources */,
+				F6A100692E2C900100AAA001 /* TerminalLauncherService.swift in Sources */,
 				F6A100472E2C600100AAA001 /* DeviceMetricsCoordinator.swift in Sources */,
 				F6A100492E2C600100AAA001 /* DeviceEventsCoordinator.swift in Sources */,
 				F6A1004B2E2C600100AAA001 /* AppPreferencesService.swift in Sources */,
