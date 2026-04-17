@@ -64,6 +64,7 @@ struct DashboardView: View {
             if let tile = presentedSettings {
                 TileSettingsSheet(tileID: tile, presentedSettings: $presentedSettings)
                     .environmentObject(state)
+                    .environmentObject(deviceListViewModel)
                     .environmentObject(capabilityRegistry)
             }
         }

@@ -26,7 +26,6 @@ final class AppState: ObservableObject {
     private let refreshDevicesUseCase: RefreshDevicesUseCase
     private let deviceActionsService: DeviceActionsService
     private let deviceMetricsCoordinator: DeviceMetricsCoordinator
-    private let terminalLauncherService: TerminalLauncherService
 
     init(
         gatewayFactory: GatewayFactory,
@@ -35,7 +34,10 @@ final class AppState: ObservableObject {
     ) {
         appPreferencesService = AppPreferencesService(store: preferences)
         deviceEventsCoordinator = DeviceEventsCoordinator(eventsSourceFactory: eventsSourceFactory)
-        capabilityRegistry = CapabilityRegistry.makeDefault()
+        capabilityRegistry = CapabilityRegistry.makeDefault(
+            gatewayFactory: gatewayFactory,
+            terminalLauncherService: TerminalLauncherService()
+        )
         dashboardViewModel = DashboardViewModel()
         deviceListViewModel = DeviceListViewModel()
         metricsViewModel = MetricsViewModel()
@@ -53,8 +55,6 @@ final class AppState: ObservableObject {
             fetchDeviceMetricsUseCase: fetchDeviceMetricsUseCase,
             metricsViewModel: metricsViewModel
         )
-        terminalLauncherService = TerminalLauncherService()
-
         let appPreferences = appPreferencesService.load()
         platformToolsPath = appPreferences.platformToolsPath
         screenshotSavePath = appPreferences.screenshotSavePath
@@ -189,22 +189,6 @@ final class AppState: ObservableObject {
 
         Task {
             await deviceActionsService.installAPK(platformToolsPath: platformToolsPath, deviceID: device.identifier, apkURL: url)
-        }
-    }
-
-    func openShellForSelectedDevice() {
-        guard let device = selectedDevice else {
-            alert = AppAlert(title: "No Device Selected", message: "Select a device before opening an adb shell session.")
-            return
-        }
-        guard hasConfiguredPlatformTools, let platformToolsPath else {
-            alert = AppAlert(title: "Missing Platform Tools", message: "Set the Platform Tools path before opening adb shell.")
-            return
-        }
-
-        let didOpen = terminalLauncherService.openADBShell(platformToolsPath: platformToolsPath, deviceID: device.identifier)
-        if !didOpen {
-            alert = AppAlert(title: "Unable to Launch Terminal", message: "Could not open Terminal or iTerm with an adb shell session.")
         }
     }
 

@@ -18,13 +18,13 @@ final class CapabilityRegistry: ObservableObject {
         }
     }
 
-    static func makeDefault() -> CapabilityRegistry {
+    static func makeDefault(gatewayFactory: GatewayFactory, terminalLauncherService: TerminalLauncherService) -> CapabilityRegistry {
         CapabilityRegistry(
             providers: [
-                MetricsCapabilityProvider(),
-                RebootCapabilityProvider(),
-                ScreenshotCapabilityProvider(),
-                InstallCapabilityProvider()
+                MetricsCapabilityProvider(terminalLauncherService: terminalLauncherService),
+                RebootCapabilityProvider(gatewayFactory: gatewayFactory),
+                ScreenshotCapabilityProvider(gatewayFactory: gatewayFactory),
+                InstallCapabilityProvider(gatewayFactory: gatewayFactory)
             ]
         )
     }
@@ -34,8 +34,8 @@ final class CapabilityRegistry: ObservableObject {
             ?? AnyView(EmptyView())
     }
 
-    func makeSettingsView(tileID: String, state: AppState, presentedSettings: Binding<String?>) -> AnyView {
-        providersByTileID[tileID]?.makeSettingsView(tileID: tileID, state: state, presentedSettings: presentedSettings)
+    func makeSettingsView(tileID: String, context: CapabilityRenderContext, presentedSettings: Binding<String?>) -> AnyView {
+        providersByTileID[tileID]?.makeSettingsView(tileID: tileID, context: context, presentedSettings: presentedSettings)
             ?? AnyView(
                 PlaceholderSettingsView(
                     title: "Tile Settings",

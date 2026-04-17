@@ -2,9 +2,9 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct DragDropTileView: View {
-    @EnvironmentObject private var state: AppState
-    @EnvironmentObject private var deviceList: DeviceListViewModel
     @Binding var presentedSettings: String?
+    let isEnabled: Bool
+    let onInstall: (URL) -> Void
     @State private var isTargeted = false
 
     private var dropTypes: [UTType] {
@@ -20,7 +20,7 @@ struct DragDropTileView: View {
             accentColor: .blue,
             title: "Install APK",
             subtitle: "Drop file or tap to choose",
-            isEnabled: deviceList.selectedDevice != nil,
+            isEnabled: isEnabled,
             isActive: isTargeted,
             showsSettingsButton: false,
             onTap: presentFilePicker,
@@ -87,22 +87,18 @@ struct DragDropTileView: View {
                 try? fileManager.removeItem(at: destURL)
             }
             try fileManager.copyItem(at: sourceURL, to: destURL)
-            Task { @MainActor in
-                state.installAPK(from: destURL)
-            }
+            onInstall(destURL)
         } catch {
             do {
                 let data = try Data(contentsOf: sourceURL)
                 try data.write(to: destURL, options: [.atomic])
-                Task { @MainActor in
-                    state.installAPK(from: destURL)
-                }
+                onInstall(destURL)
             } catch {}
         }
     }
 
     private func presentFilePicker() {
         guard let url = chooseFile(allowedExtensions: ["apk"]) else { return }
-        state.installAPK(from: url)
+        onInstall(url)
     }
 }

@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct CPULoadTileView: View {
-    @EnvironmentObject private var state: AppState
     @EnvironmentObject private var deviceList: DeviceListViewModel
     @EnvironmentObject private var metrics: MetricsViewModel
     @Binding var presentedSettings: String?
+    let interval: TimeInterval
 
     private var latestValue: Double? {
         metrics.cpuHistory.last?.value
@@ -30,15 +30,15 @@ struct CPULoadTileView: View {
 
     private var latestText: String? {
         guard let value = latestValue else { return "Awaiting data…" }
-        return String(format: "%.1f%% · every %.1fs", value, state.cpuUpdateInterval)
+        return String(format: "%.1f%% · every %.1fs", value, interval)
     }
 }
 
 struct MemoryUsageTileView: View {
-    @EnvironmentObject private var state: AppState
     @EnvironmentObject private var deviceList: DeviceListViewModel
     @EnvironmentObject private var metrics: MetricsViewModel
     @Binding var presentedSettings: String?
+    let interval: TimeInterval
 
     private var latestValue: Double? {
         metrics.memoryHistory.last?.value
@@ -64,6 +64,6 @@ struct MemoryUsageTileView: View {
 
     private var latestText: String? {
         guard let value = latestValue else { return "Awaiting data…" }
-        return String(format: "%.1f%% · every %.1fs", value, state.cpuUpdateInterval)
+        return String(format: "%.1f%% · every %.1fs", value, interval)
     }
 }

@@ -3,6 +3,12 @@ import SwiftUI
 
 @MainActor
 struct RebootCapabilityProvider: CapabilityUIProvider {
+    private let useCase: RebootDeviceUseCase
+
+    init(gatewayFactory: GatewayFactory) {
+        useCase = RebootDeviceUseCase(gatewayFactory: gatewayFactory)
+    }
+
     var section: CapabilitySectionConfig {
         CapabilitySectionConfig(
             id: "reboot",
@@ -24,7 +30,7 @@ struct RebootCapabilityProvider: CapabilityUIProvider {
                     title: "Restart",
                     subtitle: "Boot into system",
                     isEnabled: isEnabled,
-                    action: { context.state.rebootSelectedDevice(to: .system) },
+                    action: { reboot(context: context, type: .system) },
                     onSettings: { presentedSettings.wrappedValue = tileID }
                 )
             )
@@ -35,7 +41,7 @@ struct RebootCapabilityProvider: CapabilityUIProvider {
                     title: "Recovery",
                     subtitle: "Boot recovery mode",
                     isEnabled: isEnabled,
-                    action: { context.state.rebootSelectedDevice(to: .recovery) },
+                    action: { reboot(context: context, type: .recovery) },
                     onSettings: { presentedSettings.wrappedValue = tileID }
                 )
             )
@@ -46,7 +52,7 @@ struct RebootCapabilityProvider: CapabilityUIProvider {
                     title: "Bootloader",
                     subtitle: "Enter bootloader",
                     isEnabled: isEnabled,
-                    action: { context.state.rebootSelectedDevice(to: .bootloader) },
+                    action: { reboot(context: context, type: .bootloader) },
                     onSettings: { presentedSettings.wrappedValue = tileID }
                 )
             )
@@ -55,7 +61,7 @@ struct RebootCapabilityProvider: CapabilityUIProvider {
         }
     }
 
-    func makeSettingsView(tileID: String, state _: AppState, presentedSettings: Binding<String?>) -> AnyView? {
+    func makeSettingsView(tileID: String, context _: CapabilityRenderContext, presentedSettings: Binding<String?>) -> AnyView? {
         switch tileID {
         case CapabilityTileID.rebootSystem, CapabilityTileID.rebootRecovery, CapabilityTileID.rebootBootloader:
             AnyView(
@@ -67,6 +73,24 @@ struct RebootCapabilityProvider: CapabilityUIProvider {
             )
         default:
             nil
+        }
+    }
+
+    private func reboot(context: CapabilityRenderContext, type: RebootType) {
+        guard let device = context.selectedDevice else {
+            context.presentAlert("No Device Selected", "Select a device to reboot.")
+            return
+        }
+        guard context.hasConfiguredPlatformTools else {
+            context.presentAlert("Missing Platform Tools", "Set the Platform Tools path before issuing ADB commands.")
+            return
+        }
+
+        let platformToolsPath = context.platformToolsPath
+        Task {
+            await Task.detached(priority: .userInitiated) {
+                _ = useCase.execute(platformToolsPath: platformToolsPath, deviceID: device.identifier, type: type)
+            }.value
         }
     }
 }

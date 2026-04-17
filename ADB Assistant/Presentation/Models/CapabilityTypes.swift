@@ -21,8 +21,17 @@ struct CapabilitySectionConfig: Identifiable {
 }
 
 struct CapabilityRenderContext {
-    let state: AppState
     let deviceList: DeviceListViewModel
+    let selectedDevice: Device?
+    let platformToolsPath: String?
+    let hasConfiguredPlatformTools: Bool
+    let screenshotSavePath: String
+    let shouldOpenPreview: Bool
+    let cpuUpdateInterval: TimeInterval
+    let setScreenshotSavePath: (String) -> Void
+    let setShouldOpenPreview: (Bool) -> Void
+    let setCPUUpdateInterval: (TimeInterval) -> Void
+    let presentAlert: (String, String) -> Void
 }
 
 @MainActor
@@ -30,5 +39,5 @@ protocol CapabilityUIProvider {
     var section: CapabilitySectionConfig { get }
 
     func makeTileView(tileID: String, context: CapabilityRenderContext, presentedSettings: Binding<String?>) -> AnyView
-    func makeSettingsView(tileID: String, state: AppState, presentedSettings: Binding<String?>) -> AnyView?
+    func makeSettingsView(tileID: String, context: CapabilityRenderContext, presentedSettings: Binding<String?>) -> AnyView?
 }

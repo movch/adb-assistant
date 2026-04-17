@@ -52,7 +52,21 @@ struct TileView: View {
     var body: some View {
         capabilityRegistry.makeTileView(
             tileID: tile,
-            context: CapabilityRenderContext(state: state, deviceList: deviceListViewModel),
+            context: CapabilityRenderContext(
+                deviceList: deviceListViewModel,
+                selectedDevice: deviceListViewModel.selectedDevice,
+                platformToolsPath: state.platformToolsPath,
+                hasConfiguredPlatformTools: state.platformToolsPath?.isEmpty == false,
+                screenshotSavePath: state.screenshotSavePath,
+                shouldOpenPreview: state.shouldOpenPreview,
+                cpuUpdateInterval: state.cpuUpdateInterval,
+                setScreenshotSavePath: { state.setScreenshotSavePath($0) },
+                setShouldOpenPreview: { state.setShouldOpenPreview($0) },
+                setCPUUpdateInterval: { state.cpuUpdateInterval = $0 },
+                presentAlert: { title, message in
+                    state.alert = AppAlert(title: title, message: message)
+                }
+            ),
             presentedSettings: $presentedSettings
         )
     }
